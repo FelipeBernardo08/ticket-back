@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 
 class ProductController extends Controller
 {
+    private $authController;
+    public $product;
+
+    public function __construct(AuthController $auth, Product $products)
+    {
+        $this->authController = $auth;
+        $this->product = $products;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $user = $this->authController->me();
+        if (!($user[0]['permission']['name'] == 'client')) {
+            return 'correto';
+        } else {
+            return 'incorreto';
+        }
     }
 
     /**
