@@ -16,6 +16,7 @@ class ProductController extends Controller
         $this->authController = $auth;
         $this->product = $products;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +41,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $auth = $this->authController->me();
-        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->product->create($request->all());
             if ($result == null) {
                 return response()->json(['error' => 'Produtos não foram criados!'], 404);
@@ -78,7 +79,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $auth = $this->authController->me();
-        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->product->find($id);
             if ($result == null) {
                 return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
@@ -100,7 +101,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $auth = $this->authController->me();
-        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->product->find($id);
             if ($result == null) {
                 return response()->json(['error' => 'Não existem produtos cadastrados'], 404);

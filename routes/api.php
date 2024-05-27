@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
 
+    Route::apiResource('category', CategoryController::class);
     Route::apiResource('products', ProductController::class);
 });
 

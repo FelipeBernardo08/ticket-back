@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 
 class CategoryController extends Controller
 {
@@ -40,7 +41,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $auth = $this->authController->me();
-        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+        dump($auth->id_permission);
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->category->create($request->all());
             if ($result == null) {
                 return response()->json(['error' => 'Produtos não foram criados!'], 404);
@@ -78,7 +80,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $auth = $this->authController->me();
-        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->category->find($id);
             if ($result == null) {
                 return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
@@ -100,7 +102,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $auth = $this->authController->me();
-        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->category->find($id);
             if ($result == null) {
                 return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
