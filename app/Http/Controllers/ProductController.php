@@ -23,22 +23,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $user = $this->authController->me();
-        if (!($user[0]['permission']['name'] == 'client')) {
-            return 'correto';
+        $result = $this->product->all();
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
         } else {
-            return 'incorreto';
+            return response()->json($result, 200);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -49,51 +39,77 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $auth = $this->authController->me();
+        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+            $result = $this->product->create($request->all());
+            if ($result == null) {
+                return response()->json(['error' => 'Produtos não foram criados!'], 404);
+            } else {
+                return response()->json($result, 200);
+            }
+        } else {
+            return response()->json(['error' => 'Acesso negado!'], 403);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
+        $result = $this->product->find($id);
+        if ($result == null) {
+            return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
+        } else {
+            return response()->json($result, 200);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        $auth = $this->authController->me();
+        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+            $result = $this->product->find($id);
+            if ($result == null) {
+                return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
+            } else {
+                $result->update($request->all());
+                return response()->json($result, 200);
+            }
+        } else {
+            return response()->json(['error' => 'Acesso negado!'], 403);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $auth = $this->authController->me();
+        if (!($auth->id_permission != 2 || $auth->id_permission != 3)) {
+            $result = $this->product->find($id);
+            if ($result == null) {
+                return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
+            } else {
+                $result->delete();
+                return response()->json($result, 200);
+            }
+        } else {
+            return response()->json(['error' => 'Acesso negado!'], 403);
+        }
     }
 }

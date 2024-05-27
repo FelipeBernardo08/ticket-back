@@ -18,15 +18,14 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(): void
     {
+        auth('api')->logout();
     }
 
-    public function me(): array
+    public function me(): Object
     {
         $user = auth('api')->user();
-        $userFinal = new User();
-        $result = $userFinal->userWithPermission($user->id);
-        return $result;
+        return response()->json($user, 200);
     }
 }
