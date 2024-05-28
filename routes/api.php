@@ -8,7 +8,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\TableController;
-use App\Models\Product;
+use App\Http\Controllers\TicketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,10 +23,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
+//grupo de rota privada
 Route::middleware('jwt.auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
@@ -67,6 +68,11 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-table/{id}', [TableController::class, 'readTableId']);
     Route::put('update-table/{id}', [TableController::class, 'updateTable']);
     Route::delete('delete-table/{id}', [TableController::class, 'deleteTable']);
+
+    //ticket
+    Route::post('create-ticket', [TicketController::class, 'createTicket']);
+    Route::put('update-ticket/{id}', [TicketController::class, 'updateTicket']);
+    Route::delete('delete-ticket/{id}', [TicketController::class, 'deleteTicket']);
 });
 
 //rotas publicas
@@ -95,8 +101,13 @@ Route::get('read-event-atraction/{id}', [EventController::class, 'showEventIdWit
 //product
 Route::get('read-products', [ProductController::class, 'readProducts']);
 Route::get('read-products-categories', [ProductController::class, 'readProductsWithCategories']);
-Route::get('read-products/{id}', [ProductController::class, 'showProductId']);
-Route::get('read-products-category/{id}', [ProductController::class, 'showProductIdWithCategory']);
+Route::get('read-product/{id}', [ProductController::class, 'showProductId']);
+Route::get('read-product-category/{id}', [ProductController::class, 'showProductIdWithCategory']);
 
 //table
 Route::get('read-tables', [TableController::class, 'readTables']);
+
+//ticket
+Route::get('read-tickets', [TicketController::class, 'readTikects']);
+Route::get('read-tickets-events', [TicketController::class, 'readTikectsWithEvent']);
+Route::get('read-ticket/{id}', [TicketController::class, 'readTicketId']);

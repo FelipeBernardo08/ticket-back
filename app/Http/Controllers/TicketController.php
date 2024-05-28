@@ -4,82 +4,97 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+
 
 class TicketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public $ticket;
+    private $authController;
+
+    public function __construct(AuthController $auth, Ticket $tickets)
     {
-        //
+        $this->authController = $auth;
+        $this->ticket = $tickets;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function readTikects(): object
     {
-        //
+        $result = $this->ticket->readTikects();
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Não existem registros cadastrados.'], 404);
+        }
+        return $this->resultOk($result);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function readTikectsWithEvent(): object
     {
-        //
+        $result = $this->ticket->readTikectsWithEvent();
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Não existem registros cadastrados.'], 404);
+        }
+        return $this->resultOk($result);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Ticket $ticket)
+    public function createTicket(Request $request): object
     {
-        //
+        $auth = $this->authController->me();
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+            $result = $this->ticket->createTicket($request);
+            if ($result == false) {
+                return response()->json(['error' => 'Registro não pode ser criado!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ticket $ticket)
+    public function readTicketId(int $id): object
     {
-        //
+        $result = $this->ticket->readTicketId($id);
+        if (count($result) == 0) {
+            return response()->json(['erro' => 'Registro não encontrado.'], 404);
+        }
+        return $this->resultOk($result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ticket $ticket)
+    public function updateTicket(Request $request, int $id): object
     {
-        //
+        $auth = $this->authController->me();
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+            $result = $this->ticket->updateTicket($request, $id);
+            if ($result == false) {
+                return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ticket $ticket)
+    public function deleteTicket(int $id): object
     {
-        //
+        $auth = $this->authController->me();
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+            $result = $this->ticket->deleteTicket($id);
+            if ($result == false) {
+                return response()->json(['error' => 'Registro não pode ser deletado!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
+    public function acessoNegado(): object
+    {
+        return response()->json(['error' => 'Acesso negado!'], 403);
+    }
+
+    public function resultOk($result): object
+    {
+        return response()->json($result, 200);
     }
 }
