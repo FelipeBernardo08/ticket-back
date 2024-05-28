@@ -17,100 +17,73 @@ class AtractionController extends Controller
         $this->atraction = $atractions;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function readAtractions(): object
     {
-        $result = $this->atraction->all();
+        $result = $this->atraction->readAtractions();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Não existem registros cadastradas.'], 404);
-        } else {
-            return response()->json($result, 200);
+            return response()->json(['error' => 'Registros não encontrados!'], 404);
         }
+        return $this->resultOk($result);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function createAtraction(Request $request): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->atraction->create($request->all());
+            $result = $this->atraction->createAtraction($request);
             if ($result == null) {
-                return response()->json(['error' => 'Registro não foi criado.'], 404);
-            } else {
-                return response()->json($result, 200);
+                return response()->json(['error' => 'Registros não foram cadastrados!'], 404);
             }
+            return $this->resultOk($result);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function showAtractionId(int $id): object
     {
-        $result = $this->atraction->find($id);
-        if ($result == null) {
-            return response()->json(['error' => 'Não existe registro cadastrado.'], 404);
-        } else {
-            return response()->json($result, 200);
+        $result = $this->atraction->showAtractionId($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
+        return $this->resultOk($result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function updateAtraction(Request $request, int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->atraction->find($id);
-            if ($result == null) {
-                return response()->json(['error' => 'Registro não foi atualizado.'], 404);
-            } else {
-                $result->update($request->all());
-                return response()->json($result, 200);
+            $result = $this->atraction->updateAtraction($request, $id);
+            if ($result == false) {
+                return response()->json(['error' => 'Registros não pode ser atualizado']);
             }
+            return $this->resultOk($result);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function deleteAtraction(int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->atraction->find($id);
-            if ($result == null) {
-                return response()->json(['error' => 'Registros não foram apagados.'], 404);
-            } else {
-                $result->delete();
-                return response()->json(['MSG' => 'Registro apagado com sucesso!'], 200);
+            $result = $this->atraction->deleteAtraction($id);
+            if ($result == false) {
+                return response()->json(['error' => 'Registro não pode ser excluido!'], 404);
             }
+            return response()->json(['MSG' => 'Registro excluído com sucesso!'], 200);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
+    }
+
+    public function acessoNegado(): object
+    {
+        return response()->json(['error' => 'Acesso negado!'], 403);
+    }
+
+    public function resultOk($result): object
+    {
+        return response()->json($result, 200);
     }
 }

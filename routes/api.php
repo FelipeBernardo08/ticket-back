@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AtractionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
@@ -25,9 +26,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('jwt.auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
-
-    Route::apiResource('category', CategoryController::class);
-    Route::apiResource('products', ProductController::class);
+    Route::post('create-atraction', [AtractionController::class, 'createAtraction']);
+    Route::put('update-atraction/{id}', [AtractionController::class, 'updateAtraction']);
 });
 
 Route::post('login', [AuthController::class, 'login']);
+
+Route::get('read-atraction', [AtractionController::class, 'readAtractions']);
+Route::get('read-atraction/{id}', [AtractionController::class, 'showAtractionId']);
