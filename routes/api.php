@@ -33,4 +33,6 @@ Route::middleware('jwt.auth')->group(function () {
 Route::post('login', [AuthController::class, 'login']);
 
 Route::get('read-atraction', [AtractionController::class, 'readAtractions']);
+Route::get('read-atraction-events', [AtractionController::class, 'readAtractionsWithEvent']);
 Route::get('read-atraction/{id}', [AtractionController::class, 'showAtractionId']);
+Route::get('read-atraction-events/{id}', [AtractionController::class, 'showAtractionIdWithEvent']);

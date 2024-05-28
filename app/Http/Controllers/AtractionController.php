@@ -26,6 +26,16 @@ class AtractionController extends Controller
         return $this->resultOk($result);
     }
 
+    public function readAtractionsWithEvent(): object
+    {
+        $result = $this->atraction->readAtractionsWithEvent();
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registros não encontrados!'], 404);
+        }
+        return response()->json($result, 200);
+    }
+
+
     public function createAtraction(Request $request): object
     {
         $auth = $this->authController->me();
@@ -47,6 +57,15 @@ class AtractionController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
         return $this->resultOk($result);
+    }
+
+    public function showAtractionIdWithEvent($id): object
+    {
+        $result = $this->atraction->showAtractionIdWithEvent($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registro não encontrado!'], 404);
+        }
+        return response()->json($result, 200);
     }
 
     public function updateAtraction(Request $request, int $id): object

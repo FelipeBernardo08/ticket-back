@@ -14,6 +14,11 @@ class Atraction extends Model
         'name'
     ];
 
+    public function event()
+    {
+        return $this->hasMany(Event::class, 'id_atraction');
+    }
+
     public function readAtractions(): array
     {
         return self::get()->toArray();
@@ -41,5 +46,20 @@ class Atraction extends Model
     {
         return self::where('id', $id)
             ->delete();
+    }
+
+    public function readAtractionsWithEvent(): array
+    {
+        return self::with('event')
+            ->get()
+            ->toArray();
+    }
+
+    public function showAtractionIdWithEvent(int $id): array
+    {
+        return self::where('id', $id)
+            ->with('event')
+            ->get()
+            ->toArray();
     }
 }
