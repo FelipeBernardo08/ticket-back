@@ -3,6 +3,7 @@
 use App\Http\Controllers\AtractionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
@@ -38,8 +39,13 @@ Route::middleware('jwt.auth')->group(function () {
 
     //category
     Route::post('create-categories', [CategoryController::class, 'createCategory']);
-    Route::post('update-categories/{id}', [CategoryController::class, 'updateCategory']);
-    Route::post('delete-categories/{id}', [CategoryController::class, 'deleteCategory']);
+    Route::put('update-categories/{id}', [CategoryController::class, 'updateCategory']);
+    Route::delete('delete-categories/{id}', [CategoryController::class, 'deleteCategory']);
+
+    //event
+    Route::post('create-event', [EventController::class, 'createEvents']);
+    Route::put('update-event/{id}', [EventController::class, 'updateEvent']);
+    Route::delete('delete-event/{id}', [EventController::class, 'deleteEvent']);
 });
 
 //rotas abertas
@@ -48,13 +54,19 @@ Route::middleware('jwt.auth')->group(function () {
 Route::post('login', [AuthController::class, 'login']);
 
 //atraction
-Route::get('read-atraction', [AtractionController::class, 'readAtractions']);
-Route::get('read-atraction-events', [AtractionController::class, 'readAtractionsWithEvent']);
+Route::get('read-atractions', [AtractionController::class, 'readAtractions']);
+Route::get('read-atractions-events', [AtractionController::class, 'readAtractionsWithEvent']);
 Route::get('read-atraction/{id}', [AtractionController::class, 'showAtractionId']);
 Route::get('read-atraction-events/{id}', [AtractionController::class, 'showAtractionIdWithEvent']);
 
 //category
 Route::get('read-categories', [CategoryController::class, 'readCategories']);
 Route::get('read-categories-products', [CategoryController::class, 'readCategoriesWithProducts']);
-Route::get('read-categories/{id}', [CategoryController::class, 'showCategoryId']);
-Route::get('read-categories-products/{id}', [CategoryController::class, 'showCategoryIdWithProducts']);
+Route::get('read-category/{id}', [CategoryController::class, 'showCategoryId']);
+Route::get('read-category-products/{id}', [CategoryController::class, 'showCategoryIdWithProducts']);
+
+//event
+Route::get('read-events', [EventController::class, 'readEvents']);
+Route::get('read-events-atractions', [EventController::class, 'readEventsWithAtraction']);
+Route::get('read-events/{id}', [EventController::class, 'showEventsId']);
+Route::get('read-events-atractions/{id}', [EventController::class, 'showEventsIdWithAtractions']);

@@ -18,101 +18,91 @@ class EventController extends Controller
         $this->event = $events;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function readEvents(): object
     {
-        $result = $this->event->all();
+        $result = $this->event->readEvents();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Não existem registros cadastrados.'], 404);
-        } else {
-            return response()->json($result, 200);
+            return response()->json(['error' => 'Não existem registros.'], 404);
         }
+        return $this->resultOk($result);
     }
 
+    public function readEventsWithAtraction(): object
+    {
+        $result = $this->event->readEventsWithAtraction();
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Não existem registros.'], 404);
+        }
+        return $this->resultOk($result);
+    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function createEvents(Request $request): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->event->create($request->all());
-            if ($result == null) {
-                return response()->json(['error' => 'Registro não foi criado.'], 404);
-            } else {
-                return response()->json($result, 200);
+            $result = $this->event->createEvents($request);
+            if ($result == false) {
+                return response()->json(['error' => 'Registros não foram criados!'], 404);
             }
+            return $this->resultOk($result);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function showEventsId(int $id): object
     {
-        $result = $this->event->find($id);
-        if ($result == null) {
-            return response()->json(['error' => 'Não existe registro cadastrado.'], 404);
-        } else {
-            return response()->json($result, 200);
+        $result = $this->event->showEventsId($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
+        return $this->resultOk($result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function showEventsIdWithAtractions(int $id): object
+    {
+        $result = $this->event->showEventsIdWithAtractions($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registro não encontrado!'], 404);
+        }
+        return $this->resultOk($result);
+    }
+
+    public function updateEvent(Request $request, int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->event->find($id);
-            if ($result == null) {
-                return response()->json(['error' => 'Não existe registro cadastrados.'], 404);
-            } else {
-                $result->update($request->all());
-                return response()->json($result, 200);
+            $result = $this->event->updateEvent($request, $id);
+            if ($result == false) {
+                return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
             }
+            return $this->resultOk($result);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function deleteEvent(int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->event->find($id);
-            if ($result == null) {
-                return response()->json(['error' => 'Registro não foi deletado.'], 404);
-            } else {
-                $result->delete();
-                return response()->json(['MSG' => 'Registro deletado com sucesso!'], 200);
+            $result = $this->event->deleteEvent($id);
+            if ($result == false) {
+                return response()->json(['error' => 'Registro não pode ser deletado.'], 404);
             }
+            return $this->resultOk($result);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
+    }
+
+    public function acessoNegado(): object
+    {
+        return response()->json(['error' => 'Acesso negado!'], 403);
+    }
+
+    public function resultOk($result): object
+    {
+        return response()->json($result, 200);
     }
 }
