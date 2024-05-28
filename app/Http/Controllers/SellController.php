@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class SellController extends Controller
 {
+    private $authController;
+    public $sell;
+
+    public function __construct(AuthController $auth, Sell $sells)
+    {
+        $this->authController = $auth;
+        $this->sell = $sells;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +23,17 @@ class SellController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $auth = $this->authController->me();
+        if ($auth->id_premission == 2 || $auth->id_permission == 3) {
+            $result = $this->sell->all();
+            if ($result == null) {
+                return response()->json(['error' => 'Registros não encontrados!'], 404);
+            } else {
+                return response()->json($result, 200);
+            }
+        } else {
+            return response()->json(['error' => 'Acesso negado!'], 404);
+        }
     }
 
     /**
@@ -35,7 +44,6 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**

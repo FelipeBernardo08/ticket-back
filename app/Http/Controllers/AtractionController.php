@@ -26,7 +26,7 @@ class AtractionController extends Controller
     {
         $result = $this->atraction->all();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Não existem atrações cadastradas'], 404);
+            return response()->json(['error' => 'Não existem registros cadastradas.'], 404);
         } else {
             return response()->json($result, 200);
         }
@@ -44,7 +44,7 @@ class AtractionController extends Controller
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->atraction->create($request->all());
             if ($result == null) {
-                return response()->json(['error' => 'Produtos não foram criados!'], 404);
+                return response()->json(['error' => 'Registro não foi criado.'], 404);
             } else {
                 return response()->json($result, 200);
             }
@@ -63,7 +63,7 @@ class AtractionController extends Controller
     {
         $result = $this->atraction->find($id);
         if ($result == null) {
-            return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
+            return response()->json(['error' => 'Não existe registro cadastrado.'], 404);
         } else {
             return response()->json($result, 200);
         }
@@ -82,7 +82,7 @@ class AtractionController extends Controller
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->atraction->find($id);
             if ($result == null) {
-                return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
+                return response()->json(['error' => 'Registro não foi atualizado.'], 404);
             } else {
                 $result->update($request->all());
                 return response()->json($result, 200);
@@ -104,10 +104,10 @@ class AtractionController extends Controller
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->atraction->find($id);
             if ($result == null) {
-                return response()->json(['error' => 'Não existem produtos cadastrados'], 404);
+                return response()->json(['error' => 'Registros não foram apagados.'], 404);
             } else {
                 $result->delete();
-                return response()->json($result, 200);
+                return response()->json(['MSG' => 'Registro apagado com sucesso!'], 200);
             }
         } else {
             return response()->json(['error' => 'Acesso negado!'], 403);
