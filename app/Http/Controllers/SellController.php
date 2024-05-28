@@ -23,17 +23,6 @@ class SellController extends Controller
      */
     public function index()
     {
-        $auth = $this->authController->me();
-        if ($auth->id_premission == 2 || $auth->id_permission == 3) {
-            $result = $this->sell->all();
-            if ($result == null) {
-                return response()->json(['error' => 'Registros não encontrados!'], 404);
-            } else {
-                return response()->json($result, 200);
-            }
-        } else {
-            return response()->json(['error' => 'Acesso negado!'], 404);
-        }
     }
 
     /**
