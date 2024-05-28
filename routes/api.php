@@ -69,7 +69,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::delete('delete-table/{id}', [TableController::class, 'deleteTable']);
 });
 
-//rotas abertas
+//rotas publicas
 
 //login
 Route::post('login', [AuthController::class, 'login']);
