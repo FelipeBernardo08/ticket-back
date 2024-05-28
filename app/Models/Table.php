@@ -12,6 +12,37 @@ class Table extends Model
 
     public $fillable = [
         'name',
-        'descripton'
+        'descripton',
+        'reserved',
+        'verificated'
     ];
+
+    public function readTables(): array
+    {
+        return self::get()->toArray();
+    }
+
+    public function createTable($request): bool
+    {
+        return self::create($request->all());
+    }
+
+    public function readTableId(int $id): array
+    {
+        return self::where('id', $id)
+            ->get()
+            ->toArray();
+    }
+
+    public function updateTable($request, int $id): bool
+    {
+        return self::where('id', $id)
+            ->update($request->all());
+    }
+
+    public function deleteTable(int $id): bool
+    {
+        return self::where('id', $id)
+            ->delete();
+    }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\TableController;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,12 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-sell-user-ticket/{id}', [SellController::class, 'readSellIdWithUserAndTicket']);
     Route::post('create-sell', [SellController::class, 'createSell']);
     Route::put('update-sell/{id}', [SellController::class, 'updateSell']);
+
+    //table
+    Route::post('create-table', [TableController::class, 'createTable']);
+    Route::get('read-table/{id}', [TableController::class, 'readTableId']);
+    Route::put('update-table/{id}', [TableController::class, 'updateTable']);
+    Route::delete('delete-table/{id}', [TableController::class, 'deleteTable']);
 });
 
 //rotas abertas
@@ -90,3 +97,6 @@ Route::get('read-products', [ProductController::class, 'readProducts']);
 Route::get('read-products-categories', [ProductController::class, 'readProductsWithCategories']);
 Route::get('read-products/{id}', [ProductController::class, 'showProductId']);
 Route::get('read-products-category/{id}', [ProductController::class, 'showProductIdWithCategory']);
+
+//table
+Route::get('read-tables', [TableController::class, 'readTables']);

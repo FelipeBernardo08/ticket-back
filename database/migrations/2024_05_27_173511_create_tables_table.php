@@ -16,6 +16,8 @@ class CreateTablesTable extends Migration
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('verificated')->nullable();
+            $table->bool('reserved')->default(false);
             $table->text('descripton')->nullable();
             $table->softDeletes()->nullable();
             $table->timestamps();
