@@ -59,9 +59,9 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
-    public function showEventsIdWithAtractions(int $id): object
+    public function showEventIdWithAtractions(int $id): object
     {
-        $result = $this->event->showEventsIdWithAtractions($id);
+        $result = $this->event->showEventIdWithAtractions($id);
         if (count($result) == 0) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }

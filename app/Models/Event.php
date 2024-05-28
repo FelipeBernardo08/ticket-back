@@ -41,14 +41,14 @@ class Event extends Model
         return self::create($request->all());
     }
 
-    public function showEventsId(int $id): array
+    public function showEventId(int $id): array
     {
         return self::where('id', $id)
             ->get()
             ->toArray();
     }
 
-    public function showEventsIdWithAtractions(int $id): array
+    public function showEventIdWithAtractions(int $id): array
     {
         return self::where('id', $id)
             ->with('atractions')

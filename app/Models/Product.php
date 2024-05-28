@@ -21,4 +21,48 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'id_category');
     }
+
+    public function readProducts(): array
+    {
+        return self::get()->toArray();
+    }
+
+    public function readProductsWithCategories(): array
+    {
+        return self::get()
+            ->with('category')
+            ->toArray();
+    }
+
+    public function createProduct($request): bool
+    {
+        return self::create($request->all());
+    }
+
+    public function showProductId(int $id): array
+    {
+        return self::where('id', $id)
+            ->get()
+            ->toArray();
+    }
+
+    public function showProductIdWithCategory(int $id): array
+    {
+        return self::where('id', $id)
+            ->with('category')
+            ->get()
+            ->toArray();
+    }
+
+    public function updateProduct($request, int $id): bool
+    {
+        return self::where('id', $id)
+            ->update($request->all());
+    }
+
+    public function deleteProduct(int $id): bool
+    {
+        return self::where('id', $id)
+            ->delete();
+    }
 }

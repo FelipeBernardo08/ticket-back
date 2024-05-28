@@ -46,6 +46,11 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('create-event', [EventController::class, 'createEvents']);
     Route::put('update-event/{id}', [EventController::class, 'updateEvent']);
     Route::delete('delete-event/{id}', [EventController::class, 'deleteEvent']);
+
+    //product
+    Route::post('create-product', [ProductController::class, 'createProduct']);
+    Route::put('update-product/{id}', [ProductController::class, 'updateProduct']);
+    Route::delete('delete-product/{id}', [ProductController::class, 'deleteProduct']);
 });
 
 //rotas abertas
@@ -68,5 +73,11 @@ Route::get('read-category-products/{id}', [CategoryController::class, 'showCateg
 //event
 Route::get('read-events', [EventController::class, 'readEvents']);
 Route::get('read-events-atractions', [EventController::class, 'readEventsWithAtraction']);
-Route::get('read-events/{id}', [EventController::class, 'showEventsId']);
-Route::get('read-events-atractions/{id}', [EventController::class, 'showEventsIdWithAtractions']);
+Route::get('read-event/{id}', [EventController::class, 'showEventId']);
+Route::get('read-event-atraction/{id}', [EventController::class, 'showEventIdWithAtractions']);
+
+//product
+Route::get('read-products', [ProductController::class, 'readProducts']);
+Route::get('read-products-categories', [ProductController::class, 'readProductsWithCategories']);
+Route::get('read-products/{id}', [ProductController::class, 'showProductId']);
+Route::get('read-products-category/{id}', [ProductController::class, 'showProductIdWithCategory']);

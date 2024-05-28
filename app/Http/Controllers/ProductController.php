@@ -17,100 +17,92 @@ class ProductController extends Controller
         $this->product = $products;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function readProducts(): object
     {
-        $result = $this->product->all();
+        $result = $this->product->readProducts();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Não existem registros cadastrados.'], 404);
-        } else {
-            return response()->json($result, 200);
+            return response()->json(['error' => 'Não existem registros!'], 404);
         }
+        return $this->resultOk($result);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function readProductsWithCategories(): object
+    {
+        $result = $this->product->readProductsWithCategories();
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Não existem registros!'], 404);
+        }
+        return $this->resultOk($result);
+    }
+
+    public function createProduct(Request $request): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->product->create($request->all());
-            if ($result == null) {
+            $result = $this->product->createProduct($request);
+            if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser criado.'], 404);
-            } else {
-                return response()->json($result, 200);
             }
+            return $this->resultOk($result);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function showProductId(int $id): object
     {
-        $result = $this->product->find($id);
-        if ($result == null) {
-            return response()->json(['error' => 'Registro não encontrado.'], 404);
-        } else {
-            return response()->json($result, 200);
+        $result = $this->product->showProductId($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registro não encontrado'], 404);
         }
+        return $this->resultOk($result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function showProductIdWithCategory(int $id): object
+    {
+        $result = $this->product->showProductIdWithCategory($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registro não encontrado'], 404);
+        }
+        return $this->resultOk($result);
+    }
+
+    public function updateProduct(Request $request, int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->product->find($id);
-            if ($result == null) {
-                return response()->json(['error' => 'Registro não foi atualizado.'], 404);
-            } else {
-                $result->update($request->all());
-                return response()->json($result, 200);
+            $result = $this->product->updateProduct($request, $id);
+            if ($result == false) {
+                return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
             }
+            return $this->resultOk($result);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function deleteProduct(int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->product->find($id);
-            if ($result == null) {
-                return response()->json(['error' => 'Registro não pode ser deletado.'], 404);
-            } else {
-                $result->delete();
-                return response()->json(['MSG' => 'Registro deletado com sucesso!'], 200);
+            $result = $this->product->deleteProduct($id);
+            if ($result == false) {
+                return response()->json(['error' => 'Registro não pode ser deletado!'], 404);
             }
+            return $this->resultOk($result);
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return $this->acessoNegado();
         }
+    }
+
+
+    public function acessoNegado(): object
+    {
+        return response()->json(['error' => 'Acesso negado!'], 403);
+    }
+
+    public function resultOk($result): object
+    {
+        return response()->json($result, 200);
     }
 }
