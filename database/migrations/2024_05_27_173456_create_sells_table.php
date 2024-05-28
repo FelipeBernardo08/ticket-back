@@ -21,6 +21,7 @@ class CreateSellsTable extends Migration
             $table->text('token_input');
             $table->float('total_price');
             $table->boolean('verificated');
+            $table->string('created_for')->default('self');
             $table->foreign('id_user')->references('id')->on('users');
             $table->foreign('id_ticket')->references('id')->on('tickets');
             $table->timestamps();

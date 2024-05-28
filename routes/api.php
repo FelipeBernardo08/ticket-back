@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SellController;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,14 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('create-product', [ProductController::class, 'createProduct']);
     Route::put('update-product/{id}', [ProductController::class, 'updateProduct']);
     Route::delete('delete-product/{id}', [ProductController::class, 'deleteProduct']);
+
+    //sell
+    Route::get('read-sells', [SellController::class, 'readSells']);
+    Route::get('read-sells-user-ticket', [SellController::class, 'readSellsWithUserAndTicket']);
+    Route::get('read-sell/{id}', [SellController::class, 'readSellId']);
+    Route::get('read-sell-user-ticket/{id}', [SellController::class, 'readSellIdWithUserAndTicket']);
+    Route::post('create-sell', [SellController::class, 'createSell']);
+    Route::put('update-sell/{id}', [SellController::class, 'updateSell']);
 });
 
 //rotas abertas
