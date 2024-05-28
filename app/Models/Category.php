@@ -29,9 +29,9 @@ class Category extends Model
         return self::get()->with('products')->toArray();
     }
 
-    public function createCategory($request): bool
+    public function createCategory($request): array
     {
-        return self::create($request->all());
+        return self::create($request->all())->toArray();
     }
 
     public function showCategoryId(int $id): array

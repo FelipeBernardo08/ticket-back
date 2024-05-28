@@ -17,7 +17,7 @@ class CreateTablesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('verificated')->nullable();
-            $table->bool('reserved')->default(false);
+            $table->boolean('reserved')->default(false);
             $table->text('descripton')->nullable();
             $table->softDeletes()->nullable();
             $table->timestamps();

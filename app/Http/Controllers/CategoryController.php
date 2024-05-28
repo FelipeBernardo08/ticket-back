@@ -40,9 +40,6 @@ class CategoryController extends Controller
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->category->createCategory($request);
-            if ($result == false) {
-                return response()->json(['error' => 'Registros não foram criados!'], 404);
-            }
             return $this->resultOk($result);
         } else {
             return $this->acessoNegado();
@@ -73,9 +70,9 @@ class CategoryController extends Controller
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->category->updateCategory($request, $id);
             if ($result == false) {
-                return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
+                return response()->json(['error' => 'Resgistro nao pode ser atualizado!'], 404);
             }
-            return $this->resultOk($result);
+            return response()->json(['MSG' => 'Registro atualizado com sucesso!'], 200);
         } else {
             $this->acessoNegado();
         }
@@ -87,9 +84,9 @@ class CategoryController extends Controller
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->category->deleteCategory($id);
             if ($result == false) {
-                return response()->json(['error' => 'Resgistro não pode ser deletado!'], 404);
+                return response()->json(['error' => 'Resgistro nao pode ser deletado!'], 404);
             }
-            return response()->json(['MSG' => 'Registro excluído com sucesso!'], 200);
+            return response()->json(['MSG' => 'Registro excluido com sucesso!'], 200);
         } else {
             return $this->acessoNegado();
         }

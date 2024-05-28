@@ -41,9 +41,9 @@ Route::middleware('jwt.auth')->group(function () {
     Route::delete('delete-atraction/{id}', [AtractionController::class, 'deleteAtraction']);
 
     //category
-    Route::post('create-categories', [CategoryController::class, 'createCategory']);
-    Route::put('update-categories/{id}', [CategoryController::class, 'updateCategory']);
-    Route::delete('delete-categories/{id}', [CategoryController::class, 'deleteCategory']);
+    Route::post('create-category', [CategoryController::class, 'createCategory']);
+    Route::put('update-category/{id}', [CategoryController::class, 'updateCategory']);
+    Route::delete('delete-category/{id}', [CategoryController::class, 'deleteCategory']);
 
     //event
     Route::post('create-event', [EventController::class, 'createEvents']);
