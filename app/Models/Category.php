@@ -13,4 +13,51 @@ class Category extends Model
     public $fillable = [
         'name'
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'id_category');
+    }
+
+    public function readCategories(): array
+    {
+        return self::get()->toArray();
+    }
+
+    public function readCategoriesWithProducts(): array
+    {
+        return self::get()->with('products')->toArray();
+    }
+
+    public function createCategory($request): bool
+    {
+        return self::create($request->all());
+    }
+
+    public function showCategoryId(int $id): array
+    {
+        return self::where('id', $id)
+            ->get()
+            ->toArray();
+    }
+
+    public function showCategoryIdWithProducts(int $id): array
+    {
+        return self::where('id', $id)
+            ->with('products')
+            ->get()
+            ->toArray();
+    }
+
+    public function updateCategory($request, int $id): bool
+    {
+        return self::where('id', $id)
+            ->update($request->all());
+    }
+
+    public function deleteCategory(int $id): bool
+    {
+        return self::where('id', $id)
+            ->delete();
+    }
 }

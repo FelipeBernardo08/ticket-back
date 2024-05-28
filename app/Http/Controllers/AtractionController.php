@@ -32,7 +32,7 @@ class AtractionController extends Controller
         if (count($result) == 0) {
             return response()->json(['error' => 'Registros não encontrados!'], 404);
         }
-        return response()->json($result, 200);
+        return $this->resultOk($result);
     }
 
 
@@ -65,7 +65,7 @@ class AtractionController extends Controller
         if (count($result) == 0) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
-        return response()->json($result, 200);
+        return $this->resultOk($result);
     }
 
     public function updateAtraction(Request $request, int $id): object
