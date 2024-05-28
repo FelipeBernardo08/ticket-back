@@ -3,6 +3,7 @@
 use App\Http\Controllers\AtractionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -26,6 +27,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('jwt.auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
+
+    //permission
+    Route::apiResource('permission', PermissionController::class);
 
     //atraction
     Route::post('create-atraction', [AtractionController::class, 'createAtraction']);
