@@ -84,7 +84,7 @@ class TableController extends Controller
 
     public function acessoNegado(): object
     {
-        return response()->json(['error' => 'Acesso negado!'], 403);
+        return response()->json(['error' => 'Acesso negado!'], 401);
     }
 
     public function resultOk($result): object

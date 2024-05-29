@@ -26,9 +26,9 @@ class AtractionController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readAtractionsWithEvent(): object //ok
+    public function readAtractionsWithShow(): object //ok
     {
-        $result = $this->atraction->readAtractionsWithEvent();
+        $result = $this->atraction->readAtractionsWithShow();
         if (count($result) == 0) {
             return response()->json(['error' => 'Registros nao encontrados!'], 404);
         }
@@ -59,14 +59,6 @@ class AtractionController extends Controller
         return $this->resultOk($result);
     }
 
-    public function showAtractionIdWithEvent($id): object //ok
-    {
-        $result = $this->atraction->showAtractionIdWithEvent($id);
-        if (count($result) == 0) {
-            return response()->json(['error' => 'Registro nao encontrado!'], 404);
-        }
-        return $this->resultOk($result);
-    }
 
     public function updateAtraction(Request $request, int $id): object //ok
     {
@@ -98,7 +90,7 @@ class AtractionController extends Controller
 
     public function acessoNegado(): object
     {
-        return response()->json(['error' => 'Acesso negado!'], 403);
+        return response()->json(['error' => 'Acesso negado!'], 401);
     }
 
     public function resultOk($result): object

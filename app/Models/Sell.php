@@ -39,6 +39,7 @@ class Sell extends Model
     {
         return self::with('user')
             ->with('ticket')
+            ->with('ticket.event')
             ->get()
             ->toarray();
     }
@@ -61,18 +62,12 @@ class Sell extends Model
     public function readSellId(int $id): array
     {
         return self::where('id', $id)
+            ->with('ticket')
+            ->with('ticket.event')
             ->get()
             ->toArray();
     }
 
-    public function readSellIdWithUserAndTicket(int $id): array
-    {
-        return self::where('id', $id)
-            ->with('user')
-            ->with('ticket')
-            ->get()
-            ->toArray();
-    }
 
     public function updateSell($request, int $id): bool
     {

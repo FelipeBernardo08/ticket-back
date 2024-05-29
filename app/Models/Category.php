@@ -37,13 +37,6 @@ class Category extends Model
     public function showCategoryId(int $id): array
     {
         return self::where('id', $id)
-            ->get()
-            ->toArray();
-    }
-
-    public function showCategoryIdWithProducts(int $id): array
-    {
-        return self::where('id', $id)
             ->with('products')
             ->get()
             ->toArray();

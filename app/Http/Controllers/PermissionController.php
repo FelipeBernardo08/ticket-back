@@ -33,7 +33,7 @@ class PermissionController extends Controller
                 return response()->json($result, 200);
             }
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return response()->json(['error' => 'Acesso negado!'], 401);
         }
     }
 
@@ -54,7 +54,7 @@ class PermissionController extends Controller
                 return response()->json($result, 200);
             }
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return response()->json(['error' => 'Acesso negado!'], 401);
         }
     }
 
@@ -75,7 +75,7 @@ class PermissionController extends Controller
                 return response()->json($result, 200);
             }
         } else {
-            return response()->json(['error' => 'Acesso negado!'], 403);
+            return response()->json(['error' => 'Acesso negado!'], 401);
         }
     }
 }

@@ -31,7 +31,7 @@ class SellController extends Controller
         }
     }
 
-    public function readSellsWithUserAndTicket(): object
+    public function readSellsWithUserAndTicket(): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -54,7 +54,7 @@ class SellController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readSellId(int $id)
+    public function readSellId(int $id) //ok
     {
         $result = $this->sell->readSellId($id);
         if (count($result) == 0) {
@@ -63,16 +63,8 @@ class SellController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readSellIdWithUserAndTicket(int $id)
-    {
-        $result = $this->sell->readSellIdWithUserAndTicket($id);
-        if (count($result) == 0) {
-            return response()->json(['error' => 'Registro não encontrado.'], 404);
-        }
-        return $this->resultOk($result);
-    }
 
-    public function updateSell(Request $request, int $id)
+    public function updateSell(Request $request, int $id) //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -89,7 +81,7 @@ class SellController extends Controller
 
     public function acessoNegado(): object
     {
-        return response()->json(['error' => 'Acesso negado!'], 403);
+        return response()->json(['error' => 'Acesso negado!'], 401);
     }
 
     public function resultOk($result): object

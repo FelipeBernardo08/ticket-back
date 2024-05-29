@@ -36,7 +36,7 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
-    public function createEvents(Request $request): object //ok obs: criar alguma coluna da tabela events como unique, para que não possa existir dois eventos iguais
+    public function createEvents(Request $request): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -98,7 +98,7 @@ class EventController extends Controller
 
     public function acessoNegado(): object
     {
-        return response()->json(['error' => 'Acesso negado!'], 403);
+        return response()->json(['error' => 'Acesso negado!'], 401);
     }
 
     public function resultOk($result): object

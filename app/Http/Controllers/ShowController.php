@@ -2,47 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ticket;
+use App\Models\Show;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 
-
-class TicketController extends Controller
+class ShowController extends Controller
 {
-
-    public $ticket;
+    public $show;
     private $authController;
 
-    public function __construct(AuthController $auth, Ticket $tickets)
+    public function __construct(AuthController $auth, Show $shows)
     {
         $this->authController = $auth;
-        $this->ticket = $tickets;
+        $this->show = $shows;
     }
 
-    public function readTikects(): object
+    public function readShows(): object
     {
-        $result = $this->ticket->readTikects();
+        $result = $this->show->readShows();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Não existem registros cadastrados.'], 404);
+            return response()->json(['error' => 'Não existem registros'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function readTikectsWithEvent(): object
+    public function readShowId(int $id): object
     {
-        $result = $this->ticket->readTikectsWithEvent();
+        $result = $this->show->readShowId($id);
         if (count($result) == 0) {
-            return response()->json(['error' => 'Não existem registros cadastrados.'], 404);
+            return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function createTicket(Request $request): object
+    public function createShow(Request $request): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->ticket->createTicket($request);
-            if ($result == false) {
+            $result = $this->show->createShow($request);
+            if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não pode ser criado!'], 404);
             }
             return $this->resultOk($result);
@@ -51,20 +49,11 @@ class TicketController extends Controller
         }
     }
 
-    public function readTicketId(int $id): object
-    {
-        $result = $this->ticket->readTicketId($id);
-        if (count($result) == 0) {
-            return response()->json(['erro' => 'Registro não encontrado.'], 404);
-        }
-        return $this->resultOk($result);
-    }
-
-    public function updateTicket(Request $request, int $id): object
+    public function updateShow(Request $request, int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->ticket->updateTicket($request, $id);
+            $result = $this->show->updateShow($request, $id);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
             }
@@ -74,17 +63,18 @@ class TicketController extends Controller
         }
     }
 
-    public function deleteTicket(int $id): object
+
+    public function deleteShow(int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->ticket->deleteTicket($id);
+            $result = $this->show->deleteShow($id);
             if ($result == false) {
-                return response()->json(['error' => 'Registro não pode ser deletado!'], 404);
+                return response()->json(['error' => 'Registro não pode ser excluído!'], 404);
             }
-            return $this->resultOk($result);
+            return response()->json(['MSG' => 'Registro excluído com sucesso!'], 200);
         } else {
-            return $this->acessoNegado();
+            $this->acessoNegado();
         }
     }
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\TicketController;
 use Illuminate\Http\Request;
@@ -60,7 +61,6 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-sells', [SellController::class, 'readSells']);
     Route::get('read-sells-user-ticket', [SellController::class, 'readSellsWithUserAndTicket']);
     Route::get('read-sell/{id}', [SellController::class, 'readSellId']);
-    Route::get('read-sell-user-ticket/{id}', [SellController::class, 'readSellIdWithUserAndTicket']);
     Route::post('create-sell', [SellController::class, 'createSell']);
     Route::put('update-sell/{id}', [SellController::class, 'updateSell']);
 
@@ -74,6 +74,11 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('create-ticket', [TicketController::class, 'createTicket']);
     Route::put('update-ticket/{id}', [TicketController::class, 'updateTicket']);
     Route::delete('delete-ticket/{id}', [TicketController::class, 'deleteTicket']);
+
+    //show
+    Route::post('create-show', [ShowController::class, 'createShow']);
+    Route::update('update-show/{id}', [ShowController::class, 'updateShow']);
+    Route::delete('delete-show/{id}', [ShowController::class, 'deleteShow']);
 });
 
 //rotas publicas
@@ -83,21 +88,18 @@ Route::post('login', [AuthController::class, 'login']);
 
 //atraction
 Route::get('read-atractions', [AtractionController::class, 'readAtractions']);
-Route::get('read-atractions-events', [AtractionController::class, 'readAtractionsWithEvent']);
+Route::get('read-atractions-show', [AtractionController::class, 'readAtractionsWithShow']);
 Route::get('read-atraction/{id}', [AtractionController::class, 'showAtractionId']);
-Route::get('read-atraction-events/{id}', [AtractionController::class, 'showAtractionIdWithEvent']);
 
 //category
 Route::get('read-categories', [CategoryController::class, 'readCategories']);
 Route::get('read-categories-products', [CategoryController::class, 'readCategoriesWithProducts']);
 Route::get('read-category/{id}', [CategoryController::class, 'showCategoryId']);
-Route::get('read-category-products/{id}', [CategoryController::class, 'showCategoryIdWithProducts']);
+
 
 //event
 Route::get('read-events', [EventController::class, 'readEvents']);
-Route::get('read-events-atractions', [EventController::class, 'readEventsWithAtraction']);
 Route::get('read-event/{id}', [EventController::class, 'showEventId']);
-Route::get('read-event-atraction/{id}', [EventController::class, 'showEventIdWithAtractions']);
 
 //product
 Route::get('read-products', [ProductController::class, 'readProducts']);
@@ -112,3 +114,7 @@ Route::get('read-tables', [TableController::class, 'readTables']);
 Route::get('read-tickets', [TicketController::class, 'readTikects']);
 Route::get('read-tickets-events', [TicketController::class, 'readTikectsWithEvent']);
 Route::get('read-ticket/{id}', [TicketController::class, 'readTicketId']);
+
+//show
+Route::get('read-shows', [ShowController::class, 'readShows']);
+Route::get('read-shows/{id}', [ShowController::class, 'readShowId']);

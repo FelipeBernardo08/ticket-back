@@ -13,27 +13,19 @@ class Event extends Model
 
     public $fillable = [
         "name",
-        "id_atraction",
         "date",
         "hour",
         "description"
     ];
 
-    public function atraction()
+    public function show()
     {
-        return $this->belongsTo(Atraction::class, 'id_atraction');
+        return $this->hasMany(Show::class, 'id_event');
     }
 
     public function readEvents(): array
     {
         return self::get()->toArray();
-    }
-
-    public function readEventsWithAtraction(): array
-    {
-        return self::with('atraction')
-            ->get()
-            ->toArray();
     }
 
     public function createEvents($request): array
@@ -44,14 +36,8 @@ class Event extends Model
     public function showEventId(int $id): array
     {
         return self::where('id', $id)
-            ->get()
-            ->toArray();
-    }
-
-    public function showEventIdWithAtractions(int $id): array
-    {
-        return self::where('id', $id)
-            ->with('atraction')
+            ->with('show')
+            ->with('show.atraction')
             ->get()
             ->toArray();
     }

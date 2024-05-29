@@ -55,15 +55,6 @@ class CategoryController extends Controller
         return $this->resultOk($result);
     }
 
-    public function showCategoryIdWithProducts(int $id): object //ok
-    {
-        $result = $this->category->showCategoryIdWithProducts($id);
-        if (count($result) == 0) {
-            return response()->json(['error' => 'Registro nao encontrado!'], 404);
-        }
-        return $this->resultOk($result);
-    }
-
     public function updateCategory(Request $request, int $id): object //ok
     {
         $auth = $this->authController->me();
@@ -94,7 +85,7 @@ class CategoryController extends Controller
 
     public function acessoNegado(): object
     {
-        return response()->json(['error' => 'Acesso negado!'], 403);
+        return response()->json(['error' => 'Acesso negado!'], 401);
     }
 
     public function resultOk($result): object
