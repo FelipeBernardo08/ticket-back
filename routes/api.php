@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 
 //grupo de rota privada
 Route::middleware('jwt.auth')->group(function () {
+    //log
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
 
