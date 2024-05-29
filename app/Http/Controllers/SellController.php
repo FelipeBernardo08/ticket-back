@@ -17,7 +17,7 @@ class SellController extends Controller
         $this->sell = $sells;
     }
 
-    public function readSells(): object
+    public function readSells(): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -45,7 +45,7 @@ class SellController extends Controller
         }
     }
 
-    public function createSell(Request $request): object
+    public function createSell(Request $request): object //ok
     {
         $result = $this->sell->createSell($request);
         if ($result == false) {

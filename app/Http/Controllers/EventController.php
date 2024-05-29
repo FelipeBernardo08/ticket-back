@@ -18,7 +18,7 @@ class EventController extends Controller
         $this->event = $events;
     }
 
-    public function readEvents(): object
+    public function readEvents(): object //ok
     {
         $result = $this->event->readEvents();
         if (count($result) == 0) {
@@ -27,7 +27,7 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readEventsWithAtraction(): object
+    public function readEventsWithAtraction(): object //ok
     {
         $result = $this->event->readEventsWithAtraction();
         if (count($result) == 0) {
@@ -36,7 +36,7 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
-    public function createEvents(Request $request): object
+    public function createEvents(Request $request): object //ok obs: criar alguma coluna da tabela events como unique, para que não possa existir dois eventos iguais
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -50,16 +50,16 @@ class EventController extends Controller
         }
     }
 
-    public function showEventsId(int $id): object
+    public function showEventId(int $id): object //ok
     {
-        $result = $this->event->showEventsId($id);
+        $result = $this->event->showEventId($id);
         if (count($result) == 0) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function showEventIdWithAtractions(int $id): object
+    public function showEventIdWithAtractions(int $id): object //ok
     {
         $result = $this->event->showEventIdWithAtractions($id);
         if (count($result) == 0) {
@@ -68,7 +68,7 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
-    public function updateEvent(Request $request, int $id): object
+    public function updateEvent(Request $request, int $id): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -82,7 +82,7 @@ class EventController extends Controller
         }
     }
 
-    public function deleteEvent(int $id): object
+    public function deleteEvent(int $id): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {

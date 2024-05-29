@@ -26,7 +26,7 @@ class Category extends Model
 
     public function readCategoriesWithProducts(): array
     {
-        return self::get()->with('products')->toArray();
+        return self::with('products')->get()->toArray();
     }
 
     public function createCategory($request): array

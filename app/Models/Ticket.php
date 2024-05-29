@@ -32,9 +32,9 @@ class Ticket extends Model
             ->toArray();
     }
 
-    public function createTicket($request): bool
+    public function createTicket($request): array
     {
-        return self::create($request->all());
+        return self::create($request->all())->toArray();
     }
 
     public function readTicketId(int $id): array

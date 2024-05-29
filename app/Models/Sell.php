@@ -4,19 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\AuthController;
 
 class Sell extends Model
 {
     use HasFactory;
 
     public $fillable = [
-        'id_user',
-        'id_ticket',
-        'amount',
-        'token_input',
-        'total_price',
-        'verificated',
-        'created_for'
+        "id_user",
+        "id_ticket",
+        "amount",
+        "token_input",
+        "total_price",
+        "verificated",
+        "created_for"
     ];
 
     public function user()
@@ -42,9 +43,19 @@ class Sell extends Model
             ->toarray();
     }
 
-    public function createSell($request): bool
+    public function createSell($request): array
     {
-        return self::create($request->all());
+        $auth = new AuthController();
+        $user = $auth->me();
+        return self::create([
+            "id_user" => $request->id_user,
+            "id_ticket" => $request->id_ticket,
+            "amount" => $request->amount,
+            "token_input" => $request->token_input,
+            "total_price" => $request->total_price,
+            "verificated" => $request->verificated,
+            "created_for" => $user->id
+        ])->toArray();
     }
 
     public function readSellId(int $id): array

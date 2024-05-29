@@ -17,25 +17,25 @@ class CategoryController extends Controller
         $this->category = $categories;
     }
 
-    public function readCategories(): object
+    public function readCategories(): object //ok
     {
         $result = $this->category->readCategories();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Não existem registros!'], 404);
+            return response()->json(['error' => 'Nao existem registros!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function readCategoriesWithProducts(): object
+    public function readCategoriesWithProducts(): object //ok
     {
         $result = $this->category->readCategoriesWithProducts();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Não existem registros!'], 404);
+            return response()->json(['error' => 'Nao existem registros!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function createCategory(Request $request): object
+    public function createCategory(Request $request): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -46,25 +46,25 @@ class CategoryController extends Controller
         }
     }
 
-    public function showCategoryId(int $id): object
+    public function showCategoryId(int $id): object //ok
     {
         $result = $this->category->showCategoryId($id);
         if (count($result) == 0) {
-            return response()->json(['error' => 'Registro não encontrado!'], 404);
+            return response()->json(['error' => 'Registro nao encontrado!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function showCategoryIdWithProducts(int $id): object
+    public function showCategoryIdWithProducts(int $id): object //ok
     {
         $result = $this->category->showCategoryIdWithProducts($id);
         if (count($result) == 0) {
-            return response()->json(['error' => 'Registro não encontrado!'], 404);
+            return response()->json(['error' => 'Registro nao encontrado!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function updateCategory(Request $request, int $id): object
+    public function updateCategory(Request $request, int $id): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -78,7 +78,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function deleteCategory(int $id)
+    public function deleteCategory(int $id) //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {

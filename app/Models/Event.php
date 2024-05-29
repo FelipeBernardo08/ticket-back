@@ -12,11 +12,11 @@ class Event extends Model
     use HasFactory, SoftDeletes;
 
     public $fillable = [
-        'name',
-        'id_atraction',
-        'date',
-        'hour',
-        'description'
+        "name",
+        "id_atraction",
+        "date",
+        "hour",
+        "description"
     ];
 
     public function atraction()
@@ -31,14 +31,14 @@ class Event extends Model
 
     public function readEventsWithAtraction(): array
     {
-        return self::get()
-            ->with('atraction')
+        return self::with('atraction')
+            ->get()
             ->toArray();
     }
 
-    public function createEvents($request): bool
+    public function createEvents($request): array
     {
-        return self::create($request->all());
+        return self::create($request->all())->toArray();
     }
 
     public function showEventId(int $id): array
@@ -51,7 +51,7 @@ class Event extends Model
     public function showEventIdWithAtractions(int $id): array
     {
         return self::where('id', $id)
-            ->with('atractions')
+            ->with('atraction')
             ->get()
             ->toArray();
     }

@@ -17,32 +17,32 @@ class AtractionController extends Controller
         $this->atraction = $atractions;
     }
 
-    public function readAtractions(): object
+    public function readAtractions(): object //ok
     {
         $result = $this->atraction->readAtractions();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Registros não encontrados!'], 404);
+            return response()->json(['error' => 'Registros nao encontrados!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function readAtractionsWithEvent(): object
+    public function readAtractionsWithEvent(): object //ok
     {
         $result = $this->atraction->readAtractionsWithEvent();
         if (count($result) == 0) {
-            return response()->json(['error' => 'Registros não encontrados!'], 404);
+            return response()->json(['error' => 'Registros nao encontrados!'], 404);
         }
         return $this->resultOk($result);
     }
 
 
-    public function createAtraction(Request $request): object
+    public function createAtraction(Request $request): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->atraction->createAtraction($request);
             if ($result == null) {
-                return response()->json(['error' => 'Registros não foram cadastrados!'], 404);
+                return response()->json(['error' => 'Registros nao foram cadastrados!'], 404);
             }
             return $this->resultOk($result);
         } else {
@@ -50,31 +50,31 @@ class AtractionController extends Controller
         }
     }
 
-    public function showAtractionId(int $id): object
+    public function showAtractionId(int $id): object //ok
     {
         $result = $this->atraction->showAtractionId($id);
         if (count($result) == 0) {
-            return response()->json(['error' => 'Registro não encontrado!'], 404);
+            return response()->json(['error' => 'Registro nao encontrado!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function showAtractionIdWithEvent($id): object
+    public function showAtractionIdWithEvent($id): object //ok
     {
         $result = $this->atraction->showAtractionIdWithEvent($id);
         if (count($result) == 0) {
-            return response()->json(['error' => 'Registro não encontrado!'], 404);
+            return response()->json(['error' => 'Registro nao encontrado!'], 404);
         }
         return $this->resultOk($result);
     }
 
-    public function updateAtraction(Request $request, int $id): object
+    public function updateAtraction(Request $request, int $id): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->atraction->updateAtraction($request, $id);
             if ($result == false) {
-                return response()->json(['error' => 'Registros não pode ser atualizado']);
+                return response()->json(['error' => 'Registros nao pode ser atualizado']);
             }
             return $this->resultOk($result);
         } else {
@@ -82,15 +82,15 @@ class AtractionController extends Controller
         }
     }
 
-    public function deleteAtraction(int $id): object
+    public function deleteAtraction(int $id): object //ok
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->atraction->deleteAtraction($id);
             if ($result == false) {
-                return response()->json(['error' => 'Registro não pode ser excluido!'], 404);
+                return response()->json(['error' => 'Registro nao pode ser excluido!'], 404);
             }
-            return response()->json(['MSG' => 'Registro excluído com sucesso!'], 200);
+            return response()->json(['MSG' => 'Registro excluido com sucesso!'], 200);
         } else {
             return $this->acessoNegado();
         }
