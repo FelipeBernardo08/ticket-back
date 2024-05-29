@@ -77,7 +77,7 @@ Route::middleware('jwt.auth')->group(function () {
 
     //show
     Route::post('create-show', [ShowController::class, 'createShow']);
-    Route::update('update-show/{id}', [ShowController::class, 'updateShow']);
+    Route::put('update-show/{id}', [ShowController::class, 'updateShow']);
     Route::delete('delete-show/{id}', [ShowController::class, 'deleteShow']);
 });
 
