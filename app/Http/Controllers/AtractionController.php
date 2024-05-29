@@ -17,7 +17,7 @@ class AtractionController extends Controller
         $this->atraction = $atractions;
     }
 
-    public function readAtractions(): object //ok
+    public function readAtractions(): object
     {
         $result = $this->atraction->readAtractions();
         if (count($result) == 0) {
@@ -26,7 +26,7 @@ class AtractionController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readAtractionsWithShow(): object //ok
+    public function readAtractionsWithShow(): object
     {
         $result = $this->atraction->readAtractionsWithShow();
         if (count($result) == 0) {
@@ -36,7 +36,7 @@ class AtractionController extends Controller
     }
 
 
-    public function createAtraction(Request $request): object //ok
+    public function createAtraction(Request $request): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -50,7 +50,7 @@ class AtractionController extends Controller
         }
     }
 
-    public function showAtractionId(int $id): object //ok
+    public function showAtractionId(int $id): object
     {
         $result = $this->atraction->showAtractionId($id);
         if (count($result) == 0) {
@@ -60,7 +60,7 @@ class AtractionController extends Controller
     }
 
 
-    public function updateAtraction(Request $request, int $id): object //ok
+    public function updateAtraction(Request $request, int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -74,7 +74,7 @@ class AtractionController extends Controller
         }
     }
 
-    public function deleteAtraction(int $id): object //ok
+    public function deleteAtraction(int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {

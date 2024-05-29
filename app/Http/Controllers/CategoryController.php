@@ -17,7 +17,7 @@ class CategoryController extends Controller
         $this->category = $categories;
     }
 
-    public function readCategories(): object //ok
+    public function readCategories(): object
     {
         $result = $this->category->readCategories();
         if (count($result) == 0) {
@@ -26,7 +26,7 @@ class CategoryController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readCategoriesWithProducts(): object //ok
+    public function readCategoriesWithProducts(): object
     {
         $result = $this->category->readCategoriesWithProducts();
         if (count($result) == 0) {
@@ -35,7 +35,7 @@ class CategoryController extends Controller
         return $this->resultOk($result);
     }
 
-    public function createCategory(Request $request): object //ok
+    public function createCategory(Request $request): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -46,7 +46,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function showCategoryId(int $id): object //ok
+    public function showCategoryId(int $id): object
     {
         $result = $this->category->showCategoryId($id);
         if (count($result) == 0) {
@@ -55,7 +55,7 @@ class CategoryController extends Controller
         return $this->resultOk($result);
     }
 
-    public function updateCategory(Request $request, int $id): object //ok
+    public function updateCategory(Request $request, int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -69,7 +69,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function deleteCategory(int $id) //ok
+    public function deleteCategory(int $id)
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {

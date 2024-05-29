@@ -18,7 +18,7 @@ class EventController extends Controller
         $this->event = $events;
     }
 
-    public function readEvents(): object //ok
+    public function readEvents(): object
     {
         $result = $this->event->readEvents();
         if (count($result) == 0) {
@@ -27,7 +27,7 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readEventsWithAtraction(): object //ok
+    public function readEventsWithAtraction(): object
     {
         $result = $this->event->readEventsWithAtraction();
         if (count($result) == 0) {
@@ -50,7 +50,7 @@ class EventController extends Controller
         }
     }
 
-    public function showEventId(int $id): object //ok
+    public function showEventId(int $id): object
     {
         $result = $this->event->showEventId($id);
         if (count($result) == 0) {
@@ -59,7 +59,7 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
-    public function showEventIdWithAtractions(int $id): object //ok
+    public function showEventIdWithAtractions(int $id): object
     {
         $result = $this->event->showEventIdWithAtractions($id);
         if (count($result) == 0) {
@@ -68,7 +68,7 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
-    public function updateEvent(Request $request, int $id): object //ok
+    public function updateEvent(Request $request, int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -82,7 +82,7 @@ class EventController extends Controller
         }
     }
 
-    public function deleteEvent(int $id): object //ok
+    public function deleteEvent(int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {

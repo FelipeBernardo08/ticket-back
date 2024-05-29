@@ -17,7 +17,7 @@ class ProductController extends Controller
         $this->product = $products;
     }
 
-    public function readProducts(): object //ok
+    public function readProducts(): object
     {
         $result = $this->product->readProducts();
         if (count($result) == 0) {
@@ -26,7 +26,7 @@ class ProductController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readProductsWithCategories(): object //ok
+    public function readProductsWithCategories(): object
     {
         $result = $this->product->readProductsWithCategories();
         if (count($result) == 0) {
@@ -35,7 +35,7 @@ class ProductController extends Controller
         return $this->resultOk($result);
     }
 
-    public function createProduct(Request $request): object //ok
+    public function createProduct(Request $request): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -49,7 +49,7 @@ class ProductController extends Controller
         }
     }
 
-    public function showProductId(int $id): object //ok
+    public function showProductId(int $id): object
     {
         $result = $this->product->showProductId($id);
         if (count($result) == 0) {
@@ -58,7 +58,7 @@ class ProductController extends Controller
         return $this->resultOk($result);
     }
 
-    public function showProductIdWithCategory(int $id): object //ok
+    public function showProductIdWithCategory(int $id): object
     {
         $result = $this->product->showProductIdWithCategory($id);
         if (count($result) == 0) {
@@ -67,7 +67,7 @@ class ProductController extends Controller
         return $this->resultOk($result);
     }
 
-    public function updateProduct(Request $request, int $id): object  //ok
+    public function updateProduct(Request $request, int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -81,7 +81,7 @@ class ProductController extends Controller
         }
     }
 
-    public function deleteProduct(int $id): object //ok
+    public function deleteProduct(int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {

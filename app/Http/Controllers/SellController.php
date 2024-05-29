@@ -17,7 +17,7 @@ class SellController extends Controller
         $this->sell = $sells;
     }
 
-    public function readSells(): object //ok
+    public function readSells(): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -31,7 +31,7 @@ class SellController extends Controller
         }
     }
 
-    public function readSellsWithUserAndTicket(): object //ok
+    public function readSellsWithUserAndTicket(): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
@@ -45,7 +45,7 @@ class SellController extends Controller
         }
     }
 
-    public function createSell(Request $request): object //ok
+    public function createSell(Request $request): object
     {
         $result = $this->sell->createSell($request);
         if ($result == false) {
@@ -54,7 +54,7 @@ class SellController extends Controller
         return $this->resultOk($result);
     }
 
-    public function readSellId(int $id) //ok
+    public function readSellId(int $id)
     {
         $result = $this->sell->readSellId($id);
         if (count($result) == 0) {
@@ -64,7 +64,7 @@ class SellController extends Controller
     }
 
 
-    public function updateSell(Request $request, int $id) //ok
+    public function updateSell(Request $request, int $id)
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
