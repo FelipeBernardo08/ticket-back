@@ -4,12 +4,14 @@ use App\Http\Controllers\AtractionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ImageEventController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\TicketController;
+use App\Models\ImageEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +37,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
 
     //permission
-    Route::apiResource('permission', PermissionController::class);
+    // Route::apiResource('permission', PermissionController::class);
 
     //atraction
     Route::post('create-atraction', [AtractionController::class, 'createAtraction']);
@@ -79,6 +81,9 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('create-show', [ShowController::class, 'createShow']);
     Route::put('update-show/{id}', [ShowController::class, 'updateShow']);
     Route::delete('delete-show/{id}', [ShowController::class, 'deleteShow']);
+
+    //imgEvent
+    Route::post('create-img-event', [ImageEventController::class, 'createImgEvent']);
 });
 
 //rotas publicas
