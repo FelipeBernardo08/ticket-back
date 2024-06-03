@@ -22,6 +22,11 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'id_category');
     }
 
+    public function image()
+    {
+        return $this->hasMany(ImageProduct::class, 'id_product');
+    }
+
     public function readProducts(): array //ok
     {
         return self::get()->toArray();
@@ -42,14 +47,8 @@ class Product extends Model
     public function showProductId(int $id): array //ok
     {
         return self::where('id', $id)
-            ->get()
-            ->toArray();
-    }
-
-    public function showProductIdWithCategory(int $id): array //ok
-    {
-        return self::where('id', $id)
             ->with('category')
+            ->with('image')
             ->get()
             ->toArray();
     }

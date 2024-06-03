@@ -4,82 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\ImageProduct;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+
 
 class ImageProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $authController;
+    public $imgProduct;
+
+    public function __construct(AuthController $auth, ImageProduct $imageProduct)
     {
-        //
+        $this->authController = $auth;
+        $this->imgProduct = $imageProduct;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function createImgProduct(Request $request): object
     {
-        //
+        $auth = $this->authController->me();
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+            $result = $this->imgProduct->createImgProduct($request);
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Registro não pode ser criado!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function deleteImgProduct(int $id): object
     {
-        //
+        $auth = $this->authController->me();
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+            $result = $this->imgProduct->deleteImgProduct($id);
+            if ($result == false) {
+                return response()->json(['error' => 'Regisrto não pode ser deletado!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ImageProduct  $imageProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ImageProduct $imageProduct)
+    public function acessoNegado(): object
     {
-        //
+        return response()->json(['error' => 'Acesso negado!'], 401);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ImageProduct  $imageProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ImageProduct $imageProduct)
+    public function resultOk($result): object
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ImageProduct  $imageProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ImageProduct $imageProduct)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ImageProduct  $imageProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ImageProduct $imageProduct)
-    {
-        //
+        return response()->json($result, 200);
     }
 }

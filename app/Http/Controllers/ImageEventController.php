@@ -32,25 +32,29 @@ class ImageEventController extends Controller
         }
     }
 
-    public function readImagesEvents(int $id_event): object
+    public function readAllImagesEvents(): object
     {
-        $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->imgEvent->readImagesEvents($id_event);
-            if (count($result) == 0) {
-                return response()->json(['error' => 'Não existem imagens registradas!'], 404);
-            }
-            return $this->resultOk($result);
-        } else {
-            return $this->acessoNegado();
+        $result = $this->readAllImagesEvents();
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Não existem imagens registradas!'], 404);
         }
+        return $this->resultOk($result);
     }
 
-    public function deleteImageEvent(int $id): object
+    public function readImagesEvents(int $id): object
+    {
+        $result = $this->imgEvent->readImagesEvents($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Não existem imagens registradas!'], 404);
+        }
+        return $this->resultOk($result);
+    }
+
+    public function deleteImgEvent(int $id): object
     {
         $auth = $this->authController->me();
         if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->imgEvent->deleteImageEvent($id);
+            $result = $this->imgEvent->deleteImgEvent($id);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser deletado!'], 404);
             }

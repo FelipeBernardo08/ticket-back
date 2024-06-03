@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class ImageEvent extends Model
 {
@@ -31,15 +32,22 @@ class ImageEvent extends Model
             ->toArray();
     }
 
-    public function readImagesEvents(int $id_event): array
+    public function readImagesEvents(int $id): array
     {
-        return self::where('id_event', $id_event)
+        return self::where('id_event', $id)
             ->get()
             ->toArray();
     }
 
-    public function deleteImageEvent(int $id): bool
+    public function readAllImagesEvents(): array
     {
+        return self::get()->toArray();
+    }
+
+    public function deleteImgEvent(int $id): bool
+    {
+        $img = self::where('id', $id)->get()->toArray();
+        Storage::disk('public')->delete($img[0]['img']);
         return self::where('id', $id)
             ->delete();
     }

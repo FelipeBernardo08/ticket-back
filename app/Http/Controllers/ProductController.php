@@ -58,15 +58,6 @@ class ProductController extends Controller
         return $this->resultOk($result);
     }
 
-    public function showProductIdWithCategory(int $id): object
-    {
-        $result = $this->product->showProductIdWithCategory($id);
-        if (count($result) == 0) {
-            return response()->json(['error' => 'Registro não encontrado'], 404);
-        }
-        return $this->resultOk($result);
-    }
-
     public function updateProduct(Request $request, int $id): object
     {
         $auth = $this->authController->me();

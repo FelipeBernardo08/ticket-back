@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageEventController;
+use App\Http\Controllers\ImageProductController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
@@ -84,6 +85,11 @@ Route::middleware('jwt.auth')->group(function () {
 
     //imgEvent
     Route::post('create-img-event', [ImageEventController::class, 'createImgEvent']);
+    Route::delete('delete-img-event/{id}', [ImageEventController::class, 'deleteImgEvent']);
+
+    //imgProduct
+    Route::post('create-img-product', [ImageProductController::class, 'createImgProduct']);
+    Route::delete('delete-img-product/{id}', [ImageProductController::class, 'deleteImgProduct']);
 });
 
 //rotas publicas
@@ -110,7 +116,6 @@ Route::get('read-event/{id}', [EventController::class, 'showEventId']);
 Route::get('read-products', [ProductController::class, 'readProducts']);
 Route::get('read-products-categories', [ProductController::class, 'readProductsWithCategories']);
 Route::get('read-product/{id}', [ProductController::class, 'showProductId']);
-Route::get('read-product-category/{id}', [ProductController::class, 'showProductIdWithCategory']);
 
 //table
 Route::get('read-tables', [TableController::class, 'readTables']);
@@ -123,3 +128,7 @@ Route::get('read-ticket/{id}', [TicketController::class, 'readTicketId']);
 //show
 Route::get('read-shows', [ShowController::class, 'readShows']);
 Route::get('read-shows/{id}', [ShowController::class, 'readShowId']);
+
+//imgEvent
+Route::get('read-all-images-events', [ImageEventController::class, 'readAllImagesEvents']);
+Route::get('read-images-events/{id}', [ImageEventController::class, 'readImagesEvents']);
