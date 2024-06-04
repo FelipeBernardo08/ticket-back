@@ -29,7 +29,10 @@ class Show extends Model
 
     public function readShows(): array
     {
-        return self::get()->toArray();
+        return self::with('event')
+            ->with('atraction')
+            ->get()
+            ->toArray();
     }
 
     public function readShowId(int $id): array

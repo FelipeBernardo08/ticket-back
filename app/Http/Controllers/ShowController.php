@@ -20,7 +20,6 @@ class ShowController extends Controller
     public function readShows(): object
     {
         $result = $this->show->readShows();
-        dd($result);
         if (count($result) == 0) {
             return response()->json(['error' => 'Não existem registros'], 404);
         }
