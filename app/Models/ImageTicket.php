@@ -32,6 +32,13 @@ class ImageTicket extends Model
             ->toArray();
     }
 
+    public function readImgTicket(int $id): array
+    {
+        return self::where('id_ticket', $id)
+            ->get()
+            ->toArray();
+    }
+
     public function deleteImgTicket(int $id): bool
     {
         $img = self::where('id', $id)->get()->toArray();

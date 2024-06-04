@@ -33,6 +33,13 @@ class ImageProduct extends Model
             ->toArray();
     }
 
+    public function readImgProduct(int $id): array
+    {
+        return self::where('id_product', $id)
+            ->get()
+            ->toArray();
+    }
+
     public function deleteImgProduct(int $id): bool
     {
         $img = self::where('id', $id)->get()->toArray();

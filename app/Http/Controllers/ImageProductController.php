@@ -32,6 +32,16 @@ class ImageProductController extends Controller
         }
     }
 
+    public function readImgProduct(int $id): object
+    {
+        $result = $this->imgProduct->readImgProduct($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registro não encontrado'], 404);
+        } else {
+            return $this->resultOk($result);
+        }
+    }
+
     public function deleteImgProduct(int $id): object
     {
         $auth = $this->authController->me();

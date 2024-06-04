@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageEventController;
 use App\Http\Controllers\ImageProductController;
+use App\Http\Controllers\ImageTicketController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
@@ -90,6 +91,10 @@ Route::middleware('jwt.auth')->group(function () {
     //imgProduct
     Route::post('create-img-product', [ImageProductController::class, 'createImgProduct']);
     Route::delete('delete-img-product/{id}', [ImageProductController::class, 'deleteImgProduct']);
+
+    //imgTicket
+    Route::post('create-img-ticket', [ImageTicketController::class, 'createImgTicket']);
+    Route::delete('delete-img-ticket/{id}', [ImageTicketController::class, 'deleteImgProduct']);
 });
 
 //rotas publicas
@@ -132,3 +137,9 @@ Route::get('read-shows/{id}', [ShowController::class, 'readShowId']);
 //imgEvent
 Route::get('read-all-images-events', [ImageEventController::class, 'readAllImagesEvents']);
 Route::get('read-images-events/{id}', [ImageEventController::class, 'readImagesEvents']);
+
+//imgProduct
+Route::get('read-img-product/{id}', [ImageProductController::class, 'readImgProduct']);
+
+//imgTicket
+Route::get('read-img-ticket/{id}', [ImageTicketController::class, 'readImgTicket']);

@@ -30,6 +30,15 @@ class ImageTicketController extends Controller
         }
     }
 
+    public function readImgTicket(int $id): object
+    {
+        $result = $this->imgTicket->readImgTicket($id);
+        if (count($result) == 0) {
+            return response()->json(['error' => 'Registro não encontrado!'], 404);
+        }
+        return $this->resultOk($result);
+    }
+
     public function deleteImgTicket(int $id): object
     {
         $auth = $this->authController->me();
