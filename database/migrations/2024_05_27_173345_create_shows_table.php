@@ -23,7 +23,6 @@ class CreateShowsTable extends Migration
             $table->foreign('id_atraction')->references('id')->on('atractions');
             $table->foreign('id_event')->references('id')->on('events');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
