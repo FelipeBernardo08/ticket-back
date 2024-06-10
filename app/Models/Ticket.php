@@ -12,6 +12,7 @@ class Ticket extends Model
 
     public $fillable = [
         'id_event',
+        'name',
         'price'
     ];
 
