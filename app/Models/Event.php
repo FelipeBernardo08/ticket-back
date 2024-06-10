@@ -23,6 +23,11 @@ class Event extends Model
         return $this->hasMany(Show::class, 'id_event');
     }
 
+    public function ticket()
+    {
+        return $this->hasMany(Ticket::class, 'id_event');
+    }
+
     public function readEvents(): array
     {
         return self::get()->toArray();
@@ -38,6 +43,7 @@ class Event extends Model
         return self::where('id', $id)
             ->with('show')
             ->with('show.atraction')
+            ->with('ticket')
             ->get()
             ->toArray();
     }
