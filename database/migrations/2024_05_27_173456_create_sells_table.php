@@ -16,13 +16,13 @@ class CreateSellsTable extends Migration
         Schema::create('sells', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_user');
-            $table->unsignedBigInteger('id_ticket');
+            $table->unsignedBigInteger('id_event');
             $table->text('token_input')->unique();
             $table->float('total_price');
             $table->boolean('verificated');
-            $table->string('created_for')->default('self');
+            $table->string('name_ticket');
             $table->foreign('id_user')->references('id')->on('users');
-            $table->foreign('id_ticket')->references('id')->on('tickets');
+            $table->foreign('id_event')->references('id')->on('events');
             $table->timestamps();
         });
     }

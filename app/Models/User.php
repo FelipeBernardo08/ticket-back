@@ -73,6 +73,36 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Permission::class, 'id_permission');
     }
 
+    public function createUser($request): array
+    {
+        return self::create($request->all())->toArray();
+    }
+
+    public function readUsers(): array
+    {
+        return self::with('permission')->get()->toArray();
+    }
+
+    public function readUserId(int $id): array
+    {
+        return self::where('id', $id)
+            ->with('permission')
+            ->get()
+            ->toArray();
+    }
+
+    public function updateUser(int $id, $request): bool
+    {
+        return self::where('id', $id)
+            ->update($request->all());
+    }
+
+    public function deleteUser(int $id): bool
+    {
+        return self::where('id', $id)
+            ->delete();
+    }
+
     public function userWithPermission(int $id): array
     {
         return self::where('id', $id)

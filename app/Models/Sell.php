@@ -12,9 +12,10 @@ class Sell extends Model
 
     public $fillable = [
         "id_user",
-        "id_ticket",
+        "id_event",
         "token_input",
         "total_price",
+        "name_ticket",
         "verificated",
         "created_for"
     ];
@@ -24,9 +25,9 @@ class Sell extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
-    public function ticket()
+    public function event()
     {
-        return $this->belongsTo(Ticket::class, 'id_ticket');
+        return $this->belongsTo(Ticket::class, 'id_event');
     }
 
     public function readSells(): array
@@ -37,8 +38,7 @@ class Sell extends Model
     public function readSellsWithUserAndTicket(): array
     {
         return self::with('user')
-            ->with('ticket')
-            ->with('ticket.event')
+            ->with('event')
             ->get()
             ->toarray();
     }
@@ -49,20 +49,18 @@ class Sell extends Model
         $user = $auth->me();
         return self::create([
             "id_user" => $request->id_user,
-            "id_ticket" => $request->id_ticket,
-            "amount" => $request->amount,
+            "id_event" => $request->id_event,
             "token_input" => $request->token_input,
             "total_price" => $request->total_price,
-            "verificated" => $request->verificated,
-            "created_for" => $user->id
+            "name_ticket" => $request->name_ticket,
+            "verificated" => $request->verificated
         ])->toArray();
     }
 
     public function readSellId(int $id): array
     {
         return self::where('id', $id)
-            ->with('ticket')
-            ->with('ticket.event')
+            ->with('event')
             ->get()
             ->toArray();
     }

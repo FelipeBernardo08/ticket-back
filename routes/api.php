@@ -10,6 +10,7 @@ use App\Http\Controllers\PassListController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::delete('delete-category/{id}', [CategoryController::class, 'deleteCategory']);
 
     //event
+    Route::get('read-event-date/{data}', [EventController::class, 'readEventsDate']);
     Route::post('create-event', [EventController::class, 'createEvents']);
     Route::put('update-event/{id}', [EventController::class, 'updateEvent']);
     Route::delete('delete-event/{id}', [EventController::class, 'deleteEvent']);
@@ -81,6 +83,12 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-list-event/{id}', [PassListController::class, 'readListIdEvent']);
     Route::post('create-list', [PassListController::class, 'createList']);
     Route::delete('delete-list/{id}', [PassListController::class, 'deleteList']);
+
+    //user
+    Route::get('read-users', [UserController::class, 'readUsers']);
+    Route::get('read-user/{id}', [UserController::class, 'readUsers']);
+    Route::put('update-user/{id}', [UserController::class, 'updateUser']);
+    Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
 });
 
 //rotas publicas
@@ -119,3 +127,6 @@ Route::get('read-images-events/{id}', [ImageEventController::class, 'readImagesE
 
 //imgTicket
 Route::get('read-img-ticket/{id}', [ImageTicketController::class, 'readImgTicket']);
+
+//user
+Route::post('create-user', [UserController::class, 'createUser']);

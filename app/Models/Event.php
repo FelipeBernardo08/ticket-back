@@ -37,11 +37,9 @@ class Event extends Model
             ->toArray();
     }
 
-    public function readAtualEvents(): array
+    public function readEventsDate(string $date): array
     {
-        $date = new DateTime();
-        $dateFormat = $date->format('Y-m-d');
-        return self::where('date', '>', $dateFormat)
+        return self::where('date', '>', $date)
             ->orderBy('date', 'asc')
             ->get()
             ->toArray();
