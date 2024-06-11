@@ -13,7 +13,6 @@ class Sell extends Model
     public $fillable = [
         "id_user",
         "id_ticket",
-        "amount",
         "token_input",
         "total_price",
         "verificated",

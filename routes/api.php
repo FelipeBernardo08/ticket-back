@@ -5,16 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageEventController;
-use App\Http\Controllers\ImageProductController;
 use App\Http\Controllers\ImageTicketController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
-use App\Http\Controllers\TableController;
 use App\Http\Controllers\TicketController;
-use App\Models\ImageEvent;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,23 +50,12 @@ Route::middleware('jwt.auth')->group(function () {
     Route::put('update-event/{id}', [EventController::class, 'updateEvent']);
     Route::delete('delete-event/{id}', [EventController::class, 'deleteEvent']);
 
-    //product
-    Route::post('create-product', [ProductController::class, 'createProduct']);
-    Route::put('update-product/{id}', [ProductController::class, 'updateProduct']);
-    Route::delete('delete-product/{id}', [ProductController::class, 'deleteProduct']);
-
     //sell
     Route::get('read-sells', [SellController::class, 'readSells']);
     Route::get('read-sells-user-ticket', [SellController::class, 'readSellsWithUserAndTicket']);
     Route::get('read-sell/{id}', [SellController::class, 'readSellId']);
     Route::post('create-sell', [SellController::class, 'createSell']);
     Route::put('update-sell/{id}', [SellController::class, 'updateSell']);
-
-    //table
-    Route::post('create-table', [TableController::class, 'createTable']);
-    Route::get('read-table/{id}', [TableController::class, 'readTableId']);
-    Route::put('update-table/{id}', [TableController::class, 'updateTable']);
-    Route::delete('delete-table/{id}', [TableController::class, 'deleteTable']);
 
     //ticket
     Route::post('create-ticket', [TicketController::class, 'createTicket']);
@@ -87,10 +70,6 @@ Route::middleware('jwt.auth')->group(function () {
     //imgEvent
     Route::post('create-img-event', [ImageEventController::class, 'createImgEvent']);
     Route::delete('delete-img-event/{id}', [ImageEventController::class, 'deleteImgEvent']);
-
-    //imgProduct
-    Route::post('create-img-product', [ImageProductController::class, 'createImgProduct']);
-    Route::delete('delete-img-product/{id}', [ImageProductController::class, 'deleteImgProduct']);
 
     //imgTicket
     Route::post('create-img-ticket', [ImageTicketController::class, 'createImgTicket']);
@@ -117,13 +96,6 @@ Route::get('read-category/{id}', [CategoryController::class, 'showCategoryId']);
 Route::get('read-events', [EventController::class, 'readEvents']);
 Route::get('read-event/{id}', [EventController::class, 'showEventId']);
 
-//product
-Route::get('read-products', [ProductController::class, 'readProducts']);
-Route::get('read-products-categories', [ProductController::class, 'readProductsWithCategories']);
-Route::get('read-product/{id}', [ProductController::class, 'showProductId']);
-
-//table
-Route::get('read-tables', [TableController::class, 'readTables']);
 
 //ticket
 Route::get('read-tickets', [TicketController::class, 'readTikects']);
@@ -137,9 +109,6 @@ Route::get('read-shows/{id}', [ShowController::class, 'readShowId']);
 //imgEvent
 Route::get('read-all-images-events', [ImageEventController::class, 'readAllImagesEvents']);
 Route::get('read-images-events/{id}', [ImageEventController::class, 'readImagesEvents']);
-
-//imgProduct
-Route::get('read-img-product/{id}', [ImageProductController::class, 'readImgProduct']);
 
 //imgTicket
 Route::get('read-img-ticket/{id}', [ImageTicketController::class, 'readImgTicket']);
