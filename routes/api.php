@@ -3,6 +3,7 @@
 use App\Http\Controllers\AtractionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageEventController;
 use App\Http\Controllers\ImageTicketController;
@@ -34,7 +35,10 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
 
     //permission
-    // Route::apiResource('permission', PermissionController::class);
+    Route::apiResource('permission', PermissionController::class);
+
+    //user
+    Route::post('create-user', [Controller::class, 'createUser']);
 
     //atraction
     Route::post('create-atraction', [AtractionController::class, 'createAtraction']);
