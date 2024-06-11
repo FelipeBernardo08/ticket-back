@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\AtractionController;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,6 +16,7 @@ class Event extends Model
         "name",
         "date",
         "hour",
+        "status",
         "description"
     ];
 
@@ -30,7 +32,19 @@ class Event extends Model
 
     public function readEvents(): array
     {
-        return self::get()->toArray();
+        return self::orderBy('date', 'asc')
+            ->get()
+            ->toArray();
+    }
+
+    public function readAtualEvents(): array
+    {
+        $date = new DateTime();
+        $dateFormat = $date->format('Y-m-d');
+        return self::where('date', '>', $dateFormat)
+            ->orderBy('date', 'asc')
+            ->get()
+            ->toArray();
     }
 
     public function createEvents($request): array
