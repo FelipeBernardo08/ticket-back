@@ -17,7 +17,7 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_event');
             $table->float('price');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->foreign('id_event')->references('id')->on('events');
             $table->softDeletes()->nullable();
             $table->timestamps();
