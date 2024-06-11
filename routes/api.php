@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageEventController;
 use App\Http\Controllers\ImageTicketController;
+use App\Http\Controllers\PassListController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TicketController;
@@ -74,6 +75,12 @@ Route::middleware('jwt.auth')->group(function () {
     //imgTicket
     Route::post('create-img-ticket', [ImageTicketController::class, 'createImgTicket']);
     Route::delete('delete-img-ticket/{id}', [ImageTicketController::class, 'deleteImgProduct']);
+
+    //list
+    Route::get('read-lists', [PassListController::class, 'readList']);
+    Route::get('read-list-event/{id}', [PassListController::class, 'readListIdEvent']);
+    Route::post('create-list', [PassListController::class, 'createList']);
+    Route::delete('delete-list/{id}', [PassListController::class, 'deleteList']);
 });
 
 //rotas publicas
