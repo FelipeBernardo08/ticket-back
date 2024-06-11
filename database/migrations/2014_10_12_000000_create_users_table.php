@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('cpf')->unique();
             $table->string('fone');
+            $table->string('date_born');
             $table->unsignedBigInteger('id_permission')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

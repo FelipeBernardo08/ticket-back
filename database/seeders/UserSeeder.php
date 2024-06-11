@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'adm',
             'fone' => '17991020668',
             'cpf' => '43258849803',
+            'date_born' => '2024-09-08',
             'id_permission' => 2,
             'password' => bcrypt('adm123')
         ]);

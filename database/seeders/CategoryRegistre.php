@@ -16,7 +16,7 @@ class CategoryRegistre extends Seeder
     {
         DB::table('permissions')->insert([
             [
-                'name' => 'cliente'
+                'name' => 'Cliente'
             ],
             [
                 'name' => 'ADM'

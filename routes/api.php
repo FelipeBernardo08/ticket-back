@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageEventController;
 use App\Http\Controllers\ImageTicketController;
 use App\Http\Controllers\PassListController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TicketController;
@@ -35,7 +36,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
 
     //permission
-    // Route::apiResource('permission', PermissionController::class);
+    Route::apiResource('permission', PermissionController::class);
 
     //atraction
     Route::post('create-atraction', [AtractionController::class, 'createAtraction']);

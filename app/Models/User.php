@@ -23,8 +23,9 @@ class User extends Authenticatable implements JWTSubject
         'fone',
         'cpf',
         'email',
+        'date_born',
         'id_permission',
-        'password',
+        'password'
     ];
 
     /**
@@ -75,7 +76,15 @@ class User extends Authenticatable implements JWTSubject
 
     public function createUser($request): array
     {
-        return self::create($request->all())->toArray();
+        return self::create([
+            'email' => $request->email,
+            'name' => $request->name,
+            'date_born' => $request->date_born,
+            'cpf' => $request->cpf,
+            'fone' => $request->fone,
+            'id_permission' => $request->id_permission,
+            'password' => bcrypt($request->password)
+        ])->toArray();
     }
 
     public function readUsers(): array
