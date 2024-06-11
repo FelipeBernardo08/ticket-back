@@ -3,9 +3,12 @@
 use App\Http\Controllers\AtractionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageEventController;
 use App\Http\Controllers\ImageTicketController;
+use App\Http\Controllers\PassListController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TicketController;
@@ -33,7 +36,10 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
 
     //permission
-    // Route::apiResource('permission', PermissionController::class);
+    Route::apiResource('permission', PermissionController::class);
+
+    //user
+    Route::post('create-user', [Controller::class, 'createUser']);
 
     //atraction
     Route::post('create-atraction', [AtractionController::class, 'createAtraction']);
@@ -74,6 +80,12 @@ Route::middleware('jwt.auth')->group(function () {
     //imgTicket
     Route::post('create-img-ticket', [ImageTicketController::class, 'createImgTicket']);
     Route::delete('delete-img-ticket/{id}', [ImageTicketController::class, 'deleteImgProduct']);
+
+    //passList
+    Route::get('read-list', [PassListController::class, 'readList']);
+    Route::get('read-list-event/{id}', [PassListController::class, 'readListIdEvent']);
+    Route::post('create-list', [PassListController::class, 'createList']);
+    Route::delete('delete-list/{id}', [PassListController::class, 'deleteList']);
 });
 
 //rotas publicas
