@@ -89,7 +89,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function readUsers(): array
     {
-        return self::with('permission')->get()->toArray();
+        return self::with('permission')
+            ->get()
+            ->toArray();
     }
 
     public function readUserId(int $id): array
