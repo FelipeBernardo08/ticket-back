@@ -16,9 +16,9 @@ class CreateImageTicketsTable extends Migration
         Schema::create('image_tickets', function (Blueprint $table) {
             $table->id();
             $table->string('img');
-            $table->unsignedBigInteger('id_ticket');
+            $table->unsignedBigInteger('id_event');
             $table->timestamps();
-            $table->foreign('id_ticket')->references('id')->on('tickets');
+            $table->foreign('id_event')->references('id')->on('events');
         });
     }
 

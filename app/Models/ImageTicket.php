@@ -12,12 +12,12 @@ class ImageTicket extends Model
 
     public $fillable = [
         'img',
-        'id_ticket'
+        'id_event'
     ];
 
-    public function ticket()
+    public function event()
     {
-        return $this->belongsTo(Ticket::class, 'id_ticket');
+        return $this->belongsTo(Event::class, 'id_event');
     }
 
     public function createImgTicket($request): array
@@ -26,7 +26,7 @@ class ImageTicket extends Model
         $caminho = $img->store('images', 'public');
         return self::create([
             'img' => $caminho,
-            'id_ticket' => $request->id_ticket
+            'id_event' => $request->id_event
         ])
             ->get()
             ->toArray();
@@ -34,7 +34,7 @@ class ImageTicket extends Model
 
     public function readImgTicket(int $id): array
     {
-        return self::where('id_ticket', $id)
+        return self::where('id_event', $id)
             ->get()
             ->toArray();
     }
