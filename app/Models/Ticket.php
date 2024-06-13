@@ -21,10 +21,6 @@ class Ticket extends Model
         return $this->belongsTo(Event::class, 'id_event');
     }
 
-    public function img()
-    {
-        return $this->hasMany(ImageTicket::class, 'id_ticket');
-    }
 
     public function readTikects(): array
     {
@@ -36,7 +32,6 @@ class Ticket extends Model
         return self::with('event')
             ->with('event.show')
             ->with('event.show.atraction')
-            ->with('img')
             ->get()
             ->toArray();
     }

@@ -30,7 +30,7 @@ class Event extends Model
         return $this->hasMany(Ticket::class, 'id_event');
     }
 
-    public function imageBanner()
+    public function img()
     {
         return $this->hasMany(ImageTicket::class, 'id_event');
     }
@@ -45,7 +45,7 @@ class Event extends Model
     public function readEventsDate(string $date): array
     {
         return self::where('date', '>=', $date)
-            ->with('imageBanner')
+            ->with('img')
             ->orderBy('date', 'asc')
             ->get()
             ->toArray();
@@ -62,7 +62,7 @@ class Event extends Model
             ->with('show')
             ->with('show.atraction')
             ->with('ticket')
-            ->with('imageBanner')
+            ->with('img')
             ->get()
             ->toArray();
     }
