@@ -77,7 +77,7 @@ Route::middleware('jwt.auth')->group(function () {
 
     //imgTicket
     Route::post('create-img-ticket', [ImageTicketController::class, 'createImgTicket']);
-    Route::delete('delete-img-ticket/{id}', [ImageTicketController::class, 'deleteImgProduct']);
+    Route::delete('delete-img-ticket/{id}', [ImageTicketController::class, 'deleteImgTicket']);
 
     //list
     Route::get('read-lists', [PassListController::class, 'readList']);
