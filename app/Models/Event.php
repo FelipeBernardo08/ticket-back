@@ -30,6 +30,11 @@ class Event extends Model
         return $this->hasMany(Ticket::class, 'id_event');
     }
 
+    public function imageBanner()
+    {
+        return $this->hasMany(ImageTicket::class, 'id_event');
+    }
+
     public function readEvents(): array
     {
         return self::orderBy('date', 'asc')
@@ -39,7 +44,8 @@ class Event extends Model
 
     public function readEventsDate(string $date): array
     {
-        return self::where('date', '>', $date)
+        return self::where('date', '>=', $date)
+            ->with('imageBanner')
             ->orderBy('date', 'asc')
             ->get()
             ->toArray();
@@ -56,6 +62,7 @@ class Event extends Model
             ->with('show')
             ->with('show.atraction')
             ->with('ticket')
+            ->with('imageBanner')
             ->get()
             ->toArray();
     }
