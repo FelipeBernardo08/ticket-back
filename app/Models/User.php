@@ -105,7 +105,16 @@ class User extends Authenticatable implements JWTSubject
     public function updateUser(int $id, $request): bool
     {
         return self::where('id', $id)
-            ->update($request->all());
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'fone' => $request->fone,
+                'cpf' => $request->cpf,
+                'date_born' => $request->date_born,
+                'password' => bcrypt($request->password),
+                'id_permission' => $request->id_permission,
+                'updated_at' => null
+            ]);
     }
 
     public function deleteUser(int $id): bool

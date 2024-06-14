@@ -25,7 +25,7 @@ class PermissionController extends Controller
     public function index()
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2) {
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
             $result = $this->permission->all();
             if (count($result) == 0) {
                 return response()->json(['error' => 'Não existem registros cadastrados!'], 404);
