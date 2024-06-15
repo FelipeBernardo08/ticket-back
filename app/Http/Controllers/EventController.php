@@ -110,6 +110,20 @@ class EventController extends Controller
         }
     }
 
+    public function readEventsWithSells(): object
+    {
+        $auth = $this->authController->me();
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+            $result = $this->event->readEventsWithSells();
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Registros não encontrados!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
     public function acessoNegado(): object
     {
         return response()->json(['error' => 'Acesso negado!'], 401);

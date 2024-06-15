@@ -27,7 +27,7 @@ class Sell extends Model
 
     public function event()
     {
-        return $this->belongsTo(Ticket::class, 'id_event');
+        return $this->belongsTo(Event::class, 'id_event');
     }
 
     public function readSells(): array
@@ -37,10 +37,10 @@ class Sell extends Model
 
     public function readSellsWithUserAndTicket(): array
     {
-        return self::with('user')
-            ->with('event')
+        return self::with('event')
+            ->orderBy('id_event')
             ->get()
-            ->toarray();
+            ->toArray();
     }
 
     public function createSell($request): array

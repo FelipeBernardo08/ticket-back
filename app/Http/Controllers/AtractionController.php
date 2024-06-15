@@ -35,6 +35,19 @@ class AtractionController extends Controller
         return $this->resultOk($result);
     }
 
+    public function readAtrctionWithEventAndSell(): object
+    {
+        $auth = $this->authController->me();
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+            $result = $this->atraction->readAtrctionWithEventAndSell();
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Registros nao encontrados!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
 
     public function createAtraction(Request $request): object
     {

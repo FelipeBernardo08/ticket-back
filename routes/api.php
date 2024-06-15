@@ -39,6 +39,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::apiResource('permission', PermissionController::class);
 
     //atraction
+    Route::get('read-atraction-with-sells', [AtractionController::class, 'readAtrctionWithEventAndSell']);
     Route::post('create-atraction', [AtractionController::class, 'createAtraction']);
     Route::put('update-atraction/{id}', [AtractionController::class, 'updateAtraction']);
     Route::delete('delete-atraction/{id}', [AtractionController::class, 'deleteAtraction']);
@@ -53,6 +54,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('create-event', [EventController::class, 'createEvents']);
     Route::put('update-event/{id}', [EventController::class, 'updateEvent']);
     Route::delete('delete-event/{id}', [EventController::class, 'deleteEvent']);
+    Route::get('read-event-sells', [EventController::class, 'readEventsWithSells']);
 
     //sell
     Route::get('read-sells', [SellController::class, 'readSells']);

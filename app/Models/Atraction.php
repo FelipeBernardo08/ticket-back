@@ -19,6 +19,7 @@ class Atraction extends Model
         return $this->hasMany(Show::class, 'id_atraction');
     }
 
+
     public function readAtractions(): array
     {
         return self::get()->toArray();
@@ -27,6 +28,13 @@ class Atraction extends Model
     public function createAtraction($request): object
     {
         return self::create($request->all());
+    }
+
+    public function readAtrctionWithEventAndSell(): array
+    {
+        return self::with('show')
+            ->get()
+            ->toArray();
     }
 
     public function showAtractionId(int $id): array
