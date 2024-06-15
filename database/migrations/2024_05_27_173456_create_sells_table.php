@@ -21,6 +21,7 @@ class CreateSellsTable extends Migration
             $table->float('total_price');
             $table->boolean('verificated');
             $table->string('name_ticket');
+            $table->string('date_event');
             $table->foreign('id_user')->references('id')->on('users');
             $table->foreign('id_event')->references('id')->on('events');
             $table->timestamps();

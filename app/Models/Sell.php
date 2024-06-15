@@ -13,6 +13,7 @@ class Sell extends Model
     public $fillable = [
         "id_user",
         "id_event",
+        "date_event",
         "token_input",
         "total_price",
         "name_ticket",
@@ -52,6 +53,7 @@ class Sell extends Model
             "token_input" => $request->token_input,
             "total_price" => $request->total_price,
             "name_ticket" => $request->name_ticket,
+            "date_event" => $request->date_event,
             "verificated" => $request->verificated
         ])->toArray();
     }
