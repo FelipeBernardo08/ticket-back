@@ -57,6 +57,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-event-sells', [EventController::class, 'readEventsWithSells']);
 
     //sell
+    Route::get('read-sells-token/{token}', [SellController::class, 'readSellsToken']);
     Route::get('read-sells', [SellController::class, 'readSells']);
     Route::get('read-sells-user-ticket', [SellController::class, 'readSellsWithUserAndTicket']);
     Route::get('read-sell/{id}', [SellController::class, 'readSellId']);

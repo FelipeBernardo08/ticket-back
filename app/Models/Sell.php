@@ -38,6 +38,7 @@ class Sell extends Model
     public function readSellsWithUserAndTicket(): array
     {
         return self::with('event')
+            ->with('user')
             ->orderBy('id_event')
             ->get()
             ->toArray();
@@ -45,8 +46,6 @@ class Sell extends Model
 
     public function createSell($request): array
     {
-        $auth = new AuthController();
-        $user = $auth->me();
         return self::create([
             "id_user" => $request->id_user,
             "id_event" => $request->id_event,
@@ -63,6 +62,24 @@ class Sell extends Model
             ->with('event')
             ->get()
             ->toArray();
+    }
+
+    public function readSellsToken($token): array
+    {
+        $result = self::where('token_input', $token)
+            ->where('verificated', false)
+            ->with('user')
+            ->get()
+            ->toArray();
+
+        if ($result) {
+            self::where('id', $result[0]['id'])
+                ->update([
+                    "verificated" => true
+                ]);
+            return $result;
+        }
+        return [];
     }
 
 
