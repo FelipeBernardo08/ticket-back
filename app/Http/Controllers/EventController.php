@@ -30,7 +30,7 @@ class EventController extends Controller
     public function readEventsDate(string $data): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth->id_permission == 2 || $auth->id_permission == 3 ||  $auth->id_permission == 4) {
             $result = $this->event->readEventsDate($data);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Não existem registros.'], 404);

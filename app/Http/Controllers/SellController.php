@@ -34,7 +34,7 @@ class SellController extends Controller
     public function readSellsWithUserAndTicket(): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth->id_permission == 2 || $auth->id_permission == 3 || $auth->id_permission == 4) {
             $result = $this->sell->readSellsWithUserAndTicket();
             if (count($result) == 0) {
                 return response()->json(['error' => 'Não existem registros cadastrados'], 404);

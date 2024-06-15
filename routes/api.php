@@ -44,11 +44,6 @@ Route::middleware('jwt.auth')->group(function () {
     Route::put('update-atraction/{id}', [AtractionController::class, 'updateAtraction']);
     Route::delete('delete-atraction/{id}', [AtractionController::class, 'deleteAtraction']);
 
-    //category
-    Route::post('create-category', [CategoryController::class, 'createCategory']);
-    Route::put('update-category/{id}', [CategoryController::class, 'updateCategory']);
-    Route::delete('delete-category/{id}', [CategoryController::class, 'deleteCategory']);
-
     //event
     Route::get('read-event-date/{data}', [EventController::class, 'readEventsDate']);
     Route::post('create-event', [EventController::class, 'createEvents']);
@@ -100,37 +95,9 @@ Route::middleware('jwt.auth')->group(function () {
 //login
 Route::post('login', [AuthController::class, 'login']);
 
-//atraction
-Route::get('read-atractions', [AtractionController::class, 'readAtractions']);
-Route::get('read-atractions-show', [AtractionController::class, 'readAtractionsWithShow']);
-Route::get('read-atraction/{id}', [AtractionController::class, 'showAtractionId']);
-
-//category
-Route::get('read-categories', [CategoryController::class, 'readCategories']);
-Route::get('read-categories-products', [CategoryController::class, 'readCategoriesWithProducts']);
-Route::get('read-category/{id}', [CategoryController::class, 'showCategoryId']);
-
-
 //event
 Route::get('read-events', [EventController::class, 'readEvents']);
 Route::get('read-event/{id}', [EventController::class, 'showEventId']);
-
-
-//ticket
-Route::get('read-tickets', [TicketController::class, 'readTikects']);
-Route::get('read-tickets-events', [TicketController::class, 'readTikectsWithEvent']);
-Route::get('read-ticket/{id}', [TicketController::class, 'readTicketId']);
-
-//show
-Route::get('read-shows', [ShowController::class, 'readShows']);
-Route::get('read-shows/{id}', [ShowController::class, 'readShowId']);
-
-//imgEvent
-Route::get('read-all-images-events', [ImageEventController::class, 'readAllImagesEvents']);
-Route::get('read-images-events/{id}', [ImageEventController::class, 'readImagesEvents']);
-
-//imgTicket
-Route::get('read-img-ticket/{id}', [ImageTicketController::class, 'readImgTicket']);
 
 //user
 Route::post('create-user', [UserController::class, 'createUser']);
