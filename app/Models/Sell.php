@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\AuthController;
+use DateTime;
 
 class Sell extends Model
 {
@@ -68,7 +69,10 @@ class Sell extends Model
 
     public function readSellsToken($token): array
     {
+        $date = new DateTime();
+        $dateFormat = $date->format('Y-m-d');
         $result = self::where('token_input', $token)
+            ->where('date_event', $dateFormat)
             ->where('verificated', false)
             ->with('user')
             ->get()

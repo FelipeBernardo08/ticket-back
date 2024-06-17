@@ -40,11 +40,15 @@ Route::middleware('jwt.auth')->group(function () {
 
     //atraction
     Route::get('read-atraction-with-sells', [AtractionController::class, 'readAtrctionWithEventAndSell']);
+    Route::get('read-atractions', [AtractionController::class, 'readAtractions']);
+    Route::get('read-atraction/{id}', [AtractionController::class, 'showAtractionId']);
     Route::post('create-atraction', [AtractionController::class, 'createAtraction']);
     Route::put('update-atraction/{id}', [AtractionController::class, 'updateAtraction']);
     Route::delete('delete-atraction/{id}', [AtractionController::class, 'deleteAtraction']);
 
     //event
+    Route::get('read-events', [EventController::class, 'readEvents']);
+    Route::get('read-event/{id}', [EventController::class, 'showEventId']);
     Route::get('read-event-date/{data}', [EventController::class, 'readEventsDate']);
     Route::post('create-event', [EventController::class, 'createEvents']);
     Route::put('update-event/{id}', [EventController::class, 'updateEvent']);
@@ -90,14 +94,11 @@ Route::middleware('jwt.auth')->group(function () {
     Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
 });
 
-//rotas publicas
-
 //login
 Route::post('login', [AuthController::class, 'login']);
 
-//event
-Route::get('read-events', [EventController::class, 'readEvents']);
-Route::get('read-event/{id}', [EventController::class, 'showEventId']);
-
 //user
 Route::post('create-user', [UserController::class, 'createUser']);
+
+//ticket
+Route::get('read-tickets-events', [TicketController::class, 'readTikectsWithEvent']);

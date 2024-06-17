@@ -56,11 +56,16 @@ class SellController extends Controller
 
     public function createSell(Request $request): object
     {
-        $result = $this->sell->createSell($request);
-        if ($result == false) {
-            return response()->json(['error' => 'Venda não pode ser concluída!'], 404);
+        $auth = $this->authController->me();
+        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+            $result = $this->sell->createSell($request);
+            if ($result == false) {
+                return response()->json(['error' => 'Venda não pode ser concluída!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            $this->acessoNegado();
         }
-        return $this->resultOk($result);
     }
 
     public function readSellId(int $id)
