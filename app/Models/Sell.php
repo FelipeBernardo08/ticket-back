@@ -38,9 +38,10 @@ class Sell extends Model
         return self::get()->toarray();
     }
 
-    public function readSellsWithUserAndTicket(): array
+    public function readSellsWithUserAndTicket(string $date): array
     {
-        return self::with('event')
+        return self::where('date_event', $date)
+            ->with('event')
             ->with('user')
             ->orderBy('date_event', 'asc')
             ->get()
@@ -63,6 +64,7 @@ class Sell extends Model
     public function readSellId(int $id): array
     {
         return self::where('id', $id)
+            ->with('user')
             ->with('event')
             ->get()
             ->toArray();
@@ -70,27 +72,23 @@ class Sell extends Model
 
     public function readSellsToken($token): array
     {
-        $timezone = new DateTimeZone('America/Sao_Paulo');
-        $date = new DateTime('now', $timezone);
-        $dateFormat = $date->format('Y-m-d');
         $result = self::where('token_input', $token)
-            ->whereIn('date_event', [$dateFormat,])
             ->where('verificated', false)
             ->with('user')
             ->with('event')
             ->get()
             ->toArray();
 
-        if ($result) {
-            self::where('id', $result[0]['id'])
-                ->update([
-                    "verificated" => true
-                ]);
-            return $result;
-        }
-        return [];
+        return $result;
     }
 
+    public function validVerificated(int $id): bool
+    {
+        return self::where('id', $id)
+            ->update([
+                'verificated' => true
+            ]);
+    }
 
     public function updateSell($request, int $id): bool
     {

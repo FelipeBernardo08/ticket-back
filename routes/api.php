@@ -58,10 +58,11 @@ Route::middleware('jwt.auth')->group(function () {
     //sell
     Route::get('read-sells-token/{token}', [SellController::class, 'readSellsToken']);
     Route::get('read-sells', [SellController::class, 'readSells']);
-    Route::get('read-sells-user-ticket', [SellController::class, 'readSellsWithUserAndTicket']);
+    Route::get('read-sells-user-ticket/{date}', [SellController::class, 'readSellsWithUserAndTicket']);
     Route::get('read-sell/{id}', [SellController::class, 'readSellId']);
     Route::post('create-sell', [SellController::class, 'createSell']);
     Route::put('update-sell/{id}', [SellController::class, 'updateSell']);
+    Route::put('update-validate-ticket/{id}', [SellController::class, 'validVerificated']);
 
     //ticket
     Route::post('create-ticket', [TicketController::class, 'createTicket']);
