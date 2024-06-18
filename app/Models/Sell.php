@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\AuthController;
 use DateTime;
+use DateTimeZone;
 
 class Sell extends Model
 {
@@ -41,7 +42,7 @@ class Sell extends Model
     {
         return self::with('event')
             ->with('user')
-            ->orderBy('id_event')
+            ->orderBy('date_event', 'asc')
             ->get()
             ->toArray();
     }
@@ -69,12 +70,14 @@ class Sell extends Model
 
     public function readSellsToken($token): array
     {
-        $date = new DateTime();
+        $timezone = new DateTimeZone('America/Sao_Paulo');
+        $date = new DateTime('now', $timezone);
         $dateFormat = $date->format('Y-m-d');
         $result = self::where('token_input', $token)
-            ->where('date_event', $dateFormat)
+            ->whereIn('date_event', [$dateFormat,])
             ->where('verificated', false)
             ->with('user')
+            ->with('event')
             ->get()
             ->toArray();
 

@@ -47,11 +47,16 @@ class SellController extends Controller
 
     public function readSellsToken(string $token): object
     {
-        $result = $this->sell->readSellsToken($token);
-        if (count($result) == 0) {
-            return response()->json(['error' => 'Acesso negado!'], 404);
+        $auth = $this->authController->me();
+        if ($auth->id_permission != 1) {
+            $result = $this->sell->readSellsToken($token);
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Acesso negado!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            $this->acessoNegado();
         }
-        return $this->resultOk($result);
     }
 
     public function createSell(Request $request): object
