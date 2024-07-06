@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->boolean('status')->default(false);
             $table->string('date');
             $table->string('hour');
+            $table->string('local');
             $table->text('description')->nullable();
             $table->softDeletes()->nullable();
             $table->timestamps();
