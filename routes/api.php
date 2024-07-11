@@ -79,6 +79,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::delete('delete-img-event/{id}', [ImageEventController::class, 'deleteImgEvent']);
 
     //imgTicket
+    Route::get('read-tickets-events', [TicketController::class, 'readTikectsWithEvent']);
     Route::post('create-img-ticket', [ImageTicketController::class, 'createImgTicket']);
     Route::delete('delete-img-ticket/{id}', [ImageTicketController::class, 'deleteImgTicket']);
 
@@ -101,5 +102,5 @@ Route::post('login', [AuthController::class, 'login']);
 //user
 Route::post('create-user', [UserController::class, 'createUser']);
 
-//ticket
-Route::get('read-tickets-events', [TicketController::class, 'readTikectsWithEvent']);
+//event
+Route::get('events-complete', [EventController::class, 'readEventsComplete']);
