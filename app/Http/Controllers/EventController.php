@@ -27,6 +27,16 @@ class EventController extends Controller
         return $this->resultOk($result);
     }
 
+    public function readEventsComplete(): object
+    {
+        $response = $this->event->readEventsComplete();
+        if (count($response) == 0) {
+            return response()->json(['error' => 'Registro não encontrado'], 404);
+        } else {
+            return $this->resultOk($response);
+        }
+    }
+
     public function readEventsDate(string $data): object
     {
         $auth = $this->authController->me();

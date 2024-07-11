@@ -57,6 +57,20 @@ class Event extends Model
             ->toArray();
     }
 
+
+    public function readEventsComplete(): array
+    {
+        date_default_timezone_set('America/Sao_Paulo');
+        $date = new DateTime();
+        $dateString = $date->format('Y-m-d');
+        return self::where('date', '>=', $dateString)
+            ->with('show')
+            ->with('show.atraction')
+            ->with('ticket')
+            ->get()
+            ->toArray();
+    }
+
     public function readEventsWithSells(): array
     {
         return self::with('sell')
