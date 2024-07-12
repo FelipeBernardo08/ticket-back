@@ -74,6 +74,19 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Permission::class, 'id_permission');
     }
 
+    public function createClient($request): array
+    {
+        return self::create([
+            'email' => $request->email,
+            'name' => $request->name,
+            'date_born' => $request->date_born,
+            'cpf' => $request->cpf,
+            'fone' => $request->fone,
+            'id_permission' => 1,
+            'password' => bcrypt($request->password)
+        ])->toArray();
+    }
+
     public function createUser($request): array
     {
         return self::create([

@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 
+use function Ramsey\Uuid\v1;
+
 class UserController extends Controller
 {
     public $user;
@@ -15,6 +17,16 @@ class UserController extends Controller
     {
         $this->authController = $auth;
         $this->user = $users;
+    }
+
+    public function createClient(Request $request): object
+    {
+        $response = $this->user->createClient($request);
+        if (count($response) == 0) {
+            return response()->json(['error' => 'Registro não pode ser criado!'], 404);
+        } else {
+            return $this->resultOk($response);
+        }
     }
 
     public function createUser(Request $request): object
