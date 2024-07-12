@@ -67,6 +67,7 @@ class Event extends Model
             ->with('show')
             ->with('show.atraction')
             ->with('ticket')
+            ->with('img')
             ->get()
             ->toArray();
     }

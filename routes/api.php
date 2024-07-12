@@ -94,13 +94,14 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-user/{id}', [UserController::class, 'readUserId']);
     Route::put('update-user/{id}', [UserController::class, 'updateUser']);
     Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
+    Route::post('create-user', [UserController::class, 'createUser']);
 });
 
 //login
 Route::post('login', [AuthController::class, 'login']);
 
 //user
-Route::post('create-user', [UserController::class, 'createUser']);
+Route::post('create-client', [UserController::class, 'createClient']);
 
 //event
 Route::get('events-complete', [EventController::class, 'readEventsComplete']);
