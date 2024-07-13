@@ -20,6 +20,11 @@ class CreateEventsTable extends Migration
             $table->string('date');
             $table->string('hour');
             $table->string('local');
+            $table->string('end_rua');
+            $table->string('end_num');
+            $table->string('end_bairro');
+            $table->string('end_cidade');
+            $table->string('end_estado');
             $table->text('description')->nullable();
             $table->softDeletes()->nullable();
             $table->timestamps();

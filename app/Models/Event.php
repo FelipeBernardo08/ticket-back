@@ -17,6 +17,11 @@ class Event extends Model
         "date",
         "hour",
         "local",
+        "end_rua",
+        "end_num",
+        "end_bairro",
+        "end_cidade",
+        "end_estado",
         "status",
         "description"
     ];
