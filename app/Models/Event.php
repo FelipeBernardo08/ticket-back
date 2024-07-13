@@ -92,7 +92,11 @@ class Event extends Model
 
     public function showEventId(int $id): array
     {
+        date_default_timezone_set('America/Sao_Paulo');
+        $date = new DateTime();
+        $dateString = $date->format('Y-m-d');
         return self::where('id', $id)
+            ->where('date', '>=', $dateString)
             ->with('show')
             ->with('show.atraction')
             ->with('ticket')
