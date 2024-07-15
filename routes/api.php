@@ -48,7 +48,6 @@ Route::middleware('jwt.auth')->group(function () {
 
     //event
     Route::get('read-events', [EventController::class, 'readEvents']);
-    Route::get('read-event/{id}', [EventController::class, 'showEventId']);
     Route::get('read-event-date/{data}', [EventController::class, 'readEventsDate']);
     Route::post('create-event', [EventController::class, 'createEvents']);
     Route::put('update-event/{id}', [EventController::class, 'updateEvent']);
@@ -105,3 +104,4 @@ Route::post('create-client', [UserController::class, 'createClient']);
 
 //event
 Route::get('events-complete', [EventController::class, 'readEventsComplete']);
+Route::get('read-event/{id}', [EventController::class, 'showEventId']);
