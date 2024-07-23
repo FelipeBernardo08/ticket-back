@@ -92,6 +92,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-users', [UserController::class, 'readUsers']);
     Route::get('read-user/{id}', [UserController::class, 'readUserId']);
     Route::put('update-user/{id}', [UserController::class, 'updateUser']);
+    Route::patch('update-self', [UserController::class, 'updateSelf']);
     Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
     Route::post('create-user', [UserController::class, 'createUser']);
 });

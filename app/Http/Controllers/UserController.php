@@ -74,7 +74,7 @@ class UserController extends Controller
     public function updateUser(int $id, Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth->id_permission == 2) {
             $result = $this->user->updateUser($id, $request);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser atualiado!'], 404);
@@ -83,6 +83,14 @@ class UserController extends Controller
         } else {
             return $this->acessoNegado();
         }
+    }
+
+    public function updateSelf(Request $request): object
+    {
+        $auth = $this->authController->me();
+        $id = $auth->id;
+        $result = $this->user->updateUserSelf($id, $request);
+        return $this->resultOk($result);
     }
 
     public function deleteUser(int $id): object
