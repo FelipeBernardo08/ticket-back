@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AtractionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CardPaymentsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageEventController;
@@ -95,6 +96,10 @@ Route::middleware('jwt.auth')->group(function () {
     Route::patch('update-self', [UserController::class, 'updateSelf']);
     Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
     Route::post('create-user', [UserController::class, 'createUser']);
+
+    //cardPayment
+    Route::post('create-card-payment', [CardPaymentsController::class, 'createCardPayment']);
+    Route::put('update-card-payment/${id}', [CardPaymentsController::class, 'updateCardPayment']);
 });
 
 //login
