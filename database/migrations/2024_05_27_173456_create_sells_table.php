@@ -17,7 +17,7 @@ class CreateSellsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_event');
-            $table->text('token_input', 191)->unique();
+            $table->string('token_input', 255)->unique();
             $table->float('total_price');
             $table->boolean('verificated');
             $table->string('name_ticket');
