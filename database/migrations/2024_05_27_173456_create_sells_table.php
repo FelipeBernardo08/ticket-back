@@ -22,8 +22,10 @@ class CreateSellsTable extends Migration
             $table->boolean('verificated');
             $table->string('name_ticket');
             $table->string('date_event');
+            $table->unsignedBigInteger('id_card_payment');
             $table->foreign('id_user')->references('id')->on('users');
             $table->foreign('id_event')->references('id')->on('events');
+            $table->foreign('id_card_payment')->references('id')->on('card_payments');
             $table->timestamps();
         });
     }
