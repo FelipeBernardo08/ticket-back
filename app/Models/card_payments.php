@@ -27,10 +27,11 @@ class card_payments extends Model
 
     public function updateCardPayment($request, $auth, int $id): bool
     {
+        $data = $request->data;
         return self::where('id', $id)
             ->where('id_user', $auth->id)
             ->update([
-                'status' => $request->data->status
+                'status' => $data->status
             ]);
     }
 
