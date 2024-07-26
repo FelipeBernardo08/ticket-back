@@ -48,6 +48,7 @@ class card_payments extends Model
     {
         return self::where('id', $id)
             ->where('id_user', $id_user)
+            ->where('status', '!=', 'approved')
             ->delete();
     }
 }
