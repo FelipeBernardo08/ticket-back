@@ -100,6 +100,7 @@ Route::middleware('jwt.auth')->group(function () {
     //cardPayment
     Route::post('create-card-payment', [CardPaymentsController::class, 'createCardPayment']);
     Route::post('update-card-payment/{id}', [CardPaymentsController::class, 'updateCardPayment']);
+    Route::post('update-url-payment/{id}', [CardPaymentsController::class, 'updateLinkPayment']);
     Route::get('get-card-payment', [CardPaymentsController::class, 'getCardsPayment']);
     Route::delete('del-card-payment/{id}', [CardPaymentsController::class, 'deleteCardPayment']);
 });

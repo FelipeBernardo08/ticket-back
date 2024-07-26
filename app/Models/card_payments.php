@@ -13,7 +13,8 @@ class card_payments extends Model
         "id_user",
         "items",
         "status",
-        "date_create"
+        "date_create",
+        "url_payment"
     ];
 
     public function createCardPayment($card, $auth): object
@@ -27,11 +28,19 @@ class card_payments extends Model
 
     public function updateCardPayment($request, $auth, int $id): bool
     {
-        $data = $request->data;
         return self::where('id', $id)
             ->where('id_user', $auth->id)
             ->update([
-                'status' => $data->status
+                'status' => $request->status
+            ]);
+    }
+
+    public function updateLinkPayment($request, $auth, $id): bool
+    {
+        return self::where('id', $id)
+            ->where('id_user', $auth->id)
+            ->update([
+                'url_payment' => $request->url_payment
             ]);
     }
 

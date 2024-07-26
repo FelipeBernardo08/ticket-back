@@ -20,7 +20,8 @@ class Sell extends Model
         "total_price",
         "name_ticket",
         "verificated",
-        "created_for"
+        "created_for",
+        "id_card_payment"
     ];
 
     public function user()

@@ -62,6 +62,20 @@ class CardPaymentsController extends Controller
         }
     }
 
+    public function updateLinkPayment(Request $request, int $id): object
+    {
+        $auth = $this->authController->me();
+        if ($auth->id_permission != 0) {
+            $response = $this->cardPay->updateLinkPayment($request, $auth, $id);
+            if ($response) {
+                return response()->json($response, 200);
+            }
+            return response()->json(['erro' => 'Dados não puderam ser cadastrados.'], 404);
+        } else {
+            return response()->json(['msg' => 'Não autorizado!'], 401);
+        }
+    }
+
 
     public function updateCardPayment(Request $request, int $id): object
     {
