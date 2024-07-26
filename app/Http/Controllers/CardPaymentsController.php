@@ -32,6 +32,21 @@ class CardPaymentsController extends Controller
         }
     }
 
+    public function getCardsPayment(): object
+    {
+        $auth = $this->authController->me();
+        if ($auth->id_permission != 0) {
+            $id = $auth->id;
+            $response = $this->cardPay->getCardsPayment($id);
+            if ($response) {
+                return response()->json($response, 200);
+            }
+            return response()->json(['erro' => 'Dados não encontrados.'], 404);
+        } else {
+            return response()->json(['msg' => 'Não autorizado!'], 401);
+        }
+    }
+
 
     public function updateCardPayment(Request $request, int $id): object
     {

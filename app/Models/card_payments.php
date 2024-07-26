@@ -25,13 +25,21 @@ class card_payments extends Model
         ]);
     }
 
-    public function updateCardPayment($request, $auth, int $id)
+    public function updateCardPayment($request, $auth, int $id): array
     {
         return self::where('id', $id)
             ->where('id_user', $auth->id)
             ->update([
                 'status' => 'aprroved'
             ])
+            ->get()
+            ->toArray();
+    }
+
+
+    public function getCardsPayment(int $id): array
+    {
+        return self::where('id_user', $id)
             ->get()
             ->toArray();
     }
