@@ -30,7 +30,7 @@ class card_payments extends Model
         return self::where('id', $id)
             ->where('id_user', $auth->id)
             ->update([
-                'status' => 'aprroved'
+                'status' => $request->data->status
             ]);
     }
 
