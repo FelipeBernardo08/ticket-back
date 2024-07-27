@@ -19,6 +19,7 @@ class CreateCardPaymentsTable extends Migration
             $table->text('items');
             $table->string('status')->default('pending');
             $table->string('date_create');
+            $table->string('event');
             $table->string('url_payment')->unique()->nullable();
             $table->timestamps();
 

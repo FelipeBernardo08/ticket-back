@@ -14,7 +14,8 @@ class card_payments extends Model
         "items",
         "status",
         "date_create",
-        "url_payment"
+        "url_payment",
+        "event"
     ];
 
     public function createCardPayment($card, $auth): object
