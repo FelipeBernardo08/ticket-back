@@ -23,7 +23,8 @@ class card_payments extends Model
         return self::create([
             'id_user' => $auth->id,
             'items' => $card->items,
-            'date_create' => $card->date_create
+            'date_create' => $card->date_create,
+            "event" => $card->event
         ]);
     }
 
