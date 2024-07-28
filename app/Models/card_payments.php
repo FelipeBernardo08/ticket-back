@@ -15,6 +15,7 @@ class card_payments extends Model
         "status",
         "date_create",
         "url_payment",
+        "url_image",
         "event"
     ];
 
@@ -24,7 +25,8 @@ class card_payments extends Model
             'id_user' => $auth->id,
             'items' => $card->items,
             'date_create' => $card->date_create,
-            "event" => $card->event
+            "event" => $card->event,
+            "url_image" => $card->url_image
         ]);
     }
 
