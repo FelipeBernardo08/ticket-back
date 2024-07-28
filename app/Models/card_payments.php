@@ -16,6 +16,7 @@ class card_payments extends Model
         "date_create",
         "url_payment",
         "url_image",
+        "total_value",
         "event"
     ];
 
@@ -26,7 +27,8 @@ class card_payments extends Model
             'items' => $card->items,
             'date_create' => $card->date_create,
             "event" => $card->event,
-            "url_image" => $card->url_image
+            "url_image" => $card->url_image,
+            "total_value" => $card->total_value
         ]);
     }
 
