@@ -61,7 +61,6 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-sells-user-ticket/{date}', [SellController::class, 'readSellsWithUserAndTicket']);
     Route::get('read-sell/{id}', [SellController::class, 'readSellId']);
     Route::post('create-sell', [SellController::class, 'createSell']);
-    Route::put('update-sell/{id}', [SellController::class, 'updateSell']);
     Route::put('update-validate-ticket/{id}', [SellController::class, 'validVerificated']);
 
     //ticket

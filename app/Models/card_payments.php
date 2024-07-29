@@ -11,9 +11,11 @@ class card_payments extends Model
 
     public $fillable = [
         "id_user",
+        "id_event",
         "items",
         "status",
         "date_create",
+        "date_event",
         "url_payment",
         "url_image",
         "total_value",
@@ -28,17 +30,28 @@ class card_payments extends Model
             'date_create' => $card->date_create,
             "event" => $card->event,
             "url_image" => $card->url_image,
-            "total_value" => $card->total_value
+            "total_value" => $card->total_value,
+            "id_event" => $card->id_event,
+            "date_event" => $card->date_event
         ]);
     }
 
-    public function updateCardPayment($request, $auth, int $id): bool
+    public function updateCardPayment($request, $auth, int $id): array
     {
-        return self::where('id', $id)
+        $response = self::where('id', $id)
             ->where('id_user', $auth->id)
             ->update([
                 'status' => $request->status
             ]);
+
+        if ($response == true) {
+            return self::where('id', $id)
+                ->where('id_user', $auth->id)
+                ->get()
+                ->toArray();
+        } else {
+            return [];
+        }
     }
 
     public function updateLinkPayment($request, $auth, $id): bool

@@ -58,7 +58,6 @@ class Sell extends Model
             "total_price" => $request->total_price,
             "name_ticket" => $request->name_ticket,
             "date_event" => $request->date_event,
-            "verificated" => $request->verificated
         ])->toArray();
     }
 
@@ -89,11 +88,5 @@ class Sell extends Model
             ->update([
                 'verificated' => true
             ]);
-    }
-
-    public function updateSell($request, int $id): bool
-    {
-        return self::where('id', $id)
-            ->update($request->all());
     }
 }

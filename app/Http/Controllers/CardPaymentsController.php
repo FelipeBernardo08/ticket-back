@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\card_payments;
+use App\Models\Sell;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 
@@ -11,11 +12,13 @@ class CardPaymentsController extends Controller
 {
     private $cardPay;
     private $authController;
+    private $sell;
 
-    public function __construct(AuthController $auth, card_payments $cardPayments)
+    public function __construct(AuthController $auth, card_payments $cardPayments, Sell $sells)
     {
         $this->cardPay = $cardPayments;
         $this->authController = $auth;
+        $this->sell = $sells;
     }
 
     public function createCardPayment(Request $request): object
@@ -82,8 +85,18 @@ class CardPaymentsController extends Controller
         $auth = $this->authController->me();
         if ($auth->id_permission != 0) {
             $response = $this->cardPay->updateCardPayment($request, $auth, $id);
-            if ($response) {
-                return response()->json($response, 200);
+            if (count($response) != 0) {
+                $token = ''; //gerar token de acesso "qrcode"
+                $item = ''; //transformar o "items" da request, que é uma string, em um array de objetos
+                $payload = ([
+                    "id_user" => $response[0]->id_user,
+                    "id_event" => $response[0]->id_event,
+                    "token_input" => $token,
+                    "total_price" => $item,
+                    "name_ticket" => $item,
+                    "date_event" => $response[0]->date_event,
+                ]);
+                return response()->json($this->sell->createSell($payload), 200);
             }
             return response()->json(['erro' => 'Dados não puderam ser cadastrados.'], 404);
         } else {

@@ -16,9 +16,11 @@ class CreateCardPaymentsTable extends Migration
         Schema::create('card_payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_event');
             $table->text('items');
             $table->string('status')->default('pending');
             $table->string('date_create');
+            $table->string('date_event');
             $table->string('event');
             $table->text('url_image');
             $table->integer('total_value');
@@ -26,6 +28,7 @@ class CreateCardPaymentsTable extends Migration
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_event')->references('id')->on('events');
         });
     }
 

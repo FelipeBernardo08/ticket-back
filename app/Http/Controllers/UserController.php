@@ -32,7 +32,7 @@ class UserController extends Controller
     public function createUser(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth->id_permission == 2) {
             $result = $this->user->createUser($request);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não pode ser criado!'], 404);
