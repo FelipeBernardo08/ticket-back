@@ -89,22 +89,27 @@ class CardPaymentsController extends Controller
             $response = $this->cardPay->updateCardPayment($request, $auth, $id);
             if (count($response) != 0) {
                 $token = Str::random(30);
-                $item = json_decode($response[0]->items);
-                $payload = ([
-                    "id_user" => $response[0]->id_user,
-                    "id_event" => $response[0]->id_event,
-                    "token_input" => $token,
-                    "total_price" => $item[0]->unit_price,
-                    "name_ticket" => $item[0]->title,
-                    "date_event" => $response[0]->date_event,
-                ]);
-                $responseSell = $this->sell->createSell($payload);
-                if (count($responseSell) == 0) {
-                    $payload[0]->token_input = Str::random(30);
+                $item = json_decode($response[0]['items'], true);
+                $responseSell = '';
+                foreach ($item as $items) {
+                    $payload = ([
+                        "id_user" => $response[0]['id_user'],
+                        "id_event" => $response[0]['id_event'],
+                        "token_input" => $token,
+                        "total_price" =>  $items['price'],
+                        "name_ticket" => $items['name'],
+                        "date_event" => $response[0]['date_event'],
+                        "id_card_payment" => $response[0]['id']
+                    ]);
                     $responseSell = $this->sell->createSell($payload);
-                } else {
-                    return response()->json($responseSell, 200);
                 }
+                return response()->json($responseSell, 200);
+                // if (count($responseSell) == 0) {
+                //     $payload[0]->token_input = Str::random(30);
+                //     $responseSell = $this->sell->createSell($payload);
+                // } else {
+                //     return response()->json($responseSell, 200);
+                // }
             }
             return response()->json(['erro' => 'Dados não puderam ser cadastrados.'], 404);
         } else {
@@ -112,11 +117,13 @@ class CardPaymentsController extends Controller
         }
     }
 
-    // public function generate(string $token)
-    // {
-    //     $qrCode = new QrCode($token);
-    //     $writer = new PngWriter();
-    //     $result = $writer->write($qrCode);
-    //     return $result->getString();
-    // }
+    public function generateQrCode(string $token)
+    {
+        $qrCode = new QrCode($token);
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+        // return $result->getString();
+        return response($result->getString(), 200)
+            ->header('Content-Type', 'image/png');
+    }
 }
