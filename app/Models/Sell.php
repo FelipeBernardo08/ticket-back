@@ -51,14 +51,21 @@ class Sell extends Model
 
     public function createSell($request): array
     {
-        return self::create([
-            "id_user" => $request->id_user,
-            "id_event" => $request->id_event,
-            "token_input" => $request->token_input,
-            "total_price" => $request->total_price,
-            "name_ticket" => $request->name_ticket,
-            "date_event" => $request->date_event,
-        ])->toArray();
+        $result = self::where('token_input', $request->token_input)
+            ->get()
+            ->toArray();
+        if (count($result) == 0) {
+            return self::create([
+                "id_user" => $request->id_user,
+                "id_event" => $request->id_event,
+                "token_input" => $request->token_input,
+                "total_price" => $request->total_price,
+                "name_ticket" => $request->name_ticket,
+                "date_event" => $request->date_event,
+            ])->toArray();
+        } else {
+            return [];
+        }
     }
 
     public function readSellId(int $id): array

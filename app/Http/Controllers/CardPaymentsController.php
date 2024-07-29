@@ -6,7 +6,9 @@ use App\Models\card_payments;
 use App\Models\Sell;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
-
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Illuminate\Support\Str;
 
 class CardPaymentsController extends Controller
 {
@@ -86,7 +88,7 @@ class CardPaymentsController extends Controller
         if ($auth->id_permission != 0) {
             $response = $this->cardPay->updateCardPayment($request, $auth, $id);
             if (count($response) != 0) {
-                $token = '123456';
+                $token = Str::random(30);
                 $item = json_decode($response[0]->items);
                 $payload = ([
                     "id_user" => $response[0]->id_user,
@@ -96,11 +98,25 @@ class CardPaymentsController extends Controller
                     "name_ticket" => $item[0]->title,
                     "date_event" => $response[0]->date_event,
                 ]);
-                return response()->json($this->sell->createSell($payload), 200);
+                $responseSell = $this->sell->createSell($payload);
+                if (count($responseSell) == 0) {
+                    $payload[0]->token_input = Str::random(30);
+                    $responseSell = $this->sell->createSell($payload);
+                } else {
+                    return response()->json($responseSell, 200);
+                }
             }
             return response()->json(['erro' => 'Dados não puderam ser cadastrados.'], 404);
         } else {
             return response()->json(['msg' => 'Não autorizado!'], 401);
         }
     }
+
+    // public function generate(string $token)
+    // {
+    //     $qrCode = new QrCode($token);
+    //     $writer = new PngWriter();
+    //     $result = $writer->write($qrCode);
+    //     return $result->getString();
+    // }
 }
