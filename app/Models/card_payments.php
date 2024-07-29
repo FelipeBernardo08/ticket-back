@@ -23,6 +23,11 @@ class card_payments extends Model
         "event"
     ];
 
+    public function tickets()
+    {
+        return $this->hasMany(Sell::class, 'id_card_payment');
+    }
+
     public function createCardPayment($card, $auth): object
     {
         return self::create([
@@ -72,6 +77,7 @@ class card_payments extends Model
         $dateString = $date->format('Y-m-d');
         return self::where('id_user', $id)
             ->where('date_event', '>=', $dateString)
+            ->with('tickets')
             ->get()
             ->toArray();
     }

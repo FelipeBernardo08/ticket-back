@@ -104,12 +104,6 @@ class CardPaymentsController extends Controller
                     $responseSell = $this->sell->createSell($payload);
                 }
                 return response()->json($responseSell, 200);
-                // if (count($responseSell) == 0) {
-                //     $payload[0]->token_input = Str::random(30);
-                //     $responseSell = $this->sell->createSell($payload);
-                // } else {
-                //     return response()->json($responseSell, 200);
-                // }
             }
             return response()->json(['erro' => 'Dados não puderam ser cadastrados.'], 404);
         } else {
@@ -122,7 +116,6 @@ class CardPaymentsController extends Controller
         $qrCode = new QrCode($token);
         $writer = new PngWriter();
         $result = $writer->write($qrCode);
-        // return $result->getString();
         return response($result->getString(), 200)
             ->header('Content-Type', 'image/png');
     }
