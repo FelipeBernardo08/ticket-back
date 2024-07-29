@@ -86,14 +86,14 @@ class CardPaymentsController extends Controller
         if ($auth->id_permission != 0) {
             $response = $this->cardPay->updateCardPayment($request, $auth, $id);
             if (count($response) != 0) {
-                $token = ''; //gerar token de acesso "qrcode"
-                $item = ''; //transformar o "items" da request, que é uma string, em um array de objetos
+                $token = '123456';
+                $item = json_decode($response[0]->items);
                 $payload = ([
                     "id_user" => $response[0]->id_user,
                     "id_event" => $response[0]->id_event,
                     "token_input" => $token,
-                    "total_price" => $item,
-                    "name_ticket" => $item,
+                    "total_price" => $item[0]->unit_price,
+                    "name_ticket" => $item[0]->title,
                     "date_event" => $response[0]->date_event,
                 ]);
                 return response()->json($this->sell->createSell($payload), 200);

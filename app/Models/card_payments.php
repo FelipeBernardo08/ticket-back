@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class card_payments extends Model
 {
@@ -66,7 +67,11 @@ class card_payments extends Model
 
     public function getCardsPayment(int $id): array
     {
+        date_default_timezone_set('America/Sao_Paulo');
+        $date = new DateTime();
+        $dateString = $date->format('Y-m-d');
         return self::where('id_user', $id)
+            ->where('date_event', '>=', $dateString)
             ->get()
             ->toArray();
     }
