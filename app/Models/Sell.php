@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\AuthController;
 use DateTime;
 use DateTimeZone;
+use Illuminate\Support\Str;
+
 
 class Sell extends Model
 {
@@ -51,6 +53,11 @@ class Sell extends Model
 
     public function createSell($request): array
     {
+        do {
+            $request['token_input'] = Str::random(30);
+            $result = self::where('token_input', $request['token_input'])->get();
+        } while ($result->count() > 0);
+
         return self::create([
             "id_user" => $request['id_user'],
             "id_event" => $request['id_event'],

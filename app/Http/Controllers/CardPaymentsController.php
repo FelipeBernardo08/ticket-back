@@ -88,14 +88,13 @@ class CardPaymentsController extends Controller
         if ($auth->id_permission != 0) {
             $response = $this->cardPay->updateCardPayment($request, $auth, $id);
             if (count($response) != 0) {
-                $token = Str::random(30);
                 $item = json_decode($response[0]['items'], true);
                 $responseSell = '';
                 foreach ($item as $items) {
                     $payload = ([
                         "id_user" => $response[0]['id_user'],
                         "id_event" => $response[0]['id_event'],
-                        "token_input" => $token,
+                        "token_input" => Str::random(30),
                         "total_price" =>  $items['price'],
                         "name_ticket" => $items['name'],
                         "date_event" => $response[0]['date_event'],
