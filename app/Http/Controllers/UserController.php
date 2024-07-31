@@ -96,10 +96,25 @@ class UserController extends Controller
     public function deleteUser(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth->id_permission == 2) {
             $result = $this->user->deleteUser($id);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser deletado!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
+
+    public function updatePassword(Request $request): object
+    {
+        $auth = $this->authController->me();
+        if ($auth->id_permission != 0) {
+            $result = $this->user->updatePassword($auth, $request);
+            if (!$result) {
+                return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
             }
             return $this->resultOk($result);
         } else {

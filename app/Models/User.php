@@ -148,6 +148,14 @@ class User extends Authenticatable implements JWTSubject
             ->delete();
     }
 
+    public function updatePassword($auth, $request): bool
+    {
+        return self::where('id', $auth->id)
+            ->update([
+                "password" => bcrypt($request->newPassword)
+            ]);
+    }
+
     public function userWithPermission(int $id): array
     {
         return self::where('id', $id)

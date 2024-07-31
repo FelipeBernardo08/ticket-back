@@ -81,12 +81,4 @@ class card_payments extends Model
             ->get()
             ->toArray();
     }
-
-    public function deleteCardPayment(int $id_user, int $id): bool
-    {
-        return self::where('id', $id)
-            ->where('id_user', $id_user)
-            ->where('status', '!=', 'approved')
-            ->delete();
-    }
 }

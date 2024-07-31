@@ -95,13 +95,13 @@ Route::middleware('jwt.auth')->group(function () {
     Route::patch('update-self', [UserController::class, 'updateSelf']);
     Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
     Route::post('create-user', [UserController::class, 'createUser']);
+    Route::patch('update-pass', [UserController::class, 'updatePassword']);
 
     //cardPayment
     Route::post('create-card-payment', [CardPaymentsController::class, 'createCardPayment']);
     Route::post('update-card-payment/{id}', [CardPaymentsController::class, 'updateCardPayment']);
     Route::put('update-url-payment/{id}', [CardPaymentsController::class, 'updateLinkPayment']);
     Route::get('get-card-payment', [CardPaymentsController::class, 'getCardsPayment']);
-    Route::delete('del-card-payment/{id}', [CardPaymentsController::class, 'deleteCardPayment']);
     Route::get('get-qr-code/{token}', [CardPaymentsController::class, 'generateQrCode']);
 });
 
