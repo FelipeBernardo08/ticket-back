@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'email' => 'adm@gmail.com',
+            'email' => 'bernardodev0809@gmail.com',
             'name' => 'adm',
-            'fone' => '000000',
-            'cpf' => '000000',
+            'fone' => '17991020668',
+            'cpf' => '55.599.829/0001-44',
             'date_born' => '2024-09-08',
             'id_permission' => 2,
             'password' => bcrypt('adm123')
