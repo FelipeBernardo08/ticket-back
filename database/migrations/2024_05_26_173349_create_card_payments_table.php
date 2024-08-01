@@ -23,7 +23,7 @@ class CreateCardPaymentsTable extends Migration
             $table->string('date_event');
             $table->string('event');
             $table->text('url_image');
-            $table->integer('total_value');
+            $table->float('total_value');
             $table->string('url_payment')->unique()->nullable();
             $table->timestamps();
 
