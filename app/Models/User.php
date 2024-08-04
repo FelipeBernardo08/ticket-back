@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\ProfileClient;
+use App\Models\ProfileAdm;
+use App\Models\ProfileProductor;
+use App\Models\ProfileEmployee;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -19,12 +23,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name',
-        'fone',
-        'cpf',
         'auth',
         'email',
-        'date_born',
         'id_permission',
         'password'
     ];
@@ -70,9 +70,62 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function client()
+    {
+        return $this->hasMany(ProfileClient::class, 'id_user');
+    }
+
+    public function Adm()
+    {
+        return $this->hasMany(ProfileAdm::class, 'id_user');
+    }
+
+    public function productor()
+    {
+        return $this->hasMany(ProfileProductor::class, 'id_user');
+    }
+
+    public function employee()
+    {
+        return $this->hasMany(ProfileEmployee::class, 'id_user');
+    }
+
     public function permission(): Object
     {
         return $this->belongsTo(Permission::class, 'id_permission');
+    }
+
+
+    public function returnWithClient($user): array
+    {
+        return self::where('id', $user->id)
+            ->with('client')
+            ->get()
+            ->toArray();
+    }
+
+    public function returnWithAdm($user): array
+    {
+        return self::where('id', $user->id)
+            ->with('Adm')
+            ->get()
+            ->toArray();
+    }
+
+    public function returnWithProdutctor($user): array
+    {
+        return self::where('id', $user->id)
+            ->with('productor')
+            ->get()
+            ->toArray();
+    }
+
+    public function returnWithEmployee($user): array
+    {
+        return self::where('id', $user->id)
+            ->with('employee')
+            ->get()
+            ->toArray();
     }
 
     public function createClient($request): array
