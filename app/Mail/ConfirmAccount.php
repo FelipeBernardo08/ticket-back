@@ -3,10 +3,11 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EMail extends Mailable
+class ConfirmAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -24,7 +25,6 @@ class EMail extends Mailable
         $this->data = $data;
         $this->subject = $subj;
     }
-
     /**
      * Execute a construção da mensagem.
      *
@@ -32,7 +32,7 @@ class EMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.EMail')
+        return $this->view('emails.confirmarEmail')
             ->with(['data' => $this->data]);
     }
 }

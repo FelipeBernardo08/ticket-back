@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>E-mail</title>
+    <title>Recuperação de Senha</title>
 </head>
 
 <body>
@@ -14,10 +14,6 @@
     @endif
 
     <p>Atenciosamente,<br>Banca Eventos</p>
-
-    <a href="{{ url('http://localhost:8000/api/confirm-account/bernardodev0809@gmail.com') }}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">
-        Confirmar Cadastro
-    </a>
 </body>
 
 </html>

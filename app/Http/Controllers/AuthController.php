@@ -18,13 +18,16 @@ class AuthController extends Controller
 
     public function login(Request $request): Object
     {
-        $credentials = $request->only('email', 'password');
-
-        if (!$token = Auth::guard('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Credenciais incorretas!'], 403);
+        $response = $this->user->login($request->only('email'));
+        if (count($response) != 0) {
+            $credentials = $request->only('email', 'password');
+            if (!$token = Auth::guard('api')->attempt($credentials)) {
+                return response()->json(['error' => 'Credenciais incorretas!'], 403);
+            }
+            return response()->json(['token' => $token], 200);
+        } else {
+            return response()->json(['msg' => 'Ative sua cota no e-mail cadastrado!'], 401);
         }
-
-        return response()->json(['token' => $token], 200);
     }
 
     public function logout(): object

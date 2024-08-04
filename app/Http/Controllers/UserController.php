@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EMail;
+use App\Mail\ConfirmAccount;
 use Illuminate\Support\Str;
 
 
@@ -29,6 +30,9 @@ class UserController extends Controller
         if (count($response) == 0) {
             return response()->json(['error' => 'Registro não pode ser criado!'], 404);
         } else {
+            $url = 'http://127.0.0.1:8000/api/confirm-account/' . $response['email']; //dev
+            // $url = 'https://back.bancaevento.com.br:8080/api/confirm-account/' . $response['email']; //prod
+            Mail::to($response['email'])->send(new ConfirmAccount($url, 'Confirmar Conta'));
             return $this->resultOk($response);
         }
     }
@@ -36,7 +40,7 @@ class UserController extends Controller
     public function createUser(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2) {
+        if ($auth['id_permission'] == 2) {
             $result = $this->user->createUser($request);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não pode ser criado!'], 404);
@@ -50,7 +54,7 @@ class UserController extends Controller
     public function readUsers(): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth['id_permission'] == 2 || $auth['id_permission'] == 3) {
             $result = $this->user->readUsers();
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros não encontrados!'], 404);
@@ -64,7 +68,7 @@ class UserController extends Controller
     public function readUserId(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth['id_permission'] == 2 || $auth['id_permission'] == 3) {
             $result = $this->user->readUserId($id);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não encontrado!'], 404);
@@ -78,7 +82,7 @@ class UserController extends Controller
     public function updateUser(int $id, Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2) {
+        if ($auth['id_permission'] == 2) {
             $result = $this->user->updateUser($id, $request);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser atualiado!'], 404);
@@ -89,18 +93,14 @@ class UserController extends Controller
         }
     }
 
-    public function updateSelf(Request $request): object
+    public function updateSelf(Request $request)
     {
-        $auth = $this->authController->me();
-        $id = $auth->id;
-        $result = $this->user->updateUserSelf($id, $request);
-        return $this->resultOk($result);
     }
 
     public function deleteUser(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2) {
+        if ($auth['id_permission'] == 2) {
             $result = $this->user->deleteUser($id);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser deletado!'], 404);
@@ -115,7 +115,7 @@ class UserController extends Controller
     public function updatePassword(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission != 0) {
+        if ($auth['id_permission'] != 0) {
             $result = $this->user->updatePassword($auth, $request);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);

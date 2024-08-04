@@ -95,6 +95,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Permission::class, 'id_permission');
     }
 
+    public function login($email): array
+    {
+        return self::where('email', $email)
+            ->where('auth', 'approved')
+            ->get()
+            ->toArray();
+    }
 
     public function returnWithClient($user): array
     {
@@ -132,10 +139,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::create([
             'email' => $request->email,
-            'name' => $request->name,
-            'date_born' => $request->date_born,
-            'cpf' => $request->cpf,
-            'fone' => $request->fone,
             'id_permission' => 1,
             'password' => bcrypt($request->password)
         ])->toArray();
@@ -145,10 +148,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::create([
             'email' => $request->email,
-            'name' => $request->name,
-            'date_born' => $request->date_born,
-            'cpf' => $request->cpf,
-            'fone' => $request->fone,
             'id_permission' => $request->id_permission,
             'password' => bcrypt($request->password)
         ])->toArray();
@@ -173,28 +172,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::where('id', $id)
             ->update([
-                'name' => $request->name,
                 'email' => $request->email,
-                'fone' => $request->fone,
-                'cpf' => $request->cpf,
-                'date_born' => $request->date_born,
                 'password' => bcrypt($request->password),
                 'id_permission' => $request->id_permission,
                 'updated_at' => null
             ]);
     }
-
-    public function updateUserSelf(int $id, $request): bool
-    {
-        return self::where('id', $id)
-            ->update([
-                'name' => $request->name,
-                'fone' => $request->fone,
-                'cpf' => $request->cpf,
-                'date_born' => $request->date_born,
-            ]);
-    }
-
 
     public function deleteUser(int $id): bool
     {
