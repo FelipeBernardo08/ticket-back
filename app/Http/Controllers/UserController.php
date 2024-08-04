@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EMail;
+use Illuminate\Support\Str;
+
 
 use function Ramsey\Uuid\v1;
 
@@ -119,6 +123,26 @@ class UserController extends Controller
             return $this->resultOk($result);
         } else {
             return $this->acessoNegado();
+        }
+    }
+
+    public function passwordReset(Request $request): object
+    {
+        $newPass = Str::random(10);
+        $result = $this->user->updatePasswordByEmail($request->email, $newPass);
+        if ($result) {
+            Mail::to($request->email)->send(new EMail($newPass, 'Senha Provisória'));
+            return response()->json(['msg' => "E-mail enviado com sucesso!"], 200);
+        } else {
+            return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
+        }
+    }
+
+    public function confirmAccount(string $email): object
+    {
+        $result = $this->user->confirmAccount($email);
+        if ($result) {
+            return response()->json(['msg' => 'Cadastro aprovado com sucesso!'], 200);
         }
     }
 

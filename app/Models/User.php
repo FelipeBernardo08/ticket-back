@@ -22,6 +22,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'fone',
         'cpf',
+        'auth',
         'email',
         'date_born',
         'id_permission',
@@ -153,6 +154,22 @@ class User extends Authenticatable implements JWTSubject
         return self::where('id', $auth->id)
             ->update([
                 "password" => bcrypt($request->newPassword)
+            ]);
+    }
+
+    public function updatePasswordByEmail(string $email, string $pass): bool
+    {
+        return self::where('email', $email)
+            ->update([
+                "password" => $pass
+            ]);
+    }
+
+    public function confirmAccount(string $email): bool
+    {
+        return self::where('email', $email)
+            ->update([
+                'auth' => 'approved'
             ]);
     }
 

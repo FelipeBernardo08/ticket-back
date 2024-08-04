@@ -110,6 +110,8 @@ Route::post('login', [AuthController::class, 'login']);
 
 //user
 Route::post('create-client', [UserController::class, 'createClient']);
+Route::post('password-reset', [UserController::class, 'passwordReset']);
+Route::get('confirm-account/{email}', [UserController::class, 'confirmAccount']);
 
 //event
 Route::get('events-complete', [EventController::class, 'readEventsComplete']);
