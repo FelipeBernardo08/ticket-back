@@ -18,7 +18,7 @@ class CreateProfileAdmsTable extends Migration
             $table->string('name');
             $table->string('fone');
             $table->string('cnpj', 14)->unique();
-            $table->date('date_born');
+            $table->string('date_born');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();

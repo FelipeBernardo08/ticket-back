@@ -9,6 +9,7 @@ use App\Http\Controllers\ImageEventController;
 use App\Http\Controllers\ImageTicketController;
 use App\Http\Controllers\PassListController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProfileClientController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TicketController;
@@ -92,7 +93,6 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('read-users', [UserController::class, 'readUsers']);
     Route::get('read-user/{id}', [UserController::class, 'readUserId']);
     Route::put('update-user/{id}', [UserController::class, 'updateUser']);
-    Route::patch('update-self', [UserController::class, 'updateSelf']);
     Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
     Route::post('create-user', [UserController::class, 'createUser']);
     Route::patch('update-pass', [UserController::class, 'updatePassword']);
@@ -103,6 +103,9 @@ Route::middleware('jwt.auth')->group(function () {
     Route::put('update-url-payment/{id}', [CardPaymentsController::class, 'updateLinkPayment']);
     Route::get('get-card-payment', [CardPaymentsController::class, 'getCardsPayment']);
     Route::get('get-qr-code/{token}', [CardPaymentsController::class, 'generateQrCode']);
+
+    //client
+    Route::patch('update-self', [ProfileClientController::class, 'updateSelfClient']);
 });
 
 //login
