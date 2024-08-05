@@ -18,21 +18,25 @@ class ProfileClient extends Model
         "id_user"
     ];
 
-    public function createClient($client): array
+    public function createClient($name, $id_user): array
     {
-        return self::create($client->all());
+        return self::create([
+            'name' => $name,
+            'id_user' => $id_user
+        ])
+            ->get()
+            ->toArray();
     }
 
     public function updateSelfClient($id, $client): bool
     {
-        date_default_timezone_set('America/Sao_Paulo');
-        $date = new DateTime($client->date_bnorn);
         return self::where('id', $client->id)
             ->where('id_user', $id)
             ->update([
                 "name" => $client->name,
                 "fone" => $client->fone,
-                "date_born" => $date
+                "date_born" => $client->date_born,
+                "cpf" => $client->cpf
             ]);
     }
 }

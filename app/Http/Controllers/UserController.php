@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ProfileClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
@@ -16,12 +17,17 @@ use function Ramsey\Uuid\v1;
 class UserController extends Controller
 {
     public $user;
-    private $authController;
+    public $authController;
+    public $profileClient;
 
-    public function __construct(AuthController $auth, User $users)
-    {
+    public function __construct(
+        AuthController $auth,
+        User $users,
+        ProfileClient $profileClients
+    ) {
         $this->authController = $auth;
         $this->user = $users;
+        $this->profileClient = $profileClients;
     }
 
     public function createClient(Request $request): object
@@ -30,17 +36,20 @@ class UserController extends Controller
         if (count($response) == 0) {
             return response()->json(['error' => 'Registro não pode ser criado!'], 404);
         } else {
-            $url = 'http://127.0.0.1:8000/api/confirm-account/' . $response['email']; //dev
-            // $url = 'https://back.bancaevento.com.br:8080/api/confirm-account/' . $response['email']; //prod
-            Mail::to($response['email'])->send(new ConfirmAccount($url, 'Confirmar Conta'));
-            return $this->resultOk($response);
+            if ($response['id_permission'] == 1) {
+                $result = $this->profileClient->createClient($request->name, $response['id']);
+                if (count($result) != 0) {
+                    $this->sendEmailConfirmation($response);
+                    return $this->resultOk($response);
+                }
+            }
         }
     }
 
     public function createUser(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth['id_permission'] == 2) {
+        if ($auth[0]['id_permission'] == 2) {
             $result = $this->user->createUser($request);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não pode ser criado!'], 404);
@@ -54,7 +63,7 @@ class UserController extends Controller
     public function readUsers(): object
     {
         $auth = $this->authController->me();
-        if ($auth['id_permission'] == 2 || $auth['id_permission'] == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth['id_permission'] == 3) {
             $result = $this->user->readUsers();
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros não encontrados!'], 404);
@@ -68,7 +77,7 @@ class UserController extends Controller
     public function readUserId(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth['id_permission'] == 2 || $auth['id_permission'] == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth['id_permission'] == 3) {
             $result = $this->user->readUserId($id);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não encontrado!'], 404);
@@ -82,7 +91,7 @@ class UserController extends Controller
     public function updateUser(int $id, Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth['id_permission'] == 2) {
+        if ($auth[0]['id_permission'] == 2) {
             $result = $this->user->updateUser($id, $request);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser atualiado!'], 404);
@@ -93,14 +102,10 @@ class UserController extends Controller
         }
     }
 
-    public function updateSelf(Request $request)
-    {
-    }
-
     public function deleteUser(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth['id_permission'] == 2) {
+        if ($auth[0]['id_permission'] == 2) {
             $result = $this->user->deleteUser($id);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser deletado!'], 404);
@@ -115,7 +120,7 @@ class UserController extends Controller
     public function updatePassword(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth['id_permission'] != 0) {
+        if ($auth[0]['id_permission'] != 0) {
             $result = $this->user->updatePassword($auth, $request);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
@@ -142,8 +147,15 @@ class UserController extends Controller
     {
         $result = $this->user->confirmAccount($email);
         if ($result) {
-            return response()->json(['msg' => 'Cadastro aprovado com sucesso!'], 200);
+            return redirect()->route('thank-you');
         }
+    }
+
+    public function sendEmailConfirmation($response): void
+    {
+        $url = 'http://127.0.0.1:8000/api/confirm-account/' . $response['email']; //dev
+        // $url = 'https://back.bancaevento.com.br:8080/api/confirm-account/' . $response['email']; //prod
+        Mail::to($response['email'])->send(new ConfirmAccount($url, 'Confirmar Conta'));
     }
 
     public function acessoNegado(): object

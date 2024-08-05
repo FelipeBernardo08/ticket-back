@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmação de Cadastro - Banca Evento</title>
+    <title>Agradecimento - Banca Evento</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,6 +39,11 @@
             text-align: center;
         }
 
+        .content h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
         .content p {
             font-size: 16px;
             line-height: 1.5;
@@ -65,18 +70,16 @@
 </head>
 
 <body>
-    <div class="container" style="margin-top: 2rem;">
+    <div class="container">
         <div class="header">
             <h1>Banca Evento</h1>
         </div>
         <div class="content">
-            <p>Olá,</p>
-            <p>Obrigado por se cadastrar na Banca Evento! Estamos muito felizes em tê-lo conosco.</p>
-            <p>Para confirmar seu cadastro, clique no botão abaixo:</p>
-            <a href="{{ url($data) }}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">
-                Confirmar
-            </a>
-            <p>Se você não se cadastrou na Banca Evento, por favor, ignore este e-mail.</p>
+            <h1>Cadastro Confirmado</h1>
+            <p>Obrigado por confirmar seu cadastro!</p>
+            <p>Seu cadastro foi confirmado com sucesso. Você pode acessar o site através do botão abaixo.</p>
+            <!-- <a href="{{ url('https://bancaevento.com.br/login') }}" class="button">Ir para o site</a> --> <!-- prod -->
+            <a href="{{ url('http://localhost:4300/login') }}" class="button">Ir para o site</a> <!--dev-->
         </div>
         <div class="footer">
             <p>&copy; 2024 Banca Evento. Todos os direitos reservados.</p>

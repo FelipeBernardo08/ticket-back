@@ -16,9 +16,9 @@ class CreateProfileClientsTable extends Migration
         Schema::create('profile_clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('fone');
-            $table->string('cpf', 11)->unique();
-            $table->string('date_born');
+            $table->string('fone')->nullable();
+            $table->string('cpf', 11)->unique()->nullable();
+            $table->string('date_born')->nullable();
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();

@@ -40,7 +40,7 @@ class EventController extends Controller
     public function readEventsDate(string $data): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3 ||  $auth->id_permission == 4) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3 ||  $auth[0]['id_permission'] == 4) {
             $result = $this->event->readEventsDate($data);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Não existem registros.'], 404);
@@ -63,7 +63,7 @@ class EventController extends Controller
     public function createEvents(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->event->createEvents($request);
             if ($result == false) {
                 return response()->json(['error' => 'Registros não foram criados!'], 404);
@@ -95,7 +95,7 @@ class EventController extends Controller
     public function updateEvent(Request $request, int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->event->updateEvent($request, $id);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
@@ -109,7 +109,7 @@ class EventController extends Controller
     public function deleteEvent(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->event->deleteEvent($id);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser deletado.'], 404);
@@ -123,7 +123,7 @@ class EventController extends Controller
     public function readEventsWithSells(): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->event->readEventsWithSells();
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros não encontrados!'], 404);

@@ -38,7 +38,7 @@ class AtractionController extends Controller
     public function readAtrctionWithEventAndSell(): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->atraction->readAtrctionWithEventAndSell();
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros nao encontrados!'], 404);
@@ -52,7 +52,7 @@ class AtractionController extends Controller
     public function createAtraction(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->atraction->createAtraction($request);
             if ($result == null) {
                 return response()->json(['error' => 'Registros nao foram cadastrados!'], 404);
@@ -76,7 +76,7 @@ class AtractionController extends Controller
     public function updateAtraction(Request $request, int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->atraction->updateAtraction($request, $id);
             if ($result == false) {
                 return response()->json(['error' => 'Registros nao pode ser atualizado']);
@@ -90,7 +90,7 @@ class AtractionController extends Controller
     public function deleteAtraction(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->atraction->deleteAtraction($id);
             if ($result == false) {
                 return response()->json(['error' => 'Registro nao pode ser excluido!'], 404);

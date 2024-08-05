@@ -30,7 +30,7 @@ class PassListController extends Controller
     public function createList(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->passList->createList($request);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não pode ser cadastrado!'], 404);
@@ -53,7 +53,7 @@ class PassListController extends Controller
     public function deleteList(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->passList->deleteList($id);
             if (!$result) {
                 return response()->json(['error' =>  'Registro não pode ser deletado'], 404);

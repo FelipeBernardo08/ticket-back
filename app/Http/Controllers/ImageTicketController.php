@@ -19,7 +19,7 @@ class ImageTicketController extends Controller
     public function createImgTicket(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->imgTicket->createImgTicket($request);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não pode ser criado!'], 404);
@@ -42,7 +42,7 @@ class ImageTicketController extends Controller
     public function deleteImgTicket(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->imgTicket->deleteImgTicket($id);
             if ($result == false) {
                 return response()->json(['error' => 'Regisrto não pode ser deletado!'], 404);
