@@ -117,4 +117,4 @@ Route::get('events-complete', [EventController::class, 'readEventsComplete']);
 Route::get('read-event/{id}', [EventController::class, 'showEventId']);
 
 
-Route::post('testPayment', [PermissionController::class], 'test');
+Route::post('testPayment', [PermissionController::class, 'test']);
