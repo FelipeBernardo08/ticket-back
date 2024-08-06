@@ -22,8 +22,9 @@ class Event extends Model
         "end_bairro",
         "end_cidade",
         "end_estado",
-        "status",
-        "description"
+        "description",
+        "active",
+        "id_user"
     ];
 
     public function show()
@@ -48,14 +49,16 @@ class Event extends Model
 
     public function readEvents(): array
     {
-        return self::orderBy('date', 'asc')
+        return self::where('active', true)
+            ->orderBy('date', 'asc')
             ->get()
             ->toArray();
     }
 
-    public function readEventsDate(string $date): array
+    public function readEventsDate(string $date, int $id_user): array
     {
-        return self::where('date', '>=', $date)
+        return self::where('id_user', $id_user)
+            ->where('date', '>=', $date)
             ->with('img')
             ->orderBy('date', 'asc')
             ->get()
@@ -69,6 +72,7 @@ class Event extends Model
         $date = new DateTime();
         $dateString = $date->format('Y-m-d');
         return self::where('date', '>=', $dateString)
+            ->where('active', true)
             ->with('show')
             ->with('show.atraction')
             ->with('ticket')
@@ -85,12 +89,49 @@ class Event extends Model
             ->toArray();
     }
 
-    public function createEvents($request): array
+    public function changeActiveEvent($id, $id_user, $request): bool
     {
-        return self::create($request->all())->toArray();
+        return self::where('id', $id)
+            ->where('id_user', $id_user)
+            ->update([
+                'active' => $request->active
+            ]);
     }
 
-    public function showEventId(int $id): array
+    public function createEvents($request, $auth): array
+    {
+        return self::create([
+            "name" => $request->name,
+            "date" => $request->date,
+            "hour" => $request->hour,
+            "local" => $request->local,
+            "end_rua" => $request->end_rua,
+            "end_num" => $request->end_num,
+            "end_bairro" => $request->end_bairro,
+            "end_cidade" => $request->end_cidade,
+            "end_estado" => $request->end_estado,
+            "description" => $request->description,
+            "id_user" => $auth['id']
+        ])->toArray();
+    }
+
+    public function showEventId(int $id, $id_user): array
+    {
+        date_default_timezone_set('America/Sao_Paulo');
+        $date = new DateTime();
+        $dateString = $date->format('Y-m-d');
+        return self::where('id', $id)
+            ->where('id_user', $id_user)
+            ->where('date', '>=', $dateString)
+            ->with('show')
+            ->with('show.atraction')
+            ->with('ticket')
+            ->with('img')
+            ->get()
+            ->toArray();
+    }
+
+    public function showEventIdComplete(int $id): array
     {
         date_default_timezone_set('America/Sao_Paulo');
         $date = new DateTime();
@@ -105,15 +146,18 @@ class Event extends Model
             ->toArray();
     }
 
-    public function updateEvent($request, int $id): bool
+    public function updateEvent($request, int $id, int $id_user): bool
     {
         return self::where('id', $id)
+            ->where('id', $id_user)
             ->update($request->all());
     }
 
-    public function deleteEvent(int $id): bool
+    public function deleteEvent(int $id, int $id_user): bool
     {
         return self::where('id', $id)
+            ->where('id_user', $id_user)
+            ->where('active', false)
             ->delete();
     }
 }

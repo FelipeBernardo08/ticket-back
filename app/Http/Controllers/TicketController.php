@@ -40,8 +40,8 @@ class TicketController extends Controller
     public function createTicket(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth[0]['id_permission'] == 2) {
-            $result = $this->ticket->createTicket($request);
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->ticket->createTicket($request, $auth[0]['id']);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser criado!'], 404);
             }

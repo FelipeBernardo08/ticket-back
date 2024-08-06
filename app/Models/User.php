@@ -75,7 +75,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(ProfileClient::class, 'id_user');
     }
 
-    public function Adm()
+    public function adm()
     {
         return $this->hasMany(ProfileAdm::class, 'id_user');
     }
@@ -125,7 +125,7 @@ class User extends Authenticatable implements JWTSubject
     public function returnWithAdm($user): array
     {
         return self::where('id', $user->id)
-            ->with('Adm')
+            ->with('adm')
             ->get()
             ->toArray();
     }
@@ -160,6 +160,7 @@ class User extends Authenticatable implements JWTSubject
         return self::create([
             'email' => $request->email,
             'id_permission' => $request->id_permission,
+            'auth' => 'approved',
             'password' => bcrypt($request->password)
         ])->toArray();
     }
@@ -173,10 +174,42 @@ class User extends Authenticatable implements JWTSubject
 
     public function readUserId(int $id): array
     {
-        return self::where('id', $id)
-            ->with('permission')
+        $result = self::where('id', $id)
             ->get()
             ->toArray();
+
+        switch ($result[0]['id_permission']) {
+            case 1:
+                return self::where('id', $id)
+                    ->with('permission')
+                    ->with('client')
+                    ->get()
+                    ->toArray();
+                break;
+            case 2:
+                return self::where('id', $id)
+                    ->with('permission')
+                    ->with('adm')
+                    ->get()
+                    ->toArray();
+                break;
+            case 3:
+                return self::where('id', $id)
+                    ->with('permission')
+                    ->with('productor')
+                    ->get()
+                    ->toArray();
+                break;
+            case 4:
+                return self::where('id', $id)
+                    ->with('permission')
+                    ->with('employee')
+                    ->get()
+                    ->toArray();
+                break;
+            default:
+                break;
+        }
     }
 
     public function updateUser(int $id, $request): bool

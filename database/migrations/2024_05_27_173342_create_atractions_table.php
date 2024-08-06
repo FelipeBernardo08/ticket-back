@@ -16,6 +16,8 @@ class CreateAtractionsTable extends Migration
         Schema::create('atractions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id')->on('users');
             $table->softDeletes()->nullable();
             $table->timestamps();
         });

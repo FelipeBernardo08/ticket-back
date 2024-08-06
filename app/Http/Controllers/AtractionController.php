@@ -53,7 +53,7 @@ class AtractionController extends Controller
     {
         $auth = $this->authController->me();
         if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
-            $result = $this->atraction->createAtraction($request);
+            $result = $this->atraction->createAtraction($request, $auth[0]['id']);
             if ($result == null) {
                 return response()->json(['error' => 'Registros nao foram cadastrados!'], 404);
             }
