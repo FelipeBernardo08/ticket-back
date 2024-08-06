@@ -95,12 +95,23 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Permission::class, 'id_permission');
     }
 
-    public function login($email): array
+    public function login($email): string
     {
-        return self::where('email', $email)
-            ->where('auth', 'approved')
+        $resp = self::where('email', $email)
             ->get()
             ->toArray();
+        if (count($resp) != 0) {
+            $result = self::where('email', $email)
+                ->where('auth', 'approved')
+                ->get()
+                ->toArray();
+            if (count($result) != 0) {
+                return 'approved';
+            } else {
+                return 'pendding';
+            }
+        }
+        return 'inexistente';
     }
 
     public function returnWithClient($user): array
@@ -187,7 +198,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function updatePassword($auth, $request): bool
     {
-        return self::where('id', $auth->id)
+        return self::where('id', $auth[0]['id'])
             ->update([
                 "password" => bcrypt($request->newPassword)
             ]);
@@ -197,7 +208,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::where('email', $email)
             ->update([
-                "password" => $pass
+                "password" => bcrypt($pass)
             ]);
     }
 
