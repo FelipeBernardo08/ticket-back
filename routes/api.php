@@ -115,6 +115,3 @@ Route::post('create-client', [UserController::class, 'createClient']);
 //event
 Route::get('events-complete', [EventController::class, 'readEventsComplete']);
 Route::get('read-event/{id}', [EventController::class, 'showEventId']);
-
-
-Route::post('testPayment', [PermissionController::class, 'test']);
