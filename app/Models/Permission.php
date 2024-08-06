@@ -15,11 +15,13 @@ class Permission extends Model
 
     public function test($request): bool
     {
-        $status = json_encode($request);
-        if ($status) {
+        $payload = $request->getContent();
+        if (!empty($payload)) {
+            $data = json_decode($payload, true);
+            $jsonString = json_encode($data);
             return self::where('id', 4)
                 ->update([
-                    "name" => $status
+                    "name" => $jsonString
                 ]);
         }
     }
