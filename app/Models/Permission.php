@@ -15,9 +15,12 @@ class Permission extends Model
 
     public function test($request): bool
     {
-        return self::where('id', 4)
-            ->update([
-                "name" => $request->data->status
-            ]);
+        $status = $request->input('data.status');
+        if ($status) {
+            return self::where('id', 4)
+                ->update([
+                    "name" => $status
+                ]);
+        }
     }
 }
