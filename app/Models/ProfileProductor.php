@@ -15,4 +15,15 @@ class ProfileProductor extends Model
         "cnpj",
         "id_user"
     ];
+
+    public function createProductor($produtctor, $id_user): array
+    {
+        return self::create([
+            "name" => $produtctor->name,
+            "fone" => $produtctor->fone,
+            "cnpj" => $produtctor->cpf,
+            "id_user" => $id_user
+        ])
+            ->toArray();
+    }
 }

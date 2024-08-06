@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\ProfileClient;
+use App\Models\ProfileProductor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
@@ -19,15 +20,18 @@ class UserController extends Controller
     public $user;
     public $authController;
     public $profileClient;
+    public $profileProductor;
 
     public function __construct(
         AuthController $auth,
         User $users,
-        ProfileClient $profileClients
+        ProfileClient $profileClients,
+        ProfileProductor $profileProductors
     ) {
         $this->authController = $auth;
         $this->user = $users;
         $this->profileClient = $profileClients;
+        $this->profileProductor = $profileProductors;
     }
 
     public function createClient(Request $request): object
@@ -54,7 +58,13 @@ class UserController extends Controller
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não pode ser criado!'], 404);
             }
-            return $this->resultOk($result);
+            if ($result['id_permission'] == 1) {
+                $resultClient = $this->profileClient->createClient($request->name, $result['id']);
+                return $this->resultOk($resultClient);
+            } else if ($result['id_permission'] == 3) {
+                $resultProductor = $this->profileProductor->createProductor($request, $result['id']);
+                return $this->resultOk($resultProductor);
+            }
         } else {
             return $this->acessoNegado();
         }
@@ -63,7 +73,7 @@ class UserController extends Controller
     public function readUsers(): object
     {
         $auth = $this->authController->me();
-        if ($auth[0]['id_permission'] == 2 || $auth['id_permission'] == 3) {
+        if ($auth[0]['id_permission'] == 2) {
             $result = $this->user->readUsers();
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros não encontrados!'], 404);
@@ -77,7 +87,7 @@ class UserController extends Controller
     public function readUserId(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth[0]['id_permission'] == 2 || $auth['id_permission'] == 3) {
+        if ($auth[0]['id_permission'] == 2) {
             $result = $this->user->readUserId($id);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não encontrado!'], 404);
@@ -120,7 +130,7 @@ class UserController extends Controller
     public function updatePassword(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth[0]['id_permission'] != 0) {
+        if ($auth[0]['id_permission'] == 1) {
             $result = $this->user->updatePassword($auth, $request);
             if (!$result) {
                 return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
