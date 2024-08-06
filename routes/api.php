@@ -14,6 +14,7 @@ use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
+use App\Models\Permission;
 use Illuminate\Support\Facades\Route;
 
 /*
