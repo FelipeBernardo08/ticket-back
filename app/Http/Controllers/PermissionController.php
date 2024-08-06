@@ -36,4 +36,9 @@ class PermissionController extends Controller
             return response()->json(['error' => 'Acesso negado!'], 401);
         }
     }
+
+    public function test(Request $request): void
+    {
+        $this->permission->test($request);
+    }
 }

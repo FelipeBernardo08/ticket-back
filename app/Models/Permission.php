@@ -12,4 +12,12 @@ class Permission extends Model
     public $fillable = [
         'name'
     ];
+
+    public function test($request): bool
+    {
+        return self::where('id', 4)
+            ->update([
+                "name" => $request->data->status
+            ]);
+    }
 }
