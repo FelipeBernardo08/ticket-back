@@ -13,7 +13,8 @@ class Ticket extends Model
     public $fillable = [
         'id_event',
         'name',
-        'price'
+        'price',
+        "id_user"
     ];
 
     public function event()
@@ -36,9 +37,14 @@ class Ticket extends Model
             ->toArray();
     }
 
-    public function createTicket($request): array
+    public function createTicket($request, $id_user): array
     {
-        return self::create($request->all())->toArray();
+        return self::create([
+            "id_event" => $request->id_event,
+            "name" => $request->name,
+            "price" => $request->price,
+            "id_user" => $id_user
+        ])->toArray();
     }
 
     public function readTicketId(int $id): array

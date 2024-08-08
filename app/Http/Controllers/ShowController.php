@@ -38,7 +38,7 @@ class ShowController extends Controller
     public function createShow(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->show->createShow($request);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registro não pode ser criado!'], 404);
@@ -52,7 +52,7 @@ class ShowController extends Controller
     public function updateShow(Request $request, int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->show->updateShow($request, $id);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
@@ -67,7 +67,7 @@ class ShowController extends Controller
     public function deleteShow(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->show->deleteShow($id);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser excluído!'], 404);

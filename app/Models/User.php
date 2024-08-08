@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\ProfileClient;
+use App\Models\ProfileAdm;
+use App\Models\ProfileProductor;
+use App\Models\ProfileEmployee;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -19,11 +23,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name',
-        'fone',
-        'cpf',
+        'auth',
         'email',
-        'date_born',
         'id_permission',
         'password'
     ];
@@ -69,19 +70,86 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function client()
+    {
+        return $this->hasMany(ProfileClient::class, 'id_user');
+    }
+
+    public function adm()
+    {
+        return $this->hasMany(ProfileAdm::class, 'id_user');
+    }
+
+    public function productor()
+    {
+        return $this->hasMany(ProfileProductor::class, 'id_user');
+    }
+
+    public function employee()
+    {
+        return $this->hasMany(ProfileEmployee::class, 'id_user');
+    }
+
     public function permission(): Object
     {
         return $this->belongsTo(Permission::class, 'id_permission');
+    }
+
+    public function login($email): string
+    {
+        $resp = self::where('email', $email)
+            ->get()
+            ->toArray();
+        if (count($resp) != 0) {
+            $result = self::where('email', $email)
+                ->where('auth', 'approved')
+                ->get()
+                ->toArray();
+            if (count($result) != 0) {
+                return 'approved';
+            } else {
+                return 'pendding';
+            }
+        }
+        return 'inexistente';
+    }
+
+    public function returnWithClient($user): array
+    {
+        return self::where('id', $user->id)
+            ->with('client')
+            ->get()
+            ->toArray();
+    }
+
+    public function returnWithAdm($user): array
+    {
+        return self::where('id', $user->id)
+            ->with('adm')
+            ->get()
+            ->toArray();
+    }
+
+    public function returnWithProdutctor($user): array
+    {
+        return self::where('id', $user->id)
+            ->with('productor')
+            ->get()
+            ->toArray();
+    }
+
+    public function returnWithEmployee($user): array
+    {
+        return self::where('id', $user->id)
+            ->with('employee')
+            ->get()
+            ->toArray();
     }
 
     public function createClient($request): array
     {
         return self::create([
             'email' => $request->email,
-            'name' => $request->name,
-            'date_born' => $request->date_born,
-            'cpf' => $request->cpf,
-            'fone' => $request->fone,
             'id_permission' => 1,
             'password' => bcrypt($request->password)
         ])->toArray();
@@ -91,11 +159,18 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::create([
             'email' => $request->email,
-            'name' => $request->name,
-            'date_born' => $request->date_born,
-            'cpf' => $request->cpf,
-            'fone' => $request->fone,
             'id_permission' => $request->id_permission,
+            'auth' => 'approved',
+            'password' => bcrypt($request->password)
+        ])->toArray();
+    }
+
+    public function createUserEmployee($request): array
+    {
+        return self::create([
+            'email' => $request->email,
+            'id_permission' => 4,
+            'auth' => 'approved',
             'password' => bcrypt($request->password)
         ])->toArray();
     }
@@ -109,38 +184,63 @@ class User extends Authenticatable implements JWTSubject
 
     public function readUserId(int $id): array
     {
-        return self::where('id', $id)
-            ->with('permission')
+        $result = self::where('id', $id)
             ->get()
             ->toArray();
+
+        switch ($result[0]['id_permission']) {
+            case 1:
+                return self::where('id', $id)
+                    ->with('permission')
+                    ->with('client')
+                    ->get()
+                    ->toArray();
+                break;
+            case 2:
+                return self::where('id', $id)
+                    ->with('permission')
+                    ->with('adm')
+                    ->get()
+                    ->toArray();
+                break;
+            case 3:
+                return self::where('id', $id)
+                    ->with('permission')
+                    ->with('productor')
+                    ->get()
+                    ->toArray();
+                break;
+            case 4:
+                return self::where('id', $id)
+                    ->with('permission')
+                    ->with('employee')
+                    ->get()
+                    ->toArray();
+                break;
+            default:
+                break;
+        }
     }
 
     public function updateUser(int $id, $request): bool
     {
-        return self::where('id', $id)
-            ->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'fone' => $request->fone,
-                'cpf' => $request->cpf,
-                'date_born' => $request->date_born,
-                'password' => bcrypt($request->password),
-                'id_permission' => $request->id_permission,
-                'updated_at' => null
-            ]);
+        if ($request->password != null) {
+            return self::where('id', $id)
+                ->update([
+                    'email' => $request->email,
+                    'password' => bcrypt($request->password),
+                    'id_permission' => $request->id_permission,
+                    'updated_at' => null
+                ]);
+        } else {
+            return self::where('id', $id)
+                ->update([
+                    'email' => $request->email,
+                    'id_permission' => $request->id_permission,
+                    'updated_at' => null
+                ]);
+        }
     }
-
-    public function updateUserSelf(int $id, $request): bool
-    {
-        return self::where('id', $id)
-            ->update([
-                'name' => $request->name,
-                'fone' => $request->fone,
-                'cpf' => $request->cpf,
-                'date_born' => $request->date_born,
-            ]);
-    }
-
 
     public function deleteUser(int $id): bool
     {
@@ -150,9 +250,25 @@ class User extends Authenticatable implements JWTSubject
 
     public function updatePassword($auth, $request): bool
     {
-        return self::where('id', $auth->id)
+        return self::where('id', $auth[0]['id'])
             ->update([
                 "password" => bcrypt($request->newPassword)
+            ]);
+    }
+
+    public function updatePasswordByEmail(string $email, string $pass): bool
+    {
+        return self::where('email', $email)
+            ->update([
+                "password" => bcrypt($pass)
+            ]);
+    }
+
+    public function confirmAccount(string $email): bool
+    {
+        return self::where('email', $email)
+            ->update([
+                'auth' => 'approved'
             ]);
     }
 

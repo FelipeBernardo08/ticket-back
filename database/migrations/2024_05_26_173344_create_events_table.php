@@ -16,7 +16,6 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('status')->default(false);
             $table->string('date');
             $table->string('hour');
             $table->string('local');
@@ -26,6 +25,9 @@ class CreateEventsTable extends Migration
             $table->string('end_cidade');
             $table->string('end_estado');
             $table->text('description')->nullable();
+            $table->boolean('active')->default(false);
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id')->on('users');
             $table->softDeletes()->nullable();
             $table->timestamps();
         });

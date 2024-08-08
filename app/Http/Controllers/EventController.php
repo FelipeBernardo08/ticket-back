@@ -40,8 +40,8 @@ class EventController extends Controller
     public function readEventsDate(string $data): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3 ||  $auth->id_permission == 4) {
-            $result = $this->event->readEventsDate($data);
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3 ||  $auth[0]['id_permission'] == 4) {
+            $result = $this->event->readEventsDate($data, $auth[0]['id']);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Não existem registros.'], 404);
             }
@@ -63,8 +63,8 @@ class EventController extends Controller
     public function createEvents(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->event->createEvents($request);
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->event->createEvents($request, $auth[0]);
             if ($result == false) {
                 return response()->json(['error' => 'Registros não foram criados!'], 404);
             }
@@ -76,7 +76,21 @@ class EventController extends Controller
 
     public function showEventId(int $id): object
     {
-        $result = $this->event->showEventId($id);
+        $auth = $this->authController->me();
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->event->showEventId($id, $auth[0]['id']);
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Registro não encontrado!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
+    public function showEventIdComplete(int $id): object
+    {
+        $result = $this->event->showEventIdComplete($id);
         if (count($result) == 0) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
@@ -95,8 +109,8 @@ class EventController extends Controller
     public function updateEvent(Request $request, int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->event->updateEvent($request, $id);
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->event->updateEvent($request, $id, $auth[0]['id']);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser atualizado!'], 404);
             }
@@ -109,8 +123,8 @@ class EventController extends Controller
     public function deleteEvent(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->event->deleteEvent($id);
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->event->deleteEvent($id, $auth[0]['id']);
             if ($result == false) {
                 return response()->json(['error' => 'Registro não pode ser deletado.'], 404);
             }
@@ -120,15 +134,43 @@ class EventController extends Controller
         }
     }
 
-    public function readEventsWithSells(): object
+    public function readEventsWithSells(int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission == 2 || $auth->id_permission == 3) {
-            $result = $this->event->readEventsWithSells();
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->event->readEventsWithSells($id, $auth[0]['id']);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros não encontrados!'], 404);
             }
             return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
+    public function readEventWithSells(): object
+    {
+        $auth = $this->authController->me();
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->event->readEventWithSells($auth[0]['id']);
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Registros não encontrados!'], 404);
+            }
+            return $this->resultOk($result);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
+    public function changeActiveEvent(Request $request, int $id): object
+    {
+        $auth = $this->authController->me();
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->event->changeActiveEvent($id, $auth[0]['id'], $request);
+            if ($result) {
+                return response()->json(['msg' => 'Evento atualizado com sucesso!'], 200);
+            }
+            return response()->json(['msg' => 'Evento não pode ser atualizado!'], 500);
         } else {
             return $this->acessoNegado();
         }
