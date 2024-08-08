@@ -78,8 +78,8 @@
             <h1>Cadastro Confirmado</h1>
             <p>Obrigado por confirmar seu cadastro!</p>
             <p>Seu cadastro foi confirmado com sucesso. Você pode acessar o site através do botão abaixo.</p>
-            <!-- <a href="{{ url('https://bancaevento.com.br/login') }}" class="button">Ir para o site</a> --> <!-- prod -->
-            <a href="{{ url('http://localhost:4300/login') }}" class="button">Ir para o site</a> <!--dev-->
+            <a href="{{ url('https://bancaevento.com.br/login') }}" class="button">Ir para o site</a> <!-- prod -->
+            <!-- <a href="{{ url('http://localhost:4300/login') }}" class="button">Ir para o site</a> dev -->
         </div>
         <div class="footer">
             <p>&copy; 2024 Banca Evento. Todos os direitos reservados.</p>
