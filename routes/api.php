@@ -10,6 +10,7 @@ use App\Http\Controllers\ImageTicketController;
 use App\Http\Controllers\PassListController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileClientController;
+use App\Http\Controllers\ProfileEmployeeController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TicketController;
@@ -57,14 +58,13 @@ Route::middleware('jwt.auth')->group(function () {
     Route::put('update-event/{id}', [EventController::class, 'updateEvent']);
     Route::put('change-active-event/{id}', [EventController::class, 'changeActiveEvent']);
     Route::delete('delete-event/{id}', [EventController::class, 'deleteEvent']);
-    Route::get('read-event-sells', [EventController::class, 'readEventsWithSells']);
+    Route::get('read-event-sells/{id}', [EventController::class, 'readEventsWithSells']);
+    Route::get('read-event-sells}', [EventController::class, 'readEventWithSells']);
 
     //sell
     Route::get('read-sells-token/{token}', [SellController::class, 'readSellsToken']);
     Route::get('read-sells', [SellController::class, 'readSells']);
-    Route::get('read-sells-user-ticket/{date}', [SellController::class, 'readSellsWithUserAndTicket']);
     Route::get('read-sell/{id}', [SellController::class, 'readSellId']);
-    Route::post('create-sell', [SellController::class, 'createSell']);
     Route::put('update-validate-ticket/{id}', [SellController::class, 'validVerificated']);
 
     //ticket
@@ -89,6 +89,7 @@ Route::middleware('jwt.auth')->group(function () {
     //list
     Route::get('read-lists', [PassListController::class, 'readList']);
     Route::get('read-list-event/{id}', [PassListController::class, 'readListIdEvent']);
+    Route::put('active-list/{id}', [PassListController::class, 'activeList']);
     Route::post('create-list', [PassListController::class, 'createList']);
     Route::delete('delete-list/{id}', [PassListController::class, 'deleteList']);
 
@@ -106,6 +107,11 @@ Route::middleware('jwt.auth')->group(function () {
     Route::put('update-url-payment/{id}', [CardPaymentsController::class, 'updateLinkPayment']);
     Route::get('get-card-payment', [CardPaymentsController::class, 'getCardsPayment']);
     Route::get('get-qr-code/{token}', [CardPaymentsController::class, 'generateQrCode']);
+
+    //profileEmployee
+    Route::get('get-employee', [ProfileEmployeeController::class, 'getUserEmployee']);
+    Route::get('get-employee/{id}', [ProfileEmployeeController::class, 'getUserEmployeeId']);
+    Route::post('create-employee', [ProfileEmployeeController::class, 'createEmployee']);
 
     //client
     Route::patch('update-self', [ProfileClientController::class, 'updateSelfClient']);

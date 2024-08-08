@@ -59,6 +59,7 @@ class Event extends Model
     {
         return self::where('id_user', $id_user)
             ->where('date', '>=', $date)
+            ->where('active', true)
             ->with('img')
             ->orderBy('date', 'asc')
             ->get()
@@ -81,9 +82,20 @@ class Event extends Model
             ->toArray();
     }
 
-    public function readEventsWithSells(): array
+    public function readEventsWithSells(int $id, int $id_user): array
     {
-        return self::with('sell')
+        return self::where('id', $id)
+            ->where('id_user', $id_user)
+            ->with('sell')
+            ->orderBy('date', 'asc')
+            ->get()
+            ->toArray();
+    }
+
+    public function readEventWithSells(int $id_user): array
+    {
+        return self::where('id_user', $id_user)
+            ->with('sell')
             ->orderBy('date', 'asc')
             ->get()
             ->toArray();

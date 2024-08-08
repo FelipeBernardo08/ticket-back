@@ -15,10 +15,12 @@ class CreatePassListsTable extends Migration
     {
         Schema::create('pass_lists', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_client');
+            $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_event');
+            $table->string('name');
+            $table->boolean('status')->default(false);
             $table->timestamps();
-            $table->foreign('id_client')->references('id')->on('users');
+            $table->foreign('id_user')->references('id')->on('users');
             $table->foreign('id_event')->references('id')->on('events');
         });
     }

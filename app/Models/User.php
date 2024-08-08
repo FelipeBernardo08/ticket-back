@@ -165,6 +165,16 @@ class User extends Authenticatable implements JWTSubject
         ])->toArray();
     }
 
+    public function createUserEmployee($request): array
+    {
+        return self::create([
+            'email' => $request->email,
+            'id_permission' => 4,
+            'auth' => 'approved',
+            'password' => bcrypt($request->password)
+        ])->toArray();
+    }
+
     public function readUsers(): array
     {
         return self::with('permission')
