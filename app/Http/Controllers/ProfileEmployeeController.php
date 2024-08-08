@@ -62,6 +62,37 @@ class ProfileEmployeeController extends Controller
         }
     }
 
+    public function updateEmplyee(Request $request, int $id): object
+    {
+        $auth = $this->authController->me();
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $response = $this->employee->updateEmplyee($request, $id, $auth[0]['productor'][0]['id']);
+            if ($response) {
+                return response()->json(['msg' => 'Resgistro atualizado com sucesso!'], 200);
+            }
+            return response()->json(['error' => 'Não atualizado'], 404);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
+    public function deleteEmployee(int $id): object
+    {
+        $auth = $this->authController->me();
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $response = $this->employee->deleteEmployee($id, $auth[0]['productor'][0]['id']);
+            if ($response) {
+                $responseUser = $this->user->deleteUser($id);
+                if ($responseUser) {
+                    return response()->json(['msg' => 'Resgistro deletado com sucesso!'], 200);
+                }
+            }
+            return response()->json(['error' => 'Não deletado'], 404);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
     public function acessoNegado(): object
     {
         return response()->json(['error' => 'Acesso negado!'], 401);

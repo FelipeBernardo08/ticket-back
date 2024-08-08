@@ -39,7 +39,7 @@ class AtractionController extends Controller
     {
         $auth = $this->authController->me();
         if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
-            $result = $this->atraction->readAtrctionWithEventAndSell();
+            $result = $this->atraction->readAtrctionWithEventAndSell($auth[0]['id']);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros nao encontrados!'], 404);
             }

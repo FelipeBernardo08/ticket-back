@@ -59,7 +59,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::put('change-active-event/{id}', [EventController::class, 'changeActiveEvent']);
     Route::delete('delete-event/{id}', [EventController::class, 'deleteEvent']);
     Route::get('read-event-sells/{id}', [EventController::class, 'readEventsWithSells']);
-    Route::get('read-event-sells}', [EventController::class, 'readEventWithSells']);
+    Route::get('read-event-sells', [EventController::class, 'readEventWithSells']);
 
     //sell
     Route::get('read-sells-token/{token}', [SellController::class, 'readSellsToken']);
@@ -112,6 +112,8 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('get-employee', [ProfileEmployeeController::class, 'getUserEmployee']);
     Route::get('get-employee/{id}', [ProfileEmployeeController::class, 'getUserEmployeeId']);
     Route::post('create-employee', [ProfileEmployeeController::class, 'createEmployee']);
+    Route::put('update-employee/{id}', [ProfileEmployeeController::class, 'updateEmplyee']);
+    Route::delete('delete-employee/{id}', [ProfileEmployeeController::class, 'deleteEmployee']);
 
     //client
     Route::patch('update-self', [ProfileClientController::class, 'updateSelfClient']);

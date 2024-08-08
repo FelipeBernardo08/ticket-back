@@ -33,9 +33,10 @@ class Atraction extends Model
         ]);
     }
 
-    public function readAtrctionWithEventAndSell(): array
+    public function readAtrctionWithEventAndSell($id): array
     {
-        return self::with('show')
+        return self::where('id_user', $id)
+            ->with('show')
             ->get()
             ->toArray();
     }
