@@ -41,16 +41,6 @@ class Sell extends Model
         return self::get()->toarray();
     }
 
-    public function readSellsWithUserAndTicket(string $date): array
-    {
-        return self::where('date_event', '>=', $date)
-            ->with('event')
-            ->with('user')
-            ->orderBy('date_event', 'asc')
-            ->get()
-            ->toArray();
-    }
-
     public function createSell($request): array
     {
         do {

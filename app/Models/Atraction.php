@@ -11,7 +11,8 @@ class Atraction extends Model
     use HasFactory, SoftDeletes;
 
     public $fillable = [
-        'name'
+        'name',
+        'id_user'
     ];
 
     public function show()
@@ -19,15 +20,17 @@ class Atraction extends Model
         return $this->hasMany(Show::class, 'id_atraction');
     }
 
-
     public function readAtractions(): array
     {
         return self::get()->toArray();
     }
 
-    public function createAtraction($request): object
+    public function createAtraction($request, $id_user): object
     {
-        return self::create($request->all());
+        return self::create([
+            'name' => $request->name,
+            'id_user' => $id_user
+        ]);
     }
 
     public function readAtrctionWithEventAndSell(): array

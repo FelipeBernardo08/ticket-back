@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePassListsTable extends Migration
+class CreateProfileEmployeesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreatePassListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pass_lists', function (Blueprint $table) {
+        Schema::create('profile_employees', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_user');
-            $table->unsignedBigInteger('id_event');
             $table->string('name');
-            $table->boolean('status')->default(false);
-            $table->timestamps();
+            $table->string('fone');
+            $table->unsignedBigInteger('id_profileProductor');
+            $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
-            $table->foreign('id_event')->references('id')->on('events');
+            $table->foreign('id_profileProductor')->references('id')->on('profile_productors');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +32,6 @@ class CreatePassListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pass_lists');
+        Schema::dropIfExists('profile_employees');
     }
 }

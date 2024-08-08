@@ -22,7 +22,7 @@ class CategoryRegistre extends Seeder
                 'name' => 'ADM'
             ],
             [
-                'name' => 'Gerente'
+                'name' => 'Produtor'
             ],
             [
                 'name' => 'Funcionário'

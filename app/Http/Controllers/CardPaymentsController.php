@@ -26,7 +26,7 @@ class CardPaymentsController extends Controller
     public function createCardPayment(Request $request): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission != 0) {
+        if ($auth[0]['id_permission'] != 0) {
             $response = $this->cardPay->createCardPayment($request, $auth);
             if ($response) {
                 return response()->json($response, 200);
@@ -40,8 +40,8 @@ class CardPaymentsController extends Controller
     public function getCardsPayment(): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission != 0) {
-            $id = $auth->id;
+        if ($auth[0]['id_permission'] != 0) {
+            $id = $auth[0]['id'];
             $response = $this->cardPay->getCardsPayment($id);
             if ($response) {
                 return response()->json($response, 200);
@@ -56,7 +56,7 @@ class CardPaymentsController extends Controller
     public function updateLinkPayment(Request $request, int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission != 0) {
+        if ($auth[0]['id_permission'] != 0) {
             $response = $this->cardPay->updateLinkPayment($request, $auth, $id);
             if ($response) {
                 return response()->json($response, 200);
@@ -71,7 +71,7 @@ class CardPaymentsController extends Controller
     public function updateCardPayment(Request $request, int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth->id_permission != 0) {
+        if ($auth[0]['id_permission'] != 0) {
             $response = $this->cardPay->updateCardPayment($request, $auth, $id);
             if (count($response) != 0) {
                 $item = json_decode($response[0]['items'], true);
