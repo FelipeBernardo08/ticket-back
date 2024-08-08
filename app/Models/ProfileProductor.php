@@ -13,7 +13,10 @@ class ProfileProductor extends Model
         "name",
         "fone",
         "cnpj",
-        "id_user"
+        "id_user",
+        "account_bank",
+        "account_name",
+        "pix_key"
     ];
 
     public function createProductor($produtctor, $id_user): array
