@@ -16,7 +16,8 @@ class ProfileProductor extends Model
         "id_user",
         "account_bank",
         "account_name",
-        "pix_key"
+        "pix_key",
+        "type_pix_key"
     ];
 
     public function createProductor($produtctor, $id_user): array
@@ -28,5 +29,18 @@ class ProfileProductor extends Model
             "id_user" => $id_user
         ])
             ->toArray();
+    }
+
+    public function updateProductor($request, $id): bool
+    {
+        return self::where('id_user', $id)
+            ->update([
+                'name' => $request->name,
+                'fone' => $request->fone,
+                'account_bank' => $request->account_bank,
+                'account_name' => $request->account_name,
+                'pix_key' => $request->pix_key,
+                'type_pix_key' => $request->type_pix_key
+            ]);
     }
 }

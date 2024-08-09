@@ -69,6 +69,14 @@ class ProfileEmployee extends Model
                 ]);
         }
     }
+    public function updateEmployeeSelf($request, $id_user): bool
+    {
+        return self::where('id_user', $id_user)
+            ->update([
+                'name' => $request->name,
+                'fone' => $request->fone
+            ]);
+    }
 
     public function deleteEmployee(int $id, int $id_productor): bool
     {

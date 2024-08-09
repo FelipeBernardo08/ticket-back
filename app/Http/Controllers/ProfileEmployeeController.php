@@ -76,6 +76,20 @@ class ProfileEmployeeController extends Controller
         }
     }
 
+    public function updateEmployeeSelf(Request $request): object
+    {
+        $auth = $this->authController->me();
+        if ($auth[0]['id_permission'] == 4) {
+            $response = $this->employee->updateEmployeeSelf($request, $auth[0]['id']);
+            if ($response) {
+                return response()->json(['msg' => 'Resgistro atualizado com sucesso!'], 200);
+            }
+            return response()->json(['error' => 'Não atualizado'], 404);
+        } else {
+            return $this->acessoNegado();
+        }
+    }
+
     public function deleteEmployee(int $id): object
     {
         $auth = $this->authController->me();
