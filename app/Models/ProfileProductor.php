@@ -20,6 +20,11 @@ class ProfileProductor extends Model
         "type_pix_key"
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
     public function createProductor($produtctor, $id_user): array
     {
         return self::create([

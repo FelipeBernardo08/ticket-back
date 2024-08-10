@@ -96,7 +96,7 @@ class ProfileEmployeeController extends Controller
         if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $response = $this->employee->deleteEmployee($id, $auth[0]['productor'][0]['id']);
             if ($response) {
-                $responseUser = $this->user->deleteUser($id);
+                $responseUser = $this->user->deleteUser($auth[0]['productor'][0]['id']);
                 if ($responseUser) {
                     return response()->json(['msg' => 'Resgistro deletado com sucesso!'], 200);
                 }

@@ -142,6 +142,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::where('id', $user->id)
             ->with('employee')
+            ->with('employee.profile')
+            ->with('employee.profile.user')
             ->get()
             ->toArray();
     }

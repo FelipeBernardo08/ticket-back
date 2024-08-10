@@ -21,6 +21,11 @@ class ProfileEmployee extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
+    public function profile()
+    {
+        return $this->belongsTo(ProfileProductor::class, 'id_profileProductor');
+    }
+
     public function createEmployee($request, int $id_profileProductor, int $id_user): array
     {
         return self::create([

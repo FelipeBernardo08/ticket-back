@@ -40,8 +40,14 @@ class EventController extends Controller
     public function readEventsDate(string $data): object
     {
         $auth = $this->authController->me();
-        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3 ||  $auth[0]['id_permission'] == 4) {
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->event->readEventsDate($data, $auth[0]['id']);
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Não existem registros.'], 404);
+            }
+            return $this->resultOk($result);
+        } else if ($auth[0]['id_permission'] == 4) {
+            $result = $this->event->readEventsDate($data, $auth[0]['employee'][0]['profile']['user']['id']);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Não existem registros.'], 404);
             }
@@ -139,6 +145,12 @@ class EventController extends Controller
         $auth = $this->authController->me();
         if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
             $result = $this->event->readEventsWithSells($id, $auth[0]['id']);
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Registros não encontrados!'], 404);
+            }
+            return $this->resultOk($result);
+        } else if ($auth[0]['id_permission'] == 4) {
+            $result = $this->event->readEventsWithSells($id, $auth[0]['employee'][0]['profile']['user']['id']);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros não encontrados!'], 404);
             }
