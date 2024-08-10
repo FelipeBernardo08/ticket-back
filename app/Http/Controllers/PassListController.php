@@ -21,7 +21,7 @@ class PassListController extends Controller
     public function readList(): object
     {
         $auth = $this->authController->me();
-        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+        if ($auth[0]['id_permission'] != 1) {
             $result = $this->passList->readList($auth[0]['id']);
             if (count($result) == 0) {
                 return response()->json(['error' => 'Registros não encontrados!'], 404);
@@ -53,6 +53,12 @@ class PassListController extends Controller
                 return response()->json(['error' => 'Registro não encontrado!'], 404);
             }
             return $this->resultOk($result);
+        } else if ($auth[0]['id_permission'] == 4) {
+            $result = $this->passList->readListIdEvent($id, $auth[0]['employee'][0]['profile']['user']['id']);
+            if (count($result) == 0) {
+                return response()->json(['error' => 'Registro não encontrado!'], 404);
+            }
+            return $this->resultOk($result);
         } else {
             return $this->acessoNegado();
         }
@@ -75,10 +81,16 @@ class PassListController extends Controller
     public function activeList(Request $request, int $id): object
     {
         $auth = $this->authController->me();
-        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+        if ($auth[0]['id_permission'] == 3 || $auth[0]['id_permission'] == 2) {
             $result = $this->passList->activeList($id, $auth[0]['id'], $request);
             if (!$result) {
-                return response()->json(['error' => 'Registro não pode ser deletado'], 404);
+                return response()->json(['error' => 'Registro não pode ser atualizado'], 404);
+            }
+            return $this->resultOk($result);
+        } else if ($auth[0]['id_permission'] == 4) {
+            $result = $this->passList->activeList($id, $auth[0]['employee'][0]['profile']['user']['id'], $request);
+            if (!$result) {
+                return response()->json(['error' => 'Registro não pode ser atualizado'], 404);
             }
             return $this->resultOk($result);
         } else {

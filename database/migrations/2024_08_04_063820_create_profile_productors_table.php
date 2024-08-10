@@ -17,6 +17,10 @@ class CreateProfileProductorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('fone');
+            $table->string('account_bank')->nullable();
+            $table->string('account_name')->nullable();
+            $table->string('pix_key')->nullable();
+            $table->string('type_pix_key')->nullable();
             $table->string('cnpj', 14)->unique();
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');

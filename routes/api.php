@@ -11,6 +11,7 @@ use App\Http\Controllers\PassListController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileClientController;
 use App\Http\Controllers\ProfileEmployeeController;
+use App\Http\Controllers\ProfileProductorController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\TicketController;
@@ -113,10 +114,14 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('get-employee/{id}', [ProfileEmployeeController::class, 'getUserEmployeeId']);
     Route::post('create-employee', [ProfileEmployeeController::class, 'createEmployee']);
     Route::put('update-employee/{id}', [ProfileEmployeeController::class, 'updateEmplyee']);
+    Route::put('update-employee-self', [ProfileEmployeeController::class, 'updateEmployeeSelf']);
     Route::delete('delete-employee/{id}', [ProfileEmployeeController::class, 'deleteEmployee']);
 
-    //client
+    //profileClient
     Route::patch('update-self', [ProfileClientController::class, 'updateSelfClient']);
+
+    //profileProductor
+    Route::put('update-productor', [ProfileProductorController::class, 'updateProductor']);
 });
 
 //login
