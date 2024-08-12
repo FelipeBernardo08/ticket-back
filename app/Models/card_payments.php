@@ -31,7 +31,7 @@ class card_payments extends Model
     public function createCardPayment($card, $auth): object
     {
         return self::create([
-            'id_user' => $auth->id,
+            'id_user' => $auth[0]['id'],
             'items' => $card->items,
             'date_create' => $card->date_create,
             "event" => $card->event,
@@ -45,14 +45,14 @@ class card_payments extends Model
     public function updateCardPayment($request, $auth, int $id): array
     {
         $response = self::where('id', $id)
-            ->where('id_user', $auth->id)
+            ->where('id_user',  $auth[0]['id'])
             ->update([
                 'status' => $request->status
             ]);
 
         if ($response == true) {
             return self::where('id', $id)
-                ->where('id_user', $auth->id)
+                ->where('id_user',  $auth[0]['id'])
                 ->get()
                 ->toArray();
         } else {
@@ -63,7 +63,7 @@ class card_payments extends Model
     public function updateLinkPayment($request, $auth, $id): bool
     {
         return self::where('id', $id)
-            ->where('id_user', $auth->id)
+            ->where('id_user', $auth[0]['id'])
             ->update([
                 'url_payment' => $request->url_payment
             ]);
