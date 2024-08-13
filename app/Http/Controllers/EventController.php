@@ -37,6 +37,15 @@ class EventController extends Controller
         }
     }
 
+    public function readEventWithSellByUser(): object
+    {
+        $auth = $this->authController->me();
+        if ($auth[0]['id_permission'] == 2 || $auth[0]['id_permission'] == 3) {
+            $result = $this->event->readEventWithSellByUser($auth[0]['id']);
+            return $this->resultOk($result);
+        }
+    }
+
     public function readEventsDate(string $data): object
     {
         $auth = $this->authController->me();

@@ -55,6 +55,17 @@ class Event extends Model
             ->toArray();
     }
 
+    public function readEventWithSellByUser(int $id_user): array
+    {
+        return self::where('id_user', $id_user)
+            ->with('sell')
+            ->with('sell.cardPayment')
+            ->with('ticket')
+            ->get()
+            ->toArray()
+        ;
+    }
+
     public function readEventsDate(string $date, int $id_user): array
     {
         return self::where('id_user', $id_user)

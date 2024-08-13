@@ -36,10 +36,16 @@ class Sell extends Model
         return $this->belongsTo(Event::class, 'id_event');
     }
 
+    public function cardPayment()
+    {
+        return $this->belongsTo(card_payments::class, 'id_card_payment');
+    }
+
     public function readSells(): array
     {
         return self::get()->toarray();
     }
+
 
     public function createSell($request): array
     {
