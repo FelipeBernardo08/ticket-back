@@ -70,7 +70,6 @@ class Event extends Model
     {
         return self::where('id_user', $id_user)
             ->where('date', '>=', $date)
-            ->where('active', true)
             ->with('img')
             ->orderBy('date', 'asc')
             ->get()
