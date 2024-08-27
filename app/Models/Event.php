@@ -171,7 +171,7 @@ class Event extends Model
     public function updateEvent($request, int $id, int $id_user): bool
     {
         return self::where('id', $id)
-            ->where('id', $id_user)
+            ->where('id_user', $id_user)
             ->update($request->all());
     }
 
