@@ -12,14 +12,5 @@ class ADMSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
-        DB::table('profile_adms')->insert([
-            "name" => 'Felipe Bernardo (ADM)',
-            "fone" => '17991020668',
-            "cnpj" => '55599829000144',
-            "date_born" => '2024-08-01',
-            "id_user" => 1
-        ]);
-    }
+    public function run() {}
 }
