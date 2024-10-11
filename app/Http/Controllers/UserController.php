@@ -161,7 +161,7 @@ class UserController extends Controller
     public function sendEmailConfirmation($response): void
     {
         // $url = 'http://127.0.0.1:8000/api/confirm-account/' . $response['email']; //dev
-        $url = 'https://back.bancaevento.com.br:8080/api/confirm-account/' . $response['email']; //prod
+        $url = 'https://bancaevento.com.br:8080/api/confirm-account/' . $response['email']; //prod
         Mail::to($response['email'])->send(new ConfirmAccount($url, 'Confirmar Conta'));
     }
 
